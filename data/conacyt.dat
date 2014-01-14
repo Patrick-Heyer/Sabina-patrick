@@ -1,0 +1,104 @@
+//Markovito
+//Who is Who
+
+(variables
+ (iniciado no si)
+ (objeto_sujeto no si)
+ (ruta_planeada no si)
+ (destino_alcanzado no si)
+ (objeto_entregado no si)
+ (seguimiento_activo no si)
+)
+
+unnormalised
+
+action nada
+iniciado		(SAMEiniciado)
+objeto_sujeto	(SAMEobjeto_sujeto)
+ruta_planeada 	(SAMEruta_planeada)
+destino_alcanzado 	(SAMEdestino_alcanzado)
+objeto_entregado 	(SAMEobjeto_entregado)
+seguimiento_activo	(SAMEseguimiento_activo)
+endaction
+
+action iniciar
+iniciado		(iniciado' (si(1.0)) (no(0.0)))
+                 objeto_sujeto	(SAMEobjeto_sujeto)
+                 ruta_planeada 	(SAMEruta_planeada)
+                 destino_alcanzado 	(SAMEdestino_alcanzado)
+                 objeto_entregado 	(SAMEobjeto_entregado)
+                 seguimiento_activo	(SAMEseguimiento_activo)
+                 endaction
+
+
+                 action sujetar_objeto
+                 iniciado		(SAMEiniciado)
+                 objeto_sujeto	(objeto_sujeto' (si(1.0)) (no(0.0)))
+ruta_planeada 	(SAMEruta_planeada)
+destino_alcanzado 	(SAMEdestino_alcanzado)
+objeto_entregado 	(SAMEobjeto_entregado)
+seguimiento_activo	(SAMEseguimiento_activo)
+endaction
+
+action planear_ruta
+iniciado		(SAMEiniciado)
+objeto_sujeto	(SAMEobjeto_sujeto)
+ruta_planeada 	(ruta_planeada' (si(1.0)) (no(0.0)))
+                 destino_alcanzado 	(SAMEdestino_alcanzado)
+                 objeto_entregado 	(SAMEobjeto_entregado)
+                 seguimiento_activo	(SAMEseguimiento_activo)
+                 endaction
+
+                 action navegar_destino
+                 iniciado		(SAMEiniciado)
+                 objeto_sujeto	(SAMEobjeto_sujeto)
+                 ruta_planeada 	(SAMEruta_planeada)
+                 destino_alcanzado 	(destino_alcanzado' (si(1.0)) (no(0.0)))
+objeto_entregado 	(SAMEobjeto_entregado)
+seguimiento_activo	(SAMEseguimiento_activo)
+endaction
+
+action entregar_objeto
+iniciado		(SAMEiniciado)
+objeto_sujeto	(SAMEobjeto_sujeto)
+ruta_planeada 	(SAMEruta_planeada)
+destino_alcanzado 	(SAMEdestino_alcanzado)
+objeto_entregado 	(objeto_entregado' (si(1.0)) (no(0.0)))
+                     seguimiento_activo	(SAMEseguimiento_activo)
+                     endaction
+
+                     action seguir
+                     iniciado		(SAMEiniciado)
+                     objeto_sujeto	(SAMEobjeto_sujeto)
+                     ruta_planeada 	(SAMEruta_planeada)
+                     destino_alcanzado 	(SAMEdestino_alcanzado)
+                     objeto_entregado 	(SAMEobjeto_entregado)
+                     seguimiento_activo	(seguimiento_activo' (si(1.0)) (no(0.0)))
+endaction
+
+
+reward [+
+        (iniciado (si (1000.0)) (no (-100.0)))
+        (iniciado 		(si  (objeto_sujeto  (si (100.0))  (no (-200.0))))
+         (no  (objeto_sujeto  (si (-600.0)) (no (-600.0)))))
+
+        (objeto_sujeto 	(si  (ruta_planeada  (si (100.0))  (no (-300.0))))
+         (no  (ruta_planeada  (si (-500.0)) (no (-500.0))))
+        )
+
+        (ruta_planeada 	(si  (destino_alcanzado  (si (100.0))  (no (-400.0))))
+         (no  (destino_alcanzado  (si (-400.0)) (no (-400.0))))
+        )
+
+        (destino_alcanzado 	(si  (objeto_entregado  (si (100.0))  (no (-500.0))))
+         (no  (objeto_entregado  (si (-300.0)) (no (-300.0))))
+        )
+
+        (objeto_entregado 	(si  (seguimiento_activo  (si (100.0))  (no (-600.0))))
+         (no  (seguimiento_activo  (si (-200.0)) (no (-200.0))))
+        )
+
+       ]
+discount 0.900000
+tolerance 0.1
+

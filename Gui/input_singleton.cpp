@@ -10,8 +10,19 @@ InputSingleton	*InputSingleton::m_singleton = 0;
 InputSingleton &InputSingleton::getInstance( void )
 {
     if ( m_singleton == 0 )
+    {
         m_singleton = new InputSingleton;
 
+        for (int i=0; i<256; i++)
+        {
+            m_singleton->keys[i]=false;
+            m_singleton->specialkeys[i]=false;
+        }
+        m_singleton->key=NULL;
+        m_singleton->keyboard_mod_key=NULL;
+        m_singleton->special_key=NULL;
+        m_singleton->keyboard_mod_key=NULL;
+    }
     return ((InputSingleton &)m_singleton);
 }
 
@@ -40,6 +51,7 @@ void InputSingleton::Initialize( void )
   left_button=false;
   middle_button=false;
   right_button=false;
+  key=NULL;
 }
 
 void InputSingleton::ProcessMouse ( int button, int state, int x, int y, int modkey )

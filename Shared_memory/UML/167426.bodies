@@ -1,0 +1,63 @@
+class Map
+!!!222978.cpp!!!	get_Height_px() : int
+  return Height_px;
+!!!223106.cpp!!!	set_Height_px(in value : int) : void  do
+  {
+  }while (!Height_px_escribible);
+  Height_px_escribible=false;
+  Height_px = value;
+  Height_px_escribible=true;
+!!!223234.cpp!!!	get_Width_px() : int
+  return Width_px;
+!!!223362.cpp!!!	set_Width_px(in value : int) : void
+  do
+  {
+  }while (!Width_px_escribible);
+  Width_px_escribible=false;
+  Width_px = value;
+  Width_px_escribible=true;
+!!!223490.cpp!!!	get_Height_m() : float
+  return Height_m;
+!!!223618.cpp!!!	set_Height_m(in value : float) : void
+  do
+  {
+  }while (!Height_m_escribible);
+  Height_m_escribible=false;
+  Height_m = value;
+  Height_m_escribible=true;
+!!!223746.cpp!!!	get_Width_m() : float
+  return Width_m;
+!!!223874.cpp!!!	set_Width_m(in value : float) : 
+  do
+  {
+  }while (!Width_m_escribible);
+  Width_m_escribible=false;
+  Width_m = value;
+  Width_m_escribible=true;
+!!!232578.cpp!!!	get_Ratio_x() : float
+  return Ratio_x;
+!!!232706.cpp!!!	set_Ratio_x(in value : float) : void
+  do
+  {
+  }while (!Ratio_x_escribible);
+  Ratio_x_escribible=false;
+  Ratio_x = value;
+  Ratio_x_escribible=true;
+!!!232834.cpp!!!	get_Ratio_y() : float
+  return Ratio_y;
+!!!232962.cpp!!!	set_Ratio_y(in value : float) : void
+  do
+  {
+  }while (!Ratio_y_escribible);
+  Ratio_y_escribible=false;
+  Ratio_y = value;
+  Ratio_y_escribible=true;
+!!!281474.cpp!!!	get_Image_path() : string
+return *Image_path;
+!!!281602.cpp!!!	set_Image_path(in value : string) : void
+  do
+  {
+  }while (!Image_path_escribible);
+  Image_path_escribible=false;
+  *Image_path = value;
+  Image_path_escribible=true;

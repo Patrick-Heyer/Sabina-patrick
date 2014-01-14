@@ -40,28 +40,29 @@ Tab *pluginTab;
 class Vision_Surf : public IPlugin
 {
 public:
-    void Main();
-    void run();
+	void Main();
+	void stop();
+	void run();
 };
 
 PLUGIN_FUNC IPlugin *CreatePlugin()
 {
-    return new Vision_Surf;
+	return new Vision_Surf;
 }
 
 PLUGIN_FUNC void DestroyPlugin(IPlugin *r)
 {
-    delete r;
+	delete r;
 }
 
 PLUGIN_DISPLAY_NAME(PLUGIN_NAME);
 
 PLUGIN_INIT()
 {
-    // register our new plugin
-    std::cout << "PLUGIN_INIT" << std::endl;
-    RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyPlugin);
-    return 0;
+	// register our new plugin
+	std::cout << "PLUGIN_INIT" << std::endl;
+	RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyPlugin);
+	return 0;
 }
 
 
@@ -70,54 +71,66 @@ void Vision_Surf::Main()
 	/**
 	 * \sa cambiar_estado
 	 **/
+	
+	Gui::getInstance();
+	IplImage *frame;
+	pluginTab = new Tab("Vision_Surf");
+	videoDisplay = new Video(0,HEIGHT*.02,WIDTH/2,HEIGHT/2,"Vision_Surf", pluginTab);
+	
+	
+	//    SurfRecognizer recognizer2;
+	//    SurfRecognizer recognizer3;
+	
+	// string objeto_file("box.png");
+	
+	
+	
 
-    Gui::getInstance();
-    IplImage *frame;
-    pluginTab = new Tab("Vision_Surf");
-    videoDisplay = new Video(0,HEIGHT*.02,WIDTH/2,HEIGHT/2,"Vision_Surf", pluginTab);
-
-    SurfRecognizer recognizer;
-    //    SurfRecognizer recognizer2;
-    //    SurfRecognizer recognizer3;
-
-    // string objeto_file("box.png");
-    std::stringstream ss;
-
-    ss << "../data/Surf/" << "COCA" << ".png";
-    string objeto_file1(ss.str());
-
-
-    recognizer.setObjectFileName(objeto_file1.c_str());
-    recognizer.setDisplaying(true);
-    recognizer.setRecognitionTreshold(15);
-    recognizer.loadObjectFile();
-
-    std::string accion;
-
-    for (;;)
-    {
-        accion=patrol->getInstance().get_Action();
-        if (accion=="confirmar_objeto")
-        {
-
-            frame=patrol->getInstance().Ptz.get_image();
-            videoDisplay->SetImage(frame);
-            if (recognizer.recongnizeObjectInImage(frame))
-            {
-                patrol->getInstance().Sintetizer.set_Phrase("i found coca");
-		sleep(3);
-		patrol->getInstance().set_Action(cambiar_estado("objeto_confirmado", "si"));
-            }
-            sleep(1);
-            cvReleaseImage(&frame);
-            
-        }
-    }
-
+	
+	std::string accion;
+	
+	for (;;)
+	{
+		accion=patrol->getInstance().get_Action();
+		if (accion=="reconocer_objeto")
+		{
+			std::stringstream ss;
+			ss << "../data/Surf/" << patrol->getInstance().Microphone.get_Phrase() << ".png";
+			string objeto_file1(ss.str());
+			SurfRecognizer recognizer;
+			recognizer.setObjectFileName(objeto_file1.c_str());
+			recognizer.setDisplaying(true);
+			recognizer.setRecognitionTreshold(15);
+			recognizer.loadObjectFile();
+			
+			
+			do
+			{
+				frame=patrol->getInstance().Ptz.get_image();
+				videoDisplay->SetImage(frame);
+					
+			}while(!recognizer.recongnizeObjectInImage(frame));
+				ss.str("");
+				ss << "I found " << patrol->getInstance().Microphone.get_Phrase();
+				patrol->getInstance().Sintetizer.set_Phrase(ss.str().c_str());
+				sleep(3);
+				patrol->getInstance().set_Action(cambiar_estado("objeto_reconocido", "si"));
+			sleep(2);
+			cvReleaseImage(&frame);
+			
+			
+		}
+	}
+	
 }
 
 void Vision_Surf::run()
 {
-    pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
+	pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
+}
+
+void Vision_Surf::stop()
+{
+	
 }
 

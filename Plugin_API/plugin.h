@@ -32,6 +32,7 @@ public:
 	 * @return void
 	 **/
 	virtual void run()=0;
+	virtual void stop()=0;
 	static void* IncWrapper(void* thisPtr) {
 		((IPlugin*) thisPtr)->Main();
 		return NULL;

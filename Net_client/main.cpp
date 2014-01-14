@@ -55,6 +55,7 @@ class Net_client : public IPlugin
 {
 public:
     void Main();
+	void stop();
     void run();
 };
 
@@ -77,6 +78,7 @@ PLUGIN_INIT()
     RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyPlugin);
     return 0;
 }
+int lugar=1;
 
 void Net_client::Main()
 {
@@ -86,26 +88,105 @@ void Net_client::Main()
     cons= new Console(WIDTH-600,HEIGHT*.02,600,HEIGHT/2, "net_console", pluginTab);
     
 	char message[1024];
-    
+
     NetThread *net = new  NetThread();
-    
     net->SetOutputStream(stdout);
+	sleep(5);
     net->OpenOutputAddress("localhost", 2070);
 	int x=0;
-    while(1)
-    {
-		char polo[1024];
-				sprintf(polo,"hola %d\n", x);
-                net->Write(polo);
-				x++;
-				usleep(300);
-				net->Read();
-		if(net->GetStatus()>0)
+	string accion;
+	while(1)
+	{
+		accion= patrol->getInstance().get_Action();
+		if(accion=="aprender_nombre")
 		{
-			string s = net->GetIncoming();
-			print(cons,"Server says: %s\n", s.c_str());
+                net->Write("LINDA");
+				sleep(1);
+				net->Read();
+				if(net->GetStatus()>0)
+				{
+					string s = net->GetIncoming();
+			
+				}
+				
+				sleep(1);
 		}
-		usleep(300);
+		
+		if(accion=="encontrar_persona")
+		{
+			net->Write("YES");
+				sleep(1);
+				net->Read();
+				if(net->GetStatus()>0)
+				{
+					string s = net->GetIncoming();
+			
+				}
+				sleep(1);
+		}
+		
+		if(accion=="aprender_orden")
+		{
+			net->Write("COCA");
+				sleep(1);
+				net->Read();
+				if(net->GetStatus()>0)
+				{
+					string s = net->GetIncoming();
+			
+				}
+				sleep(1);
+		}
+		
+		if(accion=="aprender_mesa")
+		{
+			std::stringstream ss;
+			ss<<"TABLE " << lugar;
+				net->Write(ss.str().c_str());
+				sleep(1);
+				net->Read();
+				if(net->GetStatus()>0)
+				{
+					string s = net->GetIncoming();
+			
+				}
+				sleep(1);
+				lugar++;
+		}
+		
+		if(accion=="aprender_drinks")
+		{
+			std::stringstream ss;
+			ss<<"DRINKS " ;
+				net->Write(ss.str().c_str());
+				sleep(1);
+				net->Read();
+				if(net->GetStatus()>0)
+				{
+					string s = net->GetIncoming();
+			
+				}
+				sleep(1);
+		}
+		
+		
+		if(accion=="aprender_snaks")
+		{
+			std::stringstream ss;
+			ss<<"SNAKS ";
+				net->Write(ss.str().c_str());
+				sleep(1);
+				net->Read();
+				if(net->GetStatus()>0)
+				{
+					string s = net->GetIncoming();
+			
+				}
+				sleep(1);
+		}
+		net->messages.clear();
+		sleep(1);
+		net->messages.clear();
     }
 
 }
@@ -115,4 +196,8 @@ void Net_client::run()
     pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
 }
 
+void Net_client::stop()
+{
+
+}
 

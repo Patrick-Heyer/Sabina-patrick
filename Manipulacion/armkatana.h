@@ -33,12 +33,12 @@
 
 #include <kniBase.h>
 
-#include <mrpt/base.h>
-
 //#include <boost/numeric/ublas/matrix.hpp>
 //#include <boost/numeric/ublas/io.hpp>
 
 using namespace std;
+
+enum  ArmPositions {CARRYING, STORED, HANGING, GRASPING, CALIBRATED, UNKNOWN};
 
 class ArmKatana
 {
@@ -51,31 +51,19 @@ public:
     
     int init(const char* host, const char* confFile);
     
-    bool calibrate();
+    virtual bool init();
     
-    //int close();
+    bool calibrate();
     
     void openGripper();
     
     void closerGripper();
-    
-   // int goToStartPosition();
-    
-    /**
-     * Execute a sequence of encoders increment.
-     * @param path List of encoders increments. Traverse from begin to end.
-     */
-    int executeEncodersIncrementPath(std::list< std::vector<int> > path);
-    
+        
     int getCurrentEncoders(std::vector<int> &encoders);
     
     int getCoordinatesFromEncoders(std::vector<int> &encoders, std::vector<double> &coordinates);
     
-    void getHTMPositionAndOrientation(mrpt::poses::CPoint3D &pos, mrpt::poses::CPose3D &orientation);
-    
-    void getHTMPositionAndOrientation(mrpt::poses::CPoint3D &pos, mrpt::poses::CPose3D &orientation, std::vector<int> encoders);
-    
-    void getPose3DFromEncoders(mrpt::poses::CPose3D &pose3D, std::vector<int> encoders);
+    void setVelocity(short int vel);
     
 protected:
     std::auto_ptr<CLMBase> katana;
@@ -193,6 +181,8 @@ protected:
    * Computes the approaching position for graspObjectAt();
    */
   void computeApproachingPos(double x,double y, double z, double &xa, double &ya, double &za);
+  
+  int currentArmPosition;
     
 private:
     //Katana obj.

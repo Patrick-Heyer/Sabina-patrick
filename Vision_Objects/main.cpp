@@ -90,6 +90,7 @@ class Vision_Objects : public IPlugin
 {
 public:
     void Main();
+	void stop();
     void run();
 };
 
@@ -554,3 +555,7 @@ void Vision_Objects::run()
     pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
 }
 
+void Vision_Objects::stop()
+{
+
+}

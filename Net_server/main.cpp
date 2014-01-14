@@ -27,6 +27,8 @@
 #include "../Gui/tab.h"
 #include "../Gui/console.h"
 
+#include "../MDP/MDP.h"
+
 #include <cstdlib>
 #include <iostream>
 
@@ -54,64 +56,493 @@ Console *cons;
 class Net_server : public IPlugin
 {
 public:
-    void Main();
-    void run();
+	void Main();
+	void stop();
+	void run();
 };
 
 PLUGIN_FUNC IPlugin *CreatePlugin()
 {
-    return new Net_server;
+	return new Net_server;
 }
 
 PLUGIN_FUNC void DestroyPlugin(IPlugin *r)
 {
-    delete r;
+	delete r;
 }
 
 PLUGIN_DISPLAY_NAME(PLUGIN_NAME);
 
 PLUGIN_INIT()
 {
-    // register our new plugin
-    std::cout << "PLUGIN_INIT" << std::endl;
-    RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyPlugin);
-    return 0;
+	// register our new plugin
+	std::cout << "PLUGIN_INIT" << std::endl;
+	RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyPlugin);
+	return 0;
 }
+
+int contao=0;
 
 void Net_server::Main()
 {
 	/**
 	 * \sa print
 	 **/
-    Gui::getInstance();
-    pluginTab = new Tab("Net_server");
-    cons= new Console(WIDTH-600,HEIGHT*.02,600,HEIGHT/2, "net_console", pluginTab);
-    
-     NetThread *net = new NetThread();
-    
-    net->SetOutputStream(stdout);
-    net->OpenReadPort(2070);
-  //  net->start();
+	Gui::getInstance();
+	pluginTab = new Tab("Net_server");
+	cons= new Console(WIDTH-600,HEIGHT*.02,600,HEIGHT/2, "net_console", pluginTab);
+	
+	NetThread *net = new NetThread();
+	
+	
+	patrol->getInstance().Microphone.set_Words("");
+	
+	net->SetOutputStream(stdout);
+	net->OpenReadPort(2070);
+	net->start();
 	net->Accept();
-    
-    while(1)
-    {
-		net->Read();
-		if(net->GetStatus()>0)
+	sleep(10);
+	
+	
+	ifstream infile("../data/Names");
+	vector<string> names;
+	string line;
+	while (getline(infile, line))
+	{
+		names.push_back(line);
+	}
+	
+	ifstream infile3("../data/Objects");
+	vector<string> objects;
+	while (getline(infile3, line))
+	{
+		objects.push_back(line);
+	}
+	
+	int name_count=0;
+	string accion;
+	std::stringstream orden;
+	orden << "i will bring ";
+	
+	int nothing=0;
+	int room=0;
+	int tries=0;
+	while(1)
+	{
+		accion= patrol->getInstance().get_Action();
+		
+		if(accion=="detectar_incendio")
 		{
-			string s = net->GetIncoming();
-			print(cons,"client says: %s\n", s.c_str());
-			net->Write("adios");
+			net->Read();
+			if(net->GetStatus()>0)
+			{
+				string s = net->GetIncoming(); 
+				cout << s << endl;
+				sleep(1);
+				net->messages.clear();
+				if (s.find("FIRE")!=s.npos)
+					{
+						patrol->getInstance().Sintetizer.set_Phrase("There is a fire in the apartment i better go save everybody");
+						sleep(3);
+						patrol->getInstance().set_Action(cambiar_estado("incendio_detectado","si"));
+					}
+			}
+			
 		}
-      usleep(100);
-    }
-    net->Close();
-
+		
+		if(accion=="aprender_orden")
+		{
+			patrol->getInstance().Sintetizer.set_Phrase("please tell me what you want to drink");
+			sleep(1);
+			net->Read();
+			if(net->GetStatus()>0)
+			{
+				std::stringstream ss;
+				string s = net->GetIncoming(); 
+				cout << s << endl;
+				sleep(1);
+				net->messages.clear();
+				for (int i=0; i<objects.size(); i++) {
+					print(cons," %s \n",objects[i].c_str());
+					if (s.find((objects[i]))!=s.npos)
+					{
+						patrol->getInstance().Microphone.set_Phrase(objects[i]);
+						sleep(2);
+						ss << "i will bring you a " << objects[i];
+						patrol->getInstance().Sintetizer.set_Phrase(ss.str().c_str());
+						sleep(3);
+						ss.str("");
+						orden << objects[i];
+						patrol->getInstance().Microphone.set_Words(ss.str().c_str());
+						name_count++;
+						if (name_count <3 )
+						{
+							cambiar_estado("aprendida_p", "no");
+							cambiar_estado("aprendido_nombre", "no");
+							patrol->getInstance().set_Action(cambiar_estado("aprendida_orden", "no"));
+							orden << " and ";
+							sleep(5);
+						}
+						
+						else
+						{
+							sleep(5);
+							patrol->getInstance().set_Current_destination("DINNING");
+							std::stringstream ss;
+							patrol->getInstance().Sintetizer.set_Phrase(orden.str().c_str());
+							
+							sleep(5);
+							cambiar_estado("ruta_planeada", "no");
+							cambiar_estado("destino_alcanzado", "no");
+							patrol->getInstance().set_Action(cambiar_estado("aprendida_orden", "si"));
+						}	
+						break;
+					}
+				}
+				
+			}
+			sleep(3);
+			
+		}
+		
+		if(accion=="aprender_nombre")
+		{
+			patrol->getInstance().Sintetizer.set_Phrase("Please tell me your name");
+			sleep(2);
+			net->Read();
+			if(net->GetStatus()>0)
+			{
+				std::stringstream ss;
+				string s = net->GetIncoming();
+				cout << s << endl;
+				sleep(1);
+				
+				
+				for (int i=0; i<names.size(); i++) {
+					print(cons," %s \n",names[i].c_str());
+					if (s.find((names[i]))!=s.npos)
+					{
+						patrol->getInstance().Microphone.set_Phrase(names[i].c_str());
+						ss << "i learnd your name " << names[i].c_str();
+						patrol->getInstance().Sintetizer.set_Phrase(ss.str().c_str());
+						sleep(1);
+						ss.str("");
+						orden << names[i].c_str() << " a ";
+						patrol->getInstance().Microphone.set_Words(ss.str().c_str());
+						patrol->getInstance().set_Action(cambiar_estado("aprendido_nombre", "si"));	
+						break;
+					}
+				}
+				
+				
+				
+			}
+			sleep(3);
+			
+		}
+		
+		
+		if(accion=="aprender_mesa")
+		{
+			
+			net->Read();
+			if(net->GetStatus()>0)
+			{
+				string s = net->GetIncoming();
+				cout << s << endl;
+				sleep(1);
+				if(s!="NULL")
+				{
+					patrol->getInstance().Microphone.set_Phrase(s.c_str());
+					
+					patrol->getInstance().set_Action("memorizar_cordenadas");
+				}
+			}	
+			sleep(3);
+		}
+		
+		if(accion=="aprender_drinks")
+		{
+			
+			net->Read();
+			if(net->GetStatus()>0)
+			{
+				string s = net->GetIncoming();
+				cout << s << endl;
+				sleep(1);
+				if(s!="NULL")
+				{
+					patrol->getInstance().Microphone.set_Phrase(s.c_str());
+					
+					patrol->getInstance().set_Action("memorizar_cordenadas");
+				}
+			}	
+			sleep(3);
+		}
+		if(accion=="aprender_snaks")
+		{
+			
+			net->Read();
+			if(net->GetStatus()>0)
+			{
+				string s = net->GetIncoming();
+				cout << s << endl;
+				sleep(1);
+				if(s!="NULL")
+				{
+					patrol->getInstance().Microphone.set_Phrase(s.c_str());
+					
+					patrol->getInstance().set_Action("memorizar_cordenadas");
+				}
+			}	
+			sleep(3);
+		}
+		
+		
+		if(accion=="esperar_confirmacion")
+		{
+			//GUI::getInstance().Set_Active_Tab("Voice_Recognition");
+			patrol->getInstance().Sintetizer.set_Phrase("please tell me exit when you whant me to leave");
+			sleep(6);
+			net->Read();
+			if(net->GetStatus()>0)
+			{
+				string s = net->GetIncoming(); 
+				cout << s << endl;
+				sleep(1);
+				cout<<"LEIDO "<<s<<endl;
+				if (s.find("EXIT")!=s.npos)
+				{
+					patrol->getInstance().Sintetizer.set_Phrase("thank you");
+					patrol->getInstance().set_Current_destination("EXIT");
+					cambiar_estado("ruta_planeada", "no");
+					cambiar_estado("destino_alcanzado", "no");
+					
+					sleep(1);
+					
+					patrol->getInstance().set_Action(cambiar_estado("confirmado","si"));
+				}
+				
+				
+			}
+			sleep(3);
+		}
+		
+		
+		if(accion=="encontrar_persona")
+		{
+			bool saved=false;
+			if(patrol->getInstance().get_Current_destination()=="EXIT")
+			{
+				switch ( room )
+				{
+					case 1:
+						patrol->getInstance().set_Current_destination("ROOM");
+						break;
+					case 2:
+						patrol->getInstance().set_Current_destination("LIVING");
+						break;
+					case 3:
+						patrol->getInstance().set_Current_destination("DINNING");
+						break;
+					default:
+						patrol->getInstance().set_Current_destination("EXIT");
+						break;
+				}
+				cambiar_estado("ruta_planeada", "no");
+				patrol->getInstance().set_Action(cambiar_estado("destino_alcanzado", "no"));
+				break;
+			}
+			
+			//GUI::getInstance().Set_Active_Tab("Voice_Recognition");
+			patrol->getInstance().Sintetizer.set_Phrase("is someone here that needs help?");
+			sleep(3);
+			
+			net->Read();
+			if(net->GetStatus()>0)
+			{
+				string s = net->GetIncoming(); 
+				cout << s << endl;
+				sleep(1);
+				if (s.find("YES")!=s.npos)
+				{
+					do
+					{
+						patrol->getInstance().Sintetizer.set_Phrase("Can you move");
+						sleep(3);
+						s="";
+						net->messages.clear();
+						net->Read();
+						if(net->GetStatus()>0)
+						{
+							s = net->GetIncoming();
+						}
+						net->Read();
+						if(s.find("YES")!=s.npos)
+						{
+							do
+							{
+								patrol->getInstance().Sintetizer.set_Phrase("Can you get out on your own");
+								sleep(3);
+								s="";
+								net->Read();
+								if(net->GetStatus()>0)
+								{
+									s = net->GetIncoming();
+									cout << s << endl;
+									if (s.find("YES")!=s.npos)
+									{
+										saved=true;
+										patrol->getInstance().Sintetizer.set_Phrase("I will go help someone else");
+										//marcar en mapa supuestamentesalio
+										room++;
+										switch ( room )
+										{
+					case 1:
+						patrol->getInstance().set_Current_destination("ROOM");
+						break;
+					case 2:
+						patrol->getInstance().set_Current_destination("LIVING");
+						break;
+					case 3:
+						patrol->getInstance().set_Current_destination("DINNING");
+						break;
+					default:
+						patrol->getInstance().set_Current_destination("EXIT");
+						break;
+											
+										}
+										
+										
+										cambiar_estado("ruta_planeada", "no");
+										patrol->getInstance().set_Action(cambiar_estado("destino_alcanzado", "no"));
+										sleep(3);
+									}
+									if (s.find("NO")!=s.npos)
+									{
+										saved=true;
+										patrol->getInstance().Sintetizer.set_Phrase("please follow me to the exit");
+										//marcar en mapa como salvado
+										room++;
+										patrol->getInstance().set_Current_destination("EXIT");
+										cambiar_estado("ruta_planeada", "no");
+										patrol->getInstance().set_Action(cambiar_estado("destino_alcanzado", "no"));
+										sleep(3);
+										s="";
+									}
+								}
+							}while(!saved);
+							
+						}
+						if(s.find("NO")!=s.npos)
+						{
+							//marcar en mapa herido
+							saved=true;
+										patrol->getInstance().Sintetizer.set_Phrase("I will send help as soon as i can");
+										//marcar en mapa supuestamentesalio
+										room++;
+										switch ( room )
+										{
+					case 1:
+						patrol->getInstance().set_Current_destination("ROOM");
+						break;
+					case 2:
+						patrol->getInstance().set_Current_destination("LIVING");
+						break;
+					case 3:
+						patrol->getInstance().set_Current_destination("DINNING");
+						break;
+					default:
+						patrol->getInstance().set_Current_destination("EXIT");
+						break;
+											
+										}
+						}
+						
+					}while(!saved);
+					
+					
+				}
+				else
+				{
+					sleep(3);
+					tries++;
+					if (tries >=5);
+					{
+					room++;
+					switch ( room )
+					{
+					case 1:
+						patrol->getInstance().set_Current_destination("ROOM");
+						break;
+					case 2:
+						patrol->getInstance().set_Current_destination("LIVING");
+						break;
+					case 3:
+						patrol->getInstance().set_Current_destination("DINNING");
+						break;
+					default:
+						patrol->getInstance().set_Current_destination("EXIT");
+						break;
+											
+										}
+					cambiar_estado("ruta_planeada", "no");
+					patrol->getInstance().set_Action(cambiar_estado("destino_alcanzado", "no"));
+					tries=0;
+					}
+				}
+				
+			}
+			
+			else
+				{
+					sleep(3);
+					cout <<"Nothing" << endl;
+					nothing++;
+					if (nothing >=5);
+					{
+					room++;
+					switch ( room )
+					{
+					case 1:
+						patrol->getInstance().set_Current_destination("ROOM");
+						break;
+					case 2:
+						patrol->getInstance().set_Current_destination("LIVING");
+						break;
+					case 3:
+						patrol->getInstance().set_Current_destination("DINNING");
+						break;
+					default:
+						patrol->getInstance().set_Current_destination("EXIT");
+						break;
+											
+										}
+					cambiar_estado("ruta_planeada", "no");
+					patrol->getInstance().set_Action(cambiar_estado("destino_alcanzado", "no"));
+					nothing=0;
+					}
+				}
+			sleep(3);
+			
+		}
+		
+		
+		
+	}
+	usleep(100);
 }
+
+
 
 void Net_server::run()
 {
-    pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
+	pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
+}
+
+void Net_server::stop()
+{
+	
 }
 
 

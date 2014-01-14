@@ -4,9 +4,9 @@ cmake_minimum_required(VERSION 2.8)
 
 
 # # -------------- Katana Arm ----------------------
-link_directories(/home/robot/Sabina/Manipulacion/lib)
+link_directories(/home/patrick/projects/Sabina/Manipulacion/lib)
 
-set(LIBRARY_DIR ${PROJECT_SOURCE_DIR}/Manipulacion/lib)
+set(LIBRARY_DIR /home/patrick/projects/Sabina/Manipulacion/lib)
 set(BASE_LIBRARY ${LIBRARY_DIR}/libKNIBase.a)
 set(KINE_LIBRARY ${LIBRARY_DIR}/libKinematics.a)
 set(INVKIN_LIBRARY ${LIBRARY_DIR}/libKNI_InvKin.a)

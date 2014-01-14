@@ -43,6 +43,7 @@ public:
     TextBox(int x, int y, int widht, int height, std::string name, Tab* parent);
     void AddLine(std::string value, color4 col, int font_type);
     void set_text(std::string value);
+    std::string get_text();
     void set_color(std::string value);
     void Draw();
     void update ();

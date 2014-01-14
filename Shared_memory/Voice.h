@@ -21,7 +21,7 @@ class Voice {
     // *
     // *  
     // */
-    string Words;
+    string * Words;
 
     ///*! \brief Value indicating the direction of the sound source
     // *

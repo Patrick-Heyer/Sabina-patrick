@@ -36,6 +36,71 @@ int ArmKatana::testing()
     return 0;
 }
 
+bool ArmKatana::init()
+{
+  
+  
+  //return vpRobot::init();
+  	//----------------------------------------------------------------//
+	//open device: a serial port is opened in this case
+	//----------------------------------------------------------------//
+
+	try {
+
+		port = 5566;
+		
+		std::strcpy(ip, "192.168.168.232");
+		strcpy(cfAddress, "/home/irving/projects/KNI/configfiles450/katana6M180_G.cfg");
+
+		device.reset(new CCdlSocket(ip, port));
+
+		std::cout << "-------------------------------------------\n";
+		std::cout << "success:  port " << port << " open\n";
+		std::cout << "-------------------------------------------\n";
+
+		//--------------------------------------------------------//
+		//init protocol:
+		//--------------------------------------------------------//
+
+		protocol.reset(new CCplSerialCRC());
+		std::cout << "-------------------------------------------\n";
+		std::cout << "success: protocol class instantiated\n";
+		std::cout << "-------------------------------------------\n";
+		protocol->init(device.get()); //fails if no response from Katana
+		std::cout << "-------------------------------------------\n";
+		std::cout << "success: communication with Katana initialized\n";
+		std::cout << "-------------------------------------------\n";
+
+
+		//--------------------------------------------------------//
+		//init robot:
+		//--------------------------------------------------------//
+		katana.reset(new CLMBase());
+		katana->create(cfAddress, protocol.get());
+
+	} catch(Exception &e) {
+		std::cout << "ERROR: " << e.message() << std::endl;
+		return -1;
+	}
+	std::cout << "-------------------------------------------\n";
+	std::cout << "success: katana initialized\n";
+	std::cout << "-------------------------------------------\n";
+	
+//	ready = true;
+	
+	//set protected members
+	motorCount = katana->getNumberOfMotors();
+	jointCount = motorCount -1;
+	gripperId = motorCount -1;
+	
+	activated = true;
+	gripperEndPoseReached = false;
+	
+//	ready = true;
+	return true;
+}
+
+
 int ArmKatana::init(const char* host, const char* confFile)
 {  
     //----------------------------------------------------------------//
@@ -97,6 +162,10 @@ bool ArmKatana::calibrate()
   std::cout << "Calibrating Katana... ";
   katana->calibrate();
   std::cout << "finished." << std::endl;
+  
+  currentArmPosition = CALIBRATED;
+  setVelocity(40);
+    
   return 0;
 }
 
@@ -430,3 +499,17 @@ void ArmKatana::closerGripper()
 {
   katana->closeGripper();
 }
+
+
+void ArmKatana::setVelocity(short int vel)
+{
+  short velocity = vel;
+    
+    //std::cout << "\n\nSet maximum velocity for motors to: \n";
+    for(short motorNumber = 0; motorNumber < katana->getNumberOfMotors(); ++motorNumber) {
+      //std::cout << motorNumber+1 << ": ";
+      //std::cin >> velocity;
+      katana->setMotorVelocityLimit(motorNumber, velocity);
+    }
+}
+

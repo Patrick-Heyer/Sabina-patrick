@@ -1,0 +1,382 @@
+    //MARKOVITO
+    //PRESENTACION
+
+    (variables
+    (iniciado no si)
+    (dentro_arena	no	si)
+    (localizado		no	si)
+    (ruta_planeada 	no 	si)
+    (destino_alcanzado	no	si)
+    (aprendida_p	no	si)
+    (aprendido_nombre no si)
+    (aprendida_orden	no	si)
+    (objeto_reconocido  no 	si)
+    (objeto_sujeto 	no 	si)
+    (persona_reconocida no 	si)
+    (objeto_entregado 	no 	si)
+    (orden_finalizada 	no	si)
+    (fuera_arena	no	si)
+    )
+
+    unnormalised
+
+    ///////////////////////////////////////////
+    action nada
+    iniciado		(SAMEiniciado )
+    dentro_arena	(SAMEdentro_arena )
+    localizado		(SAMElocalizado )
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+
+    ///////////////////////////////////////////
+    action iniciar
+    iniciado		(iniciado' (si(1.0)) (no(0.0)))
+    dentro_arena	(SAMEdentro_arena )
+    localizado		(SAMElocalizado )
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action entrar
+    iniciado		(SAMEiniciado)
+    dentro_arena	(dentro_arena' (si(1.0)) (no(0.0)))
+    localizado		(SAMElocalizado )
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action localizar
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(localizado' (si(1.0)) (no(0.0)))
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action planear_ruta
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(ruta_planeada' (si(1.0)) (no(0.0)))
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action navegar_destino
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(destino_alcanzado' (si(1.0)) (no(0.0)))
+    aprendida_p		(SAMEaprendida_p)
+    aprendida_orden	(SAMEaprendida_orden)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action solicitar_persona
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action aprender_persona
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(aprendida_p' (si(1.0)) (no(0.0)))
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+     action solicitar_nombre
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action aprender_nombre
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (aprendido_nombre' (si(1.0)) (no(0.0)))
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action solicitar_orden
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action aprender_orden
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(aprendida_orden' (si(1.0)) (no(0.0)))
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+   
+   
+    ///////////////////////////////////////////
+    action reconocer_objeto
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(objeto_reconocido' (si(1.0)) (no(0.0)))
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action sujetar_objeto
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(objeto_sujeto' (si(1.0)) (no(0.0)))
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action reconocer_persona
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(persona_reconocida' (si(1.0)) (no(0.0)))
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action entregar_objeto
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(objeto_entregado' (si(1.0)) (no(0.0)))
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action finalizar_orden
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(orden_finalizada' (si(1.0)) (no(0.0)))
+    fuera_arena		(SAMEfuera_arena)
+    endaction
+    
+    ///////////////////////////////////////////
+    action salir_arena
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    localizado		(SAMElocalizado)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    aprendida_p		(SAMEaprendida_p)
+    aprendido_nombre  (SAMEaprendido_nombre)
+    aprendida_orden	(SAMEaprendida_orden)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    persona_reconocida	(SAMEpersona_reconocida)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    fuera_arena		(fuera_arena' (si(1.0)) (no(0.0)))
+    endaction
+
+
+    /////////////////////////////////////////
+    reward[+
+    (iniciado (si (100.0)) (no (-100.0)))
+    (iniciado (si (dentro_arena  (si (100.0))(no (-110.0))))
+	      (no (dentro_arena (si (-260.0))(no (-260.0)))))
+    (dentro_arena (si (localizado  (si (100.0))(no (-120.0))))
+		  (no (localizado (si (-250.0))(no (-250.0)))))
+    (localizado (si (ruta_planeada  (si (100.0))(no (-130.0))))
+		(no (ruta_planeada (si (-230.0))(no (-230.0)))))		  
+    (ruta_planeada (si (destino_alcanzado  (si (100.0))(no (-140.0))))
+		   (no (destino_alcanzado (si (-280.0))(no (-280.0)))))   
+    (destino_alcanzado (si (aprendida_p  (si (100.0))(no (-150.0))))
+		       (no (aprendida_p (si (-220.0))(no (-220.0)))))
+    (aprendida_p (si (aprendido_nombre  (si (100.0))(no (-170.0))))
+		 (no (aprendido_nombre (si (-200.0))(no (-200.0)))))
+    (aprendido_nombre	(si (aprendida_orden  (si (100.0))(no (-190.0))))
+		 (no (aprendida_orden (si (-180.0))(no (-180.0)))))
+    (aprendida_orden (si (objeto_reconocido  (si (100.0))(no (-210.0))))
+		     (no (objeto_reconocido (si (-160.0))(no (-160.0)))))
+    (objeto_reconocido (si (objeto_sujeto  (si (100.0))(no (-220.0))))
+		       (no (objeto_sujeto (si (-150.0))(no (-150.0)))))
+    (objeto_sujeto (si (persona_reconocida  (si (100.0))(no (-230.0))))
+		   (no (persona_reconocida (si (-140.0))(no (-140.0)))))
+    (persona_reconocida (si (objeto_entregado  (si (100.0))(no (-240.0))))
+			(no (objeto_entregado (si (-130.0))(no (-130.0)))))
+    (objeto_entregado (si (orden_finalizada  (si (100.0))(no (-250.0))))
+		      (no (orden_finalizada (si (-120.0))(no (-120.0)))))
+    (orden_finalizada (si (fuera_arena  (si (100.0))(no (-260.0))))
+		      (no (fuera_arena (si (-110.0))(no (-110.0)))))	
+		      
+		      
+    ]
+
+    discount 0.9 
+    tolerance 0.1

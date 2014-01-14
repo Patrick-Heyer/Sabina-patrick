@@ -45,6 +45,7 @@ class Navegacion : public IPlugin
 {
 public:
 	void Main();
+	void stop();
 	void run();
 };
 
@@ -76,8 +77,8 @@ void Navegacion::Main()
 	Location temp;
 	CvPoint center;
 	std::list<ArPose> path;
+	int factor=50;
 	
-	Gui::getInstance();
 	pluginTab = new Tab("Navegacion");
 	logTerminal = new Console(WIDTH/2,HEIGHT*.02,WIDTH,HEIGHT/2,"Log_Terminal", pluginTab);
 	
@@ -95,31 +96,53 @@ void Navegacion::Main()
 	robotController.setAbsoluteMaxTransVelocity(patrol->getInstance().get_Lineal_velocity());
 	robotController.setAbsoluteMaxRotAcceleration(patrol->getInstance().get_Angular_velocity());
 	
+	robotController.setOdometer(patrol->getInstance().Position.get_X()*factor, patrol->getInstance().Position.get_Y()*-factor, patrol->getInstance().Position.get_Angle());
+// 	double initialXPosition = robotController.getRobotPositionX();
+// 	double initialYPosition = robotController.getRobotPositionY();
+	robotController.setInitialRobotPositionFromImage(patrol->getInstance().Position.get_X()*factor, patrol->getInstance().Position.get_Y()*-factor);
+	robotController.setTransAccel(250);
+	robotController.setTransDecel(200);
+		
 
-	robotController.setOdometer(patrol->getInstance().Position.get_X()*10, patrol->getInstance().Position.get_Y()*-10, patrol->getInstance().Position.get_Angle());
+	
+	int dest = 1;
 	
 	for (;;)
 	{
  		accion=patrol->getInstance().get_Action();
- 		temp.set(robotController.getRobotPositionX()/10, (robotController.getRobotPositionY()/10)*-1, robotController.getRobotHeading());
+ 		temp.set(robotController.getRobotPositionX()/factor, (robotController.getRobotPositionY()/factor)*-1, robotController.getRobotHeading());
  		patrol->getInstance().setPosition(temp);
 		if (accion=="entrar")
 		{
 			print(logTerminal,"Iniciando: entrar\n");
 			printf("iniciando entrar");
 			do {}
-			while (robotController.isThereObstacle(1000));
-			ArPose position(robotController.getRobotPositionX()-1500,robotController.getRobotPositionY(),0);
+			while (robotController.isThereObstacle(1100));
+			ArPose position(robotController.getRobotPositionX()+2500,robotController.getRobotPositionY(),0);
 			path.clear();
 			path.push_back(position);
 			robotController.setPath(path);
 			robotController.moveRobot();
-			patrol->getInstance().set_Action(cambiar_estado("dentro_arena", "si"));
 			print(logTerminal,"Terminado: entrar\n");
+			patrol->getInstance().set_Action(cambiar_estado("dentro_arena", "si"));
+			
+			//robotController.setInitialRobotPositionFromImage(robotController.getRobotPositionX(),robotController.getRobotPositionY());
+
 		}
+		
+		if(accion=="localizar")
+		{
+			robotController.getLaserScanFromRobot();
+			ArUtil::sleep(2000);
+			
+			
+		}
+		
 		
 		if (accion=="navegar_destino")
 		{
+			
+		
 			print(logTerminal,"Iniciando: navegar_destino\n");
 			list<Location> ruta_temp;
 			ruta_temp=patrol->getInstance().get_Route();
@@ -128,16 +151,29 @@ void Navegacion::Main()
 			  path.clear();
 			  for (std::list<Location>::iterator list_iter = ruta_temp.begin(); list_iter != ruta_temp.end(); list_iter++)
 			  {
-			    ArPose position((*list_iter).get_X()*10,(*list_iter).get_Y()*-10,(*list_iter).get_Angle());
+			    ArPose position((*list_iter).get_X()*factor,(*list_iter).get_Y()*-factor,(*list_iter).get_Angle());
 			    path.push_back(position);
 			    
 			  }
 			  robotController.setPath(path);
 			  robotController.moveRobot();
+			 }
+			 
+			
+			if(patrol->getInstance().get_Current_destination()!="")
+			{
+				typedef std::map<string,Destination> StringFloatMap;
+				StringFloatMap::iterator pos;
+				pos = patrol->getInstance().Destinations->find(patrol->getInstance().get_Current_destination());
+				cout << pos->second.get_Coordinate().get_Angle() << endl;
+				robotController.setRobotHeading(pos->second.get_Coordinate().get_Angle() );
 			}
+			
+			
 			patrol->getInstance().Clear_path();
-			patrol->getInstance().set_Action(cambiar_estado("destino_alcanzado","si"));
-			print(logTerminal,"Terminado: navegar_destino\n");
+			print(logTerminal,"Terminado: navegar_destino");
+			
+			patrol->getInstance().set_Action(cambiar_estado("destino_alcanzado", "si"));
 		}
 		
 		if (accion=="aproximar_persona")
@@ -156,7 +192,6 @@ void Navegacion::Main()
 			  }
 			  robotController.setPath(path);
 			  robotController.moveRobot();
-			  patrol->getInstance().set_Action(cambiar_estado("persona_aproximada", "si"));
 			print(logTerminal,"Terminado: aproximar_persona\n");
 			}
 			sleep(1);
@@ -167,6 +202,11 @@ void Navegacion::Main()
 void Navegacion::run()
 {
 	pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
+}
+
+void Navegacion::stop()
+{
+
 }
 
 

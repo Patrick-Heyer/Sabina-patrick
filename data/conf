@@ -2,27 +2,32 @@
 Main_system = 0 
 
 #position of the robot on the map in pixels and degrees
-Position_x = 1038
-Position_y = 303
-Position_angle = 180
+Position_x = 200 
+Position_y = 200
+Position_angle = 0
+
 
 #velocities the robot should use m/s degree/s
-Lineal_velocity = 160
-Angular_velocity = 25
+Lineal_velocity = 130
+Angular_velocity = 30
 
 #port definition for conecting with the hardware
 Aria_port = /dev/ttyUSB0
 Laser_port = /dev/ttyUSB1
 PTZ_port = /dev/ttyUSB2
-
-#Camera index (opencv standard 0=integrated camera 1=firs external -1=no camera
+-
+#Camera index (opencv standard 0=integrated camera 1=first external -1=no camera if Face camera must extist
 Camera_index = 0
 
 #file to use as map
-Enviroment_Image_path = ../data/technical.png
+Enviroment_Image_path = ../data/mapLabDoor1_4v2.png
 
 #list of known destinations NAME x y a
 Destinations_file = ../data/Destinations.cfg
 
 #list of known NAMES
 Names_file = ../data/Names.cfg
+
+
+
+

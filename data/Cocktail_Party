@@ -1,0 +1,22 @@
+MDP =../data/Cocktail_Party.ADD
+test_time = 10
+tiempo_salida = 1
+
+face_dir=../data/Face/
+Load_Navegacion=1
+Load_Navegacion_Restaurant=0
+Load_Navigation_Planing=1
+Load_Vision_Dulce=1
+Load_Vision_Faces=1
+Load_Vision_Objects=0
+Load_VisionSurf=0
+Load_voice_synthesis=1
+Load_voice=0
+Load_manipulacion=1
+Load_dummy=1
+Load_server=1
+Load_client=0
+Load_gestos=0
+Load_Follower=0
+Load_Kinect=0
+Load_Localization=1

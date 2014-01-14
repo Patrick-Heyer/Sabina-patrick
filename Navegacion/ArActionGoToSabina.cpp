@@ -201,8 +201,13 @@ AREXPORT ArActionDesired *ArActionGoToSabina::fire(ArActionDesired currentDesire
       vel = mySpeed;
     if (myPrinting)
       printf("#go %.0f\n", vel);
+	
+	if (ArMath::fabs(myRobot -> getRotVel()) >= 0.1)
+		myDesired.setVel(0);
+	else
+		myDesired.setVel(vel);
    //myDesired.setRotVel(0);
-    myDesired.setVel(vel);
+    //myDesired.setVel(vel);
   }
   return &myDesired;
 }

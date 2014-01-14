@@ -1,0 +1,171 @@
+    //MARKOVITO
+    //PRESENTACION
+
+    (variables
+    (iniciado no si)
+    (orden_pedida 	no 	si)
+    (objeto_reconocido  no 	si)
+    (punto_calculado	no 	si)
+    (objeto_sujeto 	no 	si)
+    (ruta_planeada 	no 	si)
+    (destino_alcanzado	no	si)
+    (objeto_entregado 	no 	si)
+    (orden_finalizada 	no	si)
+     )
+
+    unnormalised
+
+    ///////////////////////////////////////////
+    action nada
+    iniciado		(SAMEiniciado )
+    orden_pedida 	(SAMEorden_pedida)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    punto_calculado	(SAMEpunto_calculado )
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    endaction
+    
+        ///////////////////////////////////////////
+    action iniciar
+    iniciado		(iniciado' (si(1.0)) (no(0.0)) )
+    orden_pedida 	(SAMEorden_pedida)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    punto_calculado	(SAMEpunto_calculado )
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    endaction
+    
+        ///////////////////////////////////////////
+    action aprender_orden
+    iniciado		(SAMEiniciado )
+    orden_pedida 	(orden_pedida' (si(1.0)) (no(0.0)) )
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    punto_calculado	(SAMEpunto_calculado )
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    endaction
+    
+        ///////////////////////////////////////////
+    action reconocer_objeto
+    iniciado		(SAMEiniciado )
+    orden_pedida 	(SAMEorden_pedida)
+    objeto_reconocido 	(objeto_reconocido' (si(1.0)) (no(0.0)) )
+    punto_calculado	(SAMEpunto_calculado )
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    endaction
+    
+        action calcular_punto
+    iniciado		(SAMEiniciado )
+    orden_pedida 	(SAMEorden_pedida)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    punto_calculado	(punto_calculado' (si(1.0)) (no(0.0)) )
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    endaction
+    
+        ///////////////////////////////////////////
+    action sujetar_objeto
+    iniciado		(SAMEiniciado )
+    orden_pedida 	(SAMEorden_pedida)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    punto_calculado	(SAMEpunto_calculado )
+    objeto_sujeto 	(objeto_sujeto' (si(1.0)) (no(0.0)) )
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    endaction
+    
+        ///////////////////////////////////////////
+    action planear_ruta
+    iniciado		(SAMEiniciado )
+    orden_pedida 	(SAMEorden_pedida)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    punto_calculado	(SAMEpunto_calculado )
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    ruta_planeada	(ruta_planeada' (si(1.0)) (no(0.0)) )
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    endaction
+    
+        ///////////////////////////////////////////
+    action navegar_destino
+    iniciado		(SAMEiniciado )
+    orden_pedida 	(SAMEorden_pedida)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    punto_calculado	(SAMEpunto_calculado )
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(destino_alcanzado' (si(1.0)) (no(0.0)) )
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(SAMEorden_finalizada)
+    endaction
+    
+        ///////////////////////////////////////////
+    action entregar_objeto
+    iniciado		(SAMEiniciado )
+    orden_pedida 	(SAMEorden_pedida)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    punto_calculado	(SAMEpunto_calculado )
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    objeto_entregado	(objeto_entregado' (si(1.0)) (no(0.0)) )
+    orden_finalizada 	(SAMEorden_finalizada)
+    endaction
+    
+            ///////////////////////////////////////////
+    action finalizar
+    iniciado		(SAMEiniciado )
+    orden_pedida 	(SAMEorden_pedida)
+    objeto_reconocido 	(SAMEobjeto_reconocido)
+    punto_calculado	(SAMEpunto_calculado )
+    objeto_sujeto 	(SAMEobjeto_sujeto)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    objeto_entregado	(SAMEobjeto_entregado)
+    orden_finalizada 	(orden_finalizada' (si(1.0)) (no(0.0)) )
+    endaction
+
+    /////////////////////////////////////////
+    reward[+
+    (iniciado (si (100.0)) (no (-100.0)))
+    (iniciado (si (orden_pedida  (si (100.0))(no (-110.0))))
+	      (no (orden_pedida (si (-260.0))(no (-260.0)))))
+    (orden_pedida (si (objeto_reconocido  (si (100.0))(no (-130.0))))
+		(no (objeto_reconocido (si (-230.0))(no (-230.0)))))		
+    (objeto_reconocido (si (punto_calculado  (si (100.0))(no (-140.0))))
+		   (no (punto_calculado (si (-220.0))(no (-220.0)))))   
+    (punto_calculado (si (objeto_sujeto  (si (100.0))(no (-150.0))))
+		   (no (objeto_sujeto (si (-210.0))(no (-210.0)))))   		   
+    (objeto_sujeto (si (ruta_planeada  (si (100.0))(no (-160.0))))
+		       (no (ruta_planeada (si (-200.0))(no (-200.0)))))
+    (ruta_planeada (si (destino_alcanzado  (si (100.0))(no (-170.0))))
+			(no (destino_alcanzado (si (-190.0))(no (-190.0)))))
+    (destino_alcanzado (si (objeto_entregado  (si (100.0))(no (-180.0))))
+		 (no (objeto_entregado (si (-180.0))(no (-180.0)))))
+    (objeto_entregado (si (orden_finalizada  (si (100.0))(no (-190.0))))
+		      (no (orden_finalizada (si (-170.0))(no (-170.0)))))		 
+    		      
+		      
+    ]
+
+    discount 0.9 
+    tolerance 0.1

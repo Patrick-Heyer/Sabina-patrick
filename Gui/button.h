@@ -45,7 +45,7 @@ public:
     void AddLine(std::string value, color4 col, int font_type);
     void set_text(std::string value);
     void set_color(std::string value);
-    
+    void setName(std::string value);
     void Draw();
     void update ();
     

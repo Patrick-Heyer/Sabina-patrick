@@ -1,0 +1,23 @@
+######################BEGIN######################
+Scaling export by a value of 150.89 to fit MD3 space
+Exporting UV texture coordinates for 24_face_0.3_0_0.001
+Exporting 24_face_0.3_0_0.001
+Header Information
+Ident: IDP3
+Version: 15
+Name: 
+Flags: 0
+Number of Frames: 100
+Number of Tags: 0
+Number of Surfaces: 1
+Number of Skins: 0
+Offset Frames: 108
+Offset Tags: 5708
+Offset Surfaces: 5708
+Offset end: 3515860
+Total Shaders: 1
+Total Triangles: 8082
+Total Vertices: 4224
+MD3 saved to /home/patrick/projects/Sabina/data/Face/Kasumi.md3
+Elapsed 67.3 seconds
+Scaled export by a value of 150.89 to fit MD3 space

@@ -7,6 +7,7 @@
 using namespace std;
 #include <list>
 using namespace std;
+#include "Laser.h"
 #include "PTZ.h"
 #include "Map.h"
 #include "Arm.h"
@@ -39,12 +40,28 @@ class Robot {
 public:
 
   bool Main_system;
+  
+  bool localized;
+  
+  bool seguir;
+  
+  int test_time;
+  int tiempo_salida;
+  
+  int face_frame;
 
     ///*! \brief Position of the robot
     // *
     // *  Location of the robot on the map x, y, angle,
     // */
     Location Position;
+	
+	///*! \brief Position of the robot
+	
+    // *
+    // *  Location of the robot estimated by the localization module (in meters).
+    // */
+    Location estimatedPosition;
 
     ///*! \brief Lineal velocity of the robot
     // *
@@ -125,6 +142,8 @@ public:
 
 
   public:
+	  
+	Laser *laser;
     ///*! \brief Poiter to the PTZ information
     // *
     // *  
@@ -302,6 +321,12 @@ public:
     
     string get_PTZ_port();
     void set_PTZ_port(string value);
+	
+	///*! \brief Sets the estimated position of the robot
+    // *
+    // *  Sets the Angular velocity of the robot 
+    // */
+    void setEstimatedPosition(Location newPosition);
 
 };
 #endif

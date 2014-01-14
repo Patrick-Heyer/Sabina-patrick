@@ -78,8 +78,8 @@ void NetThread::Write()
     {
         g_out = g_in;
     }
-    fputs("Sending reply...", output);
-    fputs(reply, output);
+//     fputs("Sending reply...", output);
+//     fputs(reply, output);
     gsNetPollWrite(g_out, reply);
 }
 

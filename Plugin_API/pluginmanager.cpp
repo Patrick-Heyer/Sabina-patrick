@@ -210,7 +210,6 @@ bool PluginManager::ExecuteAll()
  
         (*itor)->actual=PluginFactory::CreatePlugin((*itor)->GetDisplayName().c_str());
             (*itor)->actual->run();
-
     }
     return true;
 }
@@ -219,14 +218,25 @@ bool PluginManager::ExecuteAll()
 
 bool PluginManager::UnloadAll()
 {
-	// not implemented yet
+    for( TListItor itor = m_pluginlist.begin(); itor != m_pluginlist.end(); ++itor )
+    {
+		(*itor)->actual->stop();
+		
+	}
 	return false;
 }
 
 bool PluginManager::Unload(const std::string &name)
 {
-	// not implemented yet
-	return false;
+  
+    for( TListItor itor = m_pluginlist.begin(); itor != m_pluginlist.end(); ++itor )
+    {
+        if( strcmp( (*itor)->GetDisplayName().c_str(), name.c_str() ) != 0 )
+        {
+            (*itor)->actual->stop();
+            return true;
+        }
+    }
 }
 
 bool PluginManager::LoadFromFile(const std::string &filename)

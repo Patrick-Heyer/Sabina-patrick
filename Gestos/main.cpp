@@ -62,6 +62,7 @@ class Gestos : public IPlugin
 {
 public:
     void Main();
+	void stop();
     void run();
 };
 

@@ -32,6 +32,7 @@ class Manipulacion : public IPlugin
 {      
 public:
 	void Main();
+	void stop();
 	void run();
 };
 
@@ -64,40 +65,37 @@ void Manipulacion::Main()
 	logTerminal = new Console(0,HEIGHT*.02,500,HEIGHT/2,"error", pluginTab);
 	ArmKatanaForSabina brazo;
 	brazo.init( "192.168.168.232", "../data/configfiles450/katana6M180_G.cfg");
-	sleep(5);    
-	brazo.moveToCarriyingPos();
-	sleep(5);
-	brazo.closerGripper();
-	sleep(5);
-	brazo.moveToNavigationPos();
-	sleep(5);	
+	sleep(5);  
+	brazo.setVelocity(20);
+	brazo.moveToHanging();
+	brazo.moveToCarriyingPos(); 
 	
 	std::string accion;
 	for (;;)
 	{
+		accion=patrol->getInstance().get_Action();
 		if(accion=="sujetar_objeto")
 		{
-			Gui::getInstance().setActiveTab("Manipulacion");
-			patrol->getInstance().Sintetizer.set_Phrase("please put the object in front of me in my gripper");
-			sleep(10);
-			brazo.openGripper();
-			sleep(5);
-			brazo.moveToNavigationPos();
-			patrol->getInstance().set_Current_destination(patrol->getInstance().prev_destination->c_str());
-			patrol->getInstance().set_Action(cambiar_estado("objeto_sujetado","si"));
+
+			brazo.moveToCarriyingPos(); 
+			brazo.testGrasping(0,100,600); 
+			patrol->getInstance().set_Current_destination("LIVING");
+			cambiar_estado("ruta_planeada", "no");
+			cambiar_estado("destino_alcanzado", "no");
+			patrol->getInstance().set_Action(cambiar_estado("objeto_sujeto","si"));
 			
 		}
-		
-		accion=patrol->getInstance().get_Action();
+
 		if(accion=="entregar_objeto")
 		{
-			Gui::getInstance().setActiveTab("Manipulacion");
-			patrol->getInstance().Sintetizer.set_Phrase("Please take the objet of my gripper");
-			brazo.moveToCarriyingPos();
-			sleep(10);
-			brazo.openGripper();
-			sleep(5);
-			brazo.moveToNavigationPos();
+// 			patrol->getInstance().Sintetizer.set_Phrase("here is a little present so you remember your visit");
+// 			sleep(5);
+			brazo.deliverObject();
+// 			patrol->getInstance().Sintetizer.set_Phrase("please let me introduce myself i am Sabina a service robot developed at the INAOE by the team Markovito that won the mexican tournament of robotics two thousand 13");
+			brazo.moveToHanging();
+			
+			//Cuando se tengan que entregar varios objetos no usar store
+			brazo.store();
 			patrol->getInstance().set_Action(cambiar_estado("objeto_entregado","si"));
 			
 		}
@@ -107,6 +105,11 @@ void Manipulacion::Main()
 void Manipulacion::run()
 {
 	pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
+}
+
+void Manipulacion::stop()
+{
+
 }
 
 

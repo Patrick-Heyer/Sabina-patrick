@@ -8,4 +8,5 @@
 #include <GL/glu.h>
 
 void DrawFace (void);
-void initFace ();
+void initFace (string face);
+void setFace (int ID);

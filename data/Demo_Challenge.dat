@@ -1,0 +1,96 @@
+//Markovito
+//Who is Who
+
+(variables
+ (iniciado no si)
+ (dentro_arena no si)
+
+)
+
+unnormalised
+
+//nada
+//iniciar 			espera click de inicio
+//entrar 			entra a la arena
+//pedir_persona 		solicita a alguien que se ponga enfrente
+//detectar_personas 	cicla hasta encontrar un rstro frente a la camara
+//pedir_nombre 		pide el nombre del usuario
+//aprender_persona 		aprende el rostro del usuario con el nombre dado
+//pedir_destino 		solicita su destino
+//navegar_destino		mueve al robot a su destino
+//encontrar_personas	busca un gesto o rostro
+
+
+
+
+action nada
+iniciado		(SAMEiniciado)
+dentro_arena	(SAMEdentro_arena)
+
+endaction
+
+action iniciar
+iniciado		(iniciado' (si(1.0)) (no(0.0)))
+                 dentro_arena	(SAMEdentro_arena)
+
+                 endaction
+
+                 action entrar
+                 iniciado		(SAMEiniciado)
+                 dentro_arena	(dentro_arena' (si(1.0)) (no(0.0)))
+
+endaction
+
+
+action pedir_paciente
+iniciado		(SAMEiniciado)
+dentro_arena	(SAMEdentro_arena)
+
+endaction
+
+
+action detectar_paciente
+iniciado		(SAMEiniciado)
+dentro_arena	(SAMEdentro_arena)
+
+endaction
+
+
+
+action planear_ruta
+iniciado		(SAMEiniciado)
+dentro_arena	(SAMEdentro_arena)
+
+endaction
+
+action navegar_consultorio
+iniciado		(SAMEiniciado)
+dentro_arena	(SAMEdentro_arena)
+
+endaction
+
+
+action entregar_gripper
+iniciado		(SAMEiniciado)
+dentro_arena	(SAMEdentro_arena)
+
+endaction
+
+action hacer_show
+iniciado		(SAMEiniciado)
+dentro_arena	(SAMEdentro_arena)
+
+endaction
+
+
+reward [+
+        (iniciado (si (100.0)) (no (-100.0)))
+        (iniciado 		(si  (dentro_arena  (si (100.0))  (no (-100.0))))
+         (no  (dentro_arena  (si (-100.0)) (no (-100.0)))))
+
+        (dentro_arena
+
+        ]
+        discount 0.900000
+        tolerance 0.1
+

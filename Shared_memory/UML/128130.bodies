@@ -1,0 +1,19 @@
+class Destination
+!!!289154.cpp!!!	get_Coordinate() : Location
+  return Coordinate;
+!!!289282.cpp!!!	set_Coordinate(in value : Location) : void
+  do
+  {
+  }while (!Coordinate_escribible);
+  Coordinate_escribible=false;
+  Coordinate = value;
+  Coordinate_escribible=true;
+!!!280962.cpp!!!	get_Name() : string
+return *Name;
+!!!281090.cpp!!!	set_Name(in value : string) : void
+  do
+  {
+  }while (!Name_escribible);
+  Name_escribible=false;
+  *Name = value;
+  Name_escribible=true;

@@ -21,6 +21,7 @@ bool Last_objective_escribible=true;
 bool Current_destination_escribible=true;
 bool Prev_destination_escribible=true;
 bool Route_escribible=true;
+bool estimatedPosition_escribible = true;
 
 using std::string;
 using std::cout;
@@ -91,7 +92,7 @@ void Robot::Initialize(string filename) {
         getInstance();
 
     ConfigFile config( filename );
-
+    
 
     int temp_int;
     float temp_float;
@@ -146,7 +147,18 @@ void Robot::Initialize(string filename) {
     getInstance().prev_destination= new string;
     getInstance().Sintetizer.Phrase = new string;
     getInstance().Microphone.Phrase=new string;
+	getInstance().Microphone.Words=new string;
     getInstance().Route=new list<Location>;
+	
+	getInstance().seguir=false;
+	
+	
+	
+	getInstance().laser= new Laser();
+	getInstance().localized = false;
+	getInstance().estimatedPosition.set_X(0);
+	getInstance().estimatedPosition.set_Y(0);
+	getInstance().estimatedPosition.set_Angle(0);
     
 }
 
@@ -392,4 +404,12 @@ void Robot::set_PTZ_port(string value) {
     PTZ_port_escribible=false;
     *PTZ_port = value;
     PTZ_port_escribible=true;
+}
+void Robot::setEstimatedPosition(Location newPosition) {
+    do
+    {
+    } while (!estimatedPosition_escribible);
+    estimatedPosition_escribible=false;
+	estimatedPosition = newPosition;
+    estimatedPosition_escribible=true;
 }

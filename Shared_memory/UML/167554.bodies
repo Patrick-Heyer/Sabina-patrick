@@ -1,0 +1,38 @@
+class Synthesis
+!!!224258.cpp!!!	get_Current_letter() : int
+  return Current_letter;
+!!!224386.cpp!!!	set_Current_letter(in value : int) : void
+  do
+  {
+  }while (!Current_letter_escribible);
+  Current_letter_escribible=false;
+  Current_letter = value;
+  Current_letter_escribible=true;
+!!!224514.cpp!!!	get_Speed() : float
+  return Speed;
+!!!224642.cpp!!!	set_Speed(in value : float) : void
+  do
+  {
+  }while (!Speed_escribible);
+  Speed_escribible=false;
+  Speed = value;
+  Speed_escribible=true;
+!!!224770.cpp!!!	get_Volumen() : int
+  return Volumen;
+!!!224898.cpp!!!	set_Volumen(in value : int) : void
+  do
+  {
+  }while (!Volumen_escribible);
+  Volumen_escribible=false;
+  Volumen = value;
+  Volumen_escribible=true;
+!!!281730.cpp!!!	get_Phrase() : string
+return *Phrase;
+!!!281858.cpp!!!	set_Phrase(in value : string) : void
+  do
+  {
+  }while (!Phrase_escribible);
+  Phrase_escribible=false;
+  *Phrase = value;
+  Phrase_escribible=true;
+

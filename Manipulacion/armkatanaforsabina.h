@@ -21,32 +21,54 @@
 #define ARMKATANAFORSABINA_H
 
 #include "armkatana.h"
+//#include "vpfilereader.h"
+#include <ctime>
  
 using namespace std;
 
+/**
+ * Object to work with markovito.
+ * 
+ * Capabilities:
+ * 	-	Grasp a object.
+ * 	- 	Movement to simple poses.
+ * 
+ * Requirements:
+ * 	- 	The object to grasp must be inside the reachable space.
+ * 	-	Vertical position of the arm.
+ * 
+ * Notes:	
+ * 	-	There is no collision checking. So the provided positions must be tested before.
+ */
 class ArmKatanaForSabina : public ArmKatana
 {
 
 public:
 ArmKatanaForSabina();
-//virtual ~ArmKatanaForSabina();
 
-int graspObjectAt(double x,  double y, double z);
+  /**
+   * x,y,z are in arm coordinates. milimeters
+   */
+  int testGrasping(double x, double y, double z);
 
-void setPoseCarriying(double x,  double y, double z, double phi, double theta, double psi);
+  /**
+   * 
+   */
+  int graspObjectAtKinectImage(double x, double y);
+  
+  void moveToCarriyingPos();
+  
+  void deliverObject();
+  
+  void store(); 
+  
+  void bringOut();
+  
+  void moveToHanging();
 
-//void setPoseGaspingSheet(double x,  double y, double z, double phi, double theta, double psi);
 
-void moveToNavigationPos();
-
-void moveToCarriyingPos();
-
-
-private:
-    std::vector<double> poseCarriying;
-    std::vector<double> poseGraspingSheet;
-    std::vector<int> encNavigationPosition;
-    //std::vector<int> encCarriyingPosition;
+protected:
+  bool equalVectors(vector<int> A, vector<int> B);
 };
 
 #endif // ARMKATANAFORSABINA_H

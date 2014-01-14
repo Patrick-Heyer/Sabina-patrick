@@ -31,7 +31,7 @@ void Voice::set_Direction(int value) {
 // *   Gets the list of words in the phrase said to the voice recognition system \return Words
 // */
 string Voice::get_Words() {
-  return Words;
+  return *Words;
 }
 
 ///*! \brief Sets the list of words in the phrase said to the voice recognition system
@@ -39,7 +39,7 @@ string Voice::get_Words() {
 // *   Sets the list of words in the phrase said to the voice recognition system 
 // */
 void Voice::set_Words(string value) {
-  Words = value;
+  *Words = value;
 }
 
 ///*! \brief Gets the phrase the said to the voice recognition system

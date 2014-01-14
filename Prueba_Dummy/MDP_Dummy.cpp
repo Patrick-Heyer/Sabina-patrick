@@ -76,7 +76,7 @@ void Dummy::Main()
 
 
 //    patrol->get_Instance().set_Action(cambiar_estado("iniciado", "si"));
-//             patrol->get_Instance().set_Current_destination("DINNING");
+            patrol->get_Instance().set_Current_destination("KITCHEN");
 // 	cambiar_estado("localizado", "si");
 // 	cambiar_estado("dentro_arena", "si")
 // 	cambiar_estado("detectada_p","si");
@@ -106,67 +106,6 @@ void Dummy::Main()
             sleep(20);
             patrol->get_Instance().set_Action(cambiar_estado("presentacionDada","si"));
         }
-        if (accion=="entregar_objeto")
-        {
-            patrol->get_Instance().Sintetizer.set_Phrase("Please take the objetct from my greeper ");
-            sleep(5);
-            patrol->get_Instance().set_Action(cambiar_estado("objeto_entregado","si"));
-        }
-
-        if (accion=="actualizar")
-        {
-            if (step==0)
-            {
-                patrol->get_Instance().Sintetizer.set_Phrase("Updating");
-                sleep(5);
-                patrol->get_Instance().set_Current_destination("EXIT");
-
-                cambiar_estado("ruta_planeada","no");
-                patrol->get_Instance().set_Action(cambiar_estado("destino_alcanzado","no"));
-                sleep(2);
-                step++;
-            }
-            else
-            {
-                patrol->get_Instance().Sintetizer.set_Phrase("i will be back");
-                sleep(4);
-                patrol->get_Instance().Sintetizer.set_Phrase("im waiting for my team");
-                for (;;)
-                {
-                }
-            }
-        }
-        if (accion=="aproximar_personas")
-        {
-            patrol->get_Instance().set_Action(cambiar_estado("persona_aproximada", "si"));
-        }
-        
-        if (accion=="aproximar_objeto")
-        {
-
-             patrol->get_Instance().set_Action(cambiar_estado("objeto_aproximado", "si"));
-           
-        }
-        
-        if (accion=="salir")
-        {
-	  if(sali==0)
-	  {
-		patrol->get_Instance().Sintetizer.set_Phrase("sorry i think im runing out of time i will go to the exit now");
-		sleep(5);
-		patrol->get_Instance().set_Current_destination("EXIT");
-                cambiar_estado("ruta_planeada","no");
-                patrol->get_Instance().set_Action(cambiar_estado("destino_alcanzado","no"));
-		sali++;
-	  }
-	  else
-	  {
-		patrol->get_Instance().Sintetizer.set_Phrase("i am out now i hope i made it on time");
-		sleep(10);
-		for(;;);
-	  }
-        }
-
 
     }
 

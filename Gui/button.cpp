@@ -64,7 +64,11 @@ void Button::update()
 {
     
     
-    
+}
+
+void Button::setName(std::string value)
+{
+	this->setName(value);
 }
 
 void Button::set_text(std::string value)
@@ -75,25 +79,6 @@ void Button::set_text(std::string value)
 
 void Button::proccesInput()
 {
-    int key=InputSingleton::getInstance().key;
-    
-    if (key>32 && key<=127 )
-    {
-	text.content +=key;
-    }
-    if (key==8)
-    {
-	text.content = text.content.substr(0, text.content.length() - 1);        
-    }
-    if (key==9)
-    {
-	text.content+="    ";
-    }
-    
-    if (key==32)
-    {
-	text.content+=" ";
-    }
-    InputSingleton::getInstance().key=NULL;
+   
     
 }

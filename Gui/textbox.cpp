@@ -23,11 +23,11 @@
 
 TextBox::TextBox(int x, int y, int widht, int height, std::string name, Tab* parent)
 {
-   ;
     this->SetName(name);
     this->SetPosition(x, y);
     this->SetSize(widht, height);
     this->SetActive(true);
+    this->set_text("");
     parent->InsertWidget(this);
 }
 
@@ -39,13 +39,16 @@ void TextBox::Draw()
     int uiround=uiGetRoundBox();
     uiSetRoundBox("0000");
     if (text.content.length()*4>Get_widht())
+    {
         SetSize(Get_widht()+5,Get_height());
+    }
     if (Get_Active())
+    {
         gl_round_box_Hshade(GL_POLYGON, Get_x(), Get_y(), Get_x()+Get_widht(), Get_y()+Get_height(),10, "FFFFFF",  "FFFFFF");
-    drawText(Get_x(),Get_y()+8, GetName(), "330000",0 );
-    drawText(Get_x(),Get_y()+17,text.content, "FF0000", 0);
-        
-
+        drawText(Get_x(),Get_y()+8, GetName(), "330000",0 );
+        drawText(Get_x(),Get_y()+17,text.content, "FF0000", 0);
+    }
+    
     uiSetRoundBox(uiround);
 }
 
@@ -59,28 +62,43 @@ void TextBox::set_text(std::string value)
     text.content=value;
 }
 
+std::string TextBox::get_text()
+{
+    return text.content.c_str();
+
+}
+
+
 
 void TextBox::proccesInput()
 {
-    int key=InputSingleton::getInstance().key;
+    if(Get_Active())
+    {
+        int key=InputSingleton::getInstance().key;
+        
+        if (key>32 && key<=127 )
+        {
+            text.content +=key;
+            InputSingleton::getInstance().key=NULL;
+        }
+        if (key==8)
+        {
+            text.content = text.content.substr(0, text.content.length() - 1);
+            InputSingleton::getInstance().key=NULL;
+        }
+        if (key==9)
+        {
+            text.content+="    ";
+            InputSingleton::getInstance().key=NULL;
+        }
+        
+        if (key==32)
+        {
+            text.content+=" ";
+            InputSingleton::getInstance().key=NULL;
+        }
+       
 
-    if (key>32 && key<=127 )
-    {
-        text.content +=key;
     }
-    if (key==8)
-    {
-        text.content = text.content.substr(0, text.content.length() - 1);        
-    }
-    if (key==9)
-    {
-        text.content+="    ";
-    }
-
-    if (key==32)
-    {
-        text.content+=" ";
-    }
-    InputSingleton::getInstance().key=NULL;
     
 }

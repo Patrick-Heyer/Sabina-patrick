@@ -1,0 +1,23 @@
+MDP =../data/Restaurant.ADD
+test_time = 10
+tiempo_salida = 0
+
+face_dir=../data/Face/
+Load_Navegacion=0
+Load_Navegacion_Restaurant=0
+Load_Navigation_Planing=0
+Load_Vision_Faces=0
+Load_Vision_Objects=0
+Load_VisionSurf=0
+Load_voice_synthesis=1
+Load_voice=0
+Load_manipulacion=0
+Load_dummy=1
+Load_server=0
+Load_client=0
+Load_gestos=0
+Load_Follower=1
+Load_Kinect=1
+Load_Localization=0
+
+ 

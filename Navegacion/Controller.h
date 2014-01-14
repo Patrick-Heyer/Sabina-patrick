@@ -3,6 +3,7 @@
 
 #include <ArRobot.h>
 #include <Aria.h>
+
 /**
  * @brief Encapsulates the robot object. Here are implemented the navigation of all the points given by the navigation planning module. 
  * 
@@ -94,12 +95,39 @@ public:
     * @param timeToReachPoint the time (in ms) to reach the current point in the path.
     * 
     * */
-    void setTimeToReachPoint(double timeToReachPoint = 20000);
+    void setTimeToReachPoint(double timeToReachPoint = 10000);
     /**
     * This method sets the close distance for the robot when visits a point after timeToReachPoint.
     * @param closeDistanceWhenObstacle the close distance after the timeToReachPoint has been reached.
     * */
     void setCloseDistanceWhenObstacleAvoidance(double closeDistanceWhenObstacle = 800);
+	 /**
+    * This method gets the raw laser scan from the robot.
+    * */
+    void getLaserScanFromRobot();
+	/**
+	 * This method set the initial point relative to the image map
+	 * */
+	void setInitialRobotPositionFromImage(int initialXPosition=0, int initialYPosition=0);
+	
+	/**
+    * This method sets the translational deceleration for the robot.
+    * @param transDecel the translational deceleration.
+    * * */
+    void setTransDecel(double transDecel = 200);
+    /**
+    * This method sets the translational acceleration for the robot.
+    * @param transAccel the translational acceleration
+    * 
+    * */
+    void setTransAccel(double transAccel = 300);
+    /**
+    * This method sets the robot heading.
+    * @param finalHeading the heading in degrees
+    * */
+	void setRobotHeading(double finalHeading = 0);
+	
+	
 private:
     ///The robot port
     char *robotPort;
@@ -129,6 +157,11 @@ private:
     double timeToReachPoint;
     ///The close distance used when time to reach a point has been exceeded.
     double closeDistanceWhenObstacle;
+	///The initial x position on the image map
+	int initialXPosition;
+	///The initial y position on the image map
+	int initialYPosition;
+	
 };
 
 #endif // CONTROLLER_H

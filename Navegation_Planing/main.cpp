@@ -36,6 +36,7 @@ class Navigation_Planing : public IPlugin
 {
 public:
 	void Main();
+	void stop();
 	void run();
 };
 
@@ -82,10 +83,10 @@ void Navigation_Planing::Main()
 	if (ambiente_p_v != NULL)
 	{
 		parametros_v.NodeNumber = 1200;
-		parametros_v.NeighbourDistance = 80;
+		parametros_v.NeighbourDistance = 16;
 		parametros_v.NeighbourNumber = 1200/20;
-		ambiente_p_v->setsizeRobot( 59 );
-		parametros_v.StepSize = 59/2-1;
+		ambiente_p_v->setsizeRobot( 17 );
+		parametros_v.StepSize = 8;
 		parametros_v.SamplingMethod = PRM::GAUSSIAN_S;
 		
 		filename = patrol->getInstance().Enviroment.get_Image_path();
@@ -127,7 +128,7 @@ void Navigation_Planing::Main()
 			
 			patrol->getInstance().Sintetizer.set_Phrase("i am planing my route");
 			
-			Gui::getInstance().setActiveTab("Navigation_Planing");
+// 			Gui::getInstance().setActiveTab("Navigation_Planing");
 			//         if (Input_Singleton::getInstance().key=='t')
 			typedef std::map<string,Destination> StringFloatMap;
 			StringFloatMap::iterator pos;
@@ -149,8 +150,9 @@ void Navigation_Planing::Main()
 					 {
 						 print(logTerminal,"%d  %d \n ", (*list_iter).get_X(), (*list_iter).get_Y());
 					 }
+					 patrol->getInstance().set_Action(cambiar_estado("ruta_planeada","si"));
 			}
-			patrol->getInstance().set_Action(cambiar_estado("ruta_planeada","si"));
+			
 		}
 		else
 		{
@@ -187,5 +189,11 @@ void Navigation_Planing::run()
 {	
 	pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
 }
+
+void Navigation_Planing::stop()
+{
+
+}
+
 
 
