@@ -1,0 +1,33 @@
+#to start without waiting for start button
+Main_system = 0 
+
+#position of the robot on the map in pixels and degrees
+Position_x = 200 
+Position_y = 200
+Position_angle = 90
+
+
+#velocities the robot should use m/s degree/s
+Lineal_velocity = 300
+Angular_velocity = 30
+
+#port definition for conecting with the hardware
+Aria_port = /dev/ttyUSB0
+Laser_port = /dev/ttyUSB1
+PTZ_port = /dev/ttyUSB2
+
+#Camera index (opencv standard 0=integrated camera 1=first external -1=no camera if Face camera must extist
+Camera_index = 0
+
+#file to use as map
+Enviroment_Image_path = ../data/map200.png
+
+#list of known destinations NAME x y a
+Destinations_file = ../data/Destinations.cfg
+
+#list of known NAMES
+Names_file = ../data/Names.cfg
+
+
+
+
