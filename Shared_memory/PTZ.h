@@ -9,37 +9,37 @@
 
 ///*! \brief Information about the processed information of a PTZ camara
 // *
-// *  
+// *
 // */
 class PTZ : public Camera {
-  private:
-      CvCapture *stream;
-      IplImage *frame;
-      
+private:
+    CvCapture *stream;
+    IplImage *frame;
+
 
     ///*! \brief The tilt value of the camera
     // *
-    // *  
+    // *
     // */
     float Tilt;
 
     ///*! \brief The pan value of the camera
     // *
-    // *  
+    // *
     // */
     float Pan;
 
     ///*! \brief The zoom value of the camera
     // *
-    // *  
+    // *
     // */
     float Zoom;
 
 
-  public:
-      void set_stream(CvCapture *value);
-      IplImage *get_image();
-      
+public:
+    void set_stream(CvCapture *value);
+    IplImage *get_image();
+
     ///*! \brief Gets the tilt value of the camera
     // *
     // *  Gets the tilt value of the camera \return Tilt
@@ -72,10 +72,10 @@ class PTZ : public Camera {
 
     ///*! \brief Sets the zoom value of the camera
     // *
-    // *  Sets the tilt value of the camera 
+    // *  Sets the tilt value of the camera
     // */
     void set_Zoom(float value);
 
-  friend class Camera;
+    friend class Camera;
 };
 #endif

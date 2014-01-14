@@ -25,114 +25,114 @@ bool writable=true;
 skeletonJoint::skeletonJoint()
 {
 
-    
+
 }
 
 void skeletonJoint::Set_name ( std::string value )
 {
-  do{
-  }while(writable==false);
-  writable=false;
-  this->Name=value;
-  writable=true;
+    do {
+    } while(writable==false);
+    writable=false;
+    this->Name=value;
+    writable=true;
 }
 
 void skeletonJoint::Set_pos ( float value1, float value2, float value3 )
 {
-  do{
-  }while(writable==false);
-  writable=false;
-  this->Pos_X=value1;
-  this->Pos_Y=value2;
-  this->Pos_Z=value3;
-  writable=true;
-  
+    do {
+    } while(writable==false);
+    writable=false;
+    this->Pos_X=value1;
+    this->Pos_Y=value2;
+    this->Pos_Z=value3;
+    writable=true;
+
 }
 
 void skeletonJoint::Set_x ( float value )
 {
-    do{
-  }while(writable==false);
-  writable=false;
-  this->Pos_X=value;
-  writable=true;
+    do {
+    } while(writable==false);
+    writable=false;
+    this->Pos_X=value;
+    writable=true;
 }
 
 void skeletonJoint::Set_y ( float value )
 {
-    do{
-  }while(writable==false);
-  writable=false;
-  this->Pos_Y=value;
-  writable=true;
+    do {
+    } while(writable==false);
+    writable=false;
+    this->Pos_Y=value;
+    writable=true;
 }
 
 void skeletonJoint::Set_z ( float value )
 {
-      do{
-  }while(writable==false);
-  writable=false;
-  this->Pos_Z=value;
-  writable=true;
+    do {
+    } while(writable==false);
+    writable=false;
+    this->Pos_Z=value;
+    writable=true;
 }
 
 void skeletonJoint::Set_ID(int value)
 {
-        do{
-  }while(writable==false);
-  writable=false;
-  this->ID=value;
-  writable=true;
+    do {
+    } while(writable==false);
+    writable=false;
+    this->ID=value;
+    writable=true;
 }
 
 
 std::string skeletonJoint::Get_name()
 {
-  return this->Name;
+    return this->Name;
 }
 
 float skeletonJoint::Get_x()
 {
-  float temp;
-      do{
-  }while(writable==false);
-  writable=false;
-  temp=this->Pos_X;
-  writable=true;
-  return temp;
+    float temp;
+    do {
+    } while(writable==false);
+    writable=false;
+    temp=this->Pos_X;
+    writable=true;
+    return temp;
 }
 
 float skeletonJoint::Get_y()
 {
-  float temp;
-      do{
-  }while(writable==false);
-  writable=false;
-  temp=this->Pos_Y;
-  writable=true;
-  return temp;
+    float temp;
+    do {
+    } while(writable==false);
+    writable=false;
+    temp=this->Pos_Y;
+    writable=true;
+    return temp;
 }
 
 float skeletonJoint::Get_z()
 {
-   float temp;
-      do{
-  }while(writable==false);
-  writable=false;
-  temp=this->Pos_Z;
-  writable=true;
-  return temp;
+    float temp;
+    do {
+    } while(writable==false);
+    writable=false;
+    temp=this->Pos_Z;
+    writable=true;
+    return temp;
 }
 
 int skeletonJoint::Get_ID()
 {
-   int temp;
-      do{
-  }while(writable==false);
-  writable=false;
-  temp=this->ID;
-  writable=true;
-  return temp;
+    int temp;
+    do {
+    } while(writable==false);
+    writable=false;
+    temp=this->ID;
+    writable=true;
+    return temp;
 }
 
 

@@ -1,5 +1,5 @@
 #ifndef __MDPPSPUDD
-#define __MDPPSPUDD 
+#define __MDPPSPUDD
 #include <sys/time.h>
 #include <sys/times.h>
 #include <float.h>
@@ -20,7 +20,7 @@
 #define MAXLEN 64
 #define DUMPIN 0
 #define MAXMEM 700000000
-#define MAXMEMHARD 800000000 
+#define MAXMEMHARD 800000000
 #define BIGADD 10000
 #define HREWARD 270
 #define HACTION 271
@@ -64,31 +64,31 @@ extern int yylex();
 
 typedef struct list_pair
 {
-  DdNode *add;
-  struct list_pair *next;
+    DdNode *add;
+    struct list_pair *next;
 } list_cst;
 
 struct onum_ {
-  char *name;
-  int nvals;
-  char *valname[MAXVALS];
-  int nbvars;
-  int var1index;
+    char *name;
+    int nvals;
+    char *valname[MAXVALS];
+    int nbvars;
+    int var1index;
 };
 typedef struct onum_ onum;
 
 struct rnum_ {
-  char *name;
-  int number;
-  int orig_num;
-  DdNode *add_var;
+    char *name;
+    int number;
+    int orig_num;
+    DdNode *add_var;
 };
 
 typedef struct rnum_ rnum;
 
 struct actt_ {
-  char *name;
-  int index;
+    char *name;
+    int index;
 };
 
 typedef struct actt_ actt;
@@ -122,7 +122,7 @@ void policyServe(DdManager *gb, DdNode *act, DdNode *val, int numovars);
 double  get_extent(DdNode *);
 double  get_error(DdNode *);
 Pair get_span(DdNode *);
-int close_enough(double , double , double ); 
+int close_enough(double , double , double );
 char* DumpDoth(DdManager *dd, DdNode *add, rnum *vars, int nv, onum *orig_vars, int nov, int rovar, char **,  FILE *fp, FILE *nfp, int *hmn);
 int DumpDot(DdManager *dd, DdNode *add, rnum *vars, int nv, onum *orig_vars, int nov, char **, FILE *fp);
 int My_DumpDot(DdManager *,int  n , DdNode **, char **,char **,char **, FILE *);

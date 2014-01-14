@@ -40,35 +40,35 @@ void Button::Draw()
     int uiround=uiGetRoundBox();
     uiSetRoundBox("0000");
     if (text.content.length()*4>Get_widht())
-	SetSize(Get_widht()+5,Get_height());
+        SetSize(Get_widht()+5,Get_height());
     if (Get_Active())
     {
-	if(IsOver(InputSingleton::getInstance().left_click_x,InputSingleton::getInstance().left_click_y, this->Get_x(), this->Get_y(), this->Get_x()+this->Get_widht(), this->Get_y()+this->Get_height()))
-	{
-	    
-	    this->state=!state;
-	    InputSingleton::getInstance().left_click_x=-10;
-	    InputSingleton::getInstance().left_click_y=-10;
-	}
-	gl_round_box_Hshade(GL_POLYGON, Get_x(), Get_y(), Get_x()+Get_widht(), Get_y()+Get_height(),10, "FFFFFF",  "FFFFFF");
-	if(state)
-	drawText(Get_x(),Get_y()+20, GetName(), "FF0000",4 );
-	else
-	    drawText(Get_x(),Get_y()+20, GetName(), "0000FF",4 );
+        if(IsOver(InputSingleton::getInstance().left_click_x,InputSingleton::getInstance().left_click_y, this->Get_x(), this->Get_y(), this->Get_x()+this->Get_widht(), this->Get_y()+this->Get_height()))
+        {
+
+            this->state=!state;
+            InputSingleton::getInstance().left_click_x=-10;
+            InputSingleton::getInstance().left_click_y=-10;
+        }
+        gl_round_box_Hshade(GL_POLYGON, Get_x(), Get_y(), Get_x()+Get_widht(), Get_y()+Get_height(),10, "FFFFFF",  "FFFFFF");
+        if(state)
+            drawText(Get_x(),Get_y()+20, GetName(), "FF0000",4 );
+        else
+            drawText(Get_x(),Get_y()+20, GetName(), "0000FF",4 );
     }
-    
+
     uiSetRoundBox(uiround);
 }
 
 void Button::update()
 {
-    
-    
+
+
 }
 
 void Button::setName(std::string value)
 {
-	this->setName(value);
+    this->setName(value);
 }
 
 void Button::set_text(std::string value)
@@ -79,6 +79,6 @@ void Button::set_text(std::string value)
 
 void Button::proccesInput()
 {
-   
-    
+
+
 }

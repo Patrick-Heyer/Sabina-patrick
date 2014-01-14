@@ -54,7 +54,7 @@ int NetThread::OpenOutputAddress(char *address, int port, int buffersize)
 {
     fprintf(output, "Directing output to %s:%d\n", address, port);
     g_out = gsNetPollOpen(address, port, buffersize, "w", NULL);
-	g_in=g_out;
+    g_in=g_out;
     if (!g_out)
     {
         return 0;
@@ -74,7 +74,7 @@ void NetThread::SetMessage(const char *s)
 
 void NetThread::Write()
 {
-	if (!g_out)
+    if (!g_out)
     {
         g_out = g_in;
     }
@@ -95,16 +95,16 @@ void NetThread::Read()
     strcpy(incoming, gsNetPollRead(g_in));
     if (g_in->status != -1)
     {
-	if(g_in->status > 0)
-	{
-	  incoming[g_in->status] = '\0';
+        if(g_in->status > 0)
+        {
+            incoming[g_in->status] = '\0';
 // 	  fprintf(output, "Got message: %s\n", incoming);
-	   std::stringstream ss;
-        ss  << incoming ;
-        std::string temp=ss.str();
-        std::cout <<temp << std::endl;
-		
-	}
+            std::stringstream ss;
+            ss  << incoming ;
+            std::string temp=ss.str();
+            std::cout <<temp << std::endl;
+
+        }
     }
 
 }
@@ -132,7 +132,7 @@ void NetThread::Accept()
 
 int NetThread::GetStatus()
 {
-	return g_in->status;
+    return g_in->status;
 
 }
 

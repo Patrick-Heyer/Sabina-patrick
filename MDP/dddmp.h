@@ -35,7 +35,7 @@
 /*---------------------------------------------------------------------------*/
 /* Nested includes                                                           */
 /*---------------------------------------------------------------------------*/
-     
+
 #include "util.h"
 #include "cudd.h"
 
@@ -43,20 +43,20 @@
 /* Constant declarations                                                     */
 /*---------------------------------------------------------------------------*/
 
-/* 
- *  Dddmp format version 
+/*
+ *  Dddmp format version
  */
 
 #define DDDMP_VERSION           "DDDMP-2.0"
 
-/* 
+/*
  *  Returned values (for theorically ALL the function of the package)
  */
 
 #define DDDMP_FAILURE ((int) 0)
 #define DDDMP_SUCCESS ((int) 1)
 
-/* 
+/*
  *  Format modes for DD (BDD and ADD) files
  */
 
@@ -88,9 +88,9 @@
 ******************************************************************************/
 
 typedef enum {
-  DDDMP_CNF_MODE_NODE,
-  DDDMP_CNF_MODE_MAXTERM,
-  DDDMP_CNF_MODE_BEST
+    DDDMP_CNF_MODE_NODE,
+    DDDMP_CNF_MODE_MAXTERM,
+    DDDMP_CNF_MODE_BEST
 } Dddmp_DecompCnfStoreType;
 
 /**Enum************************************************************************
@@ -104,9 +104,9 @@ typedef enum {
 ******************************************************************************/
 
 typedef enum {
-  DDDMP_CNF_MODE_NO_CONJ,
-  DDDMP_CNF_MODE_NO_QUANT,
-  DDDMP_CNF_MODE_CONJ_QUANT
+    DDDMP_CNF_MODE_NO_CONJ,
+    DDDMP_CNF_MODE_NO_QUANT,
+    DDDMP_CNF_MODE_CONJ_QUANT
 } Dddmp_DecompCnfLoadType;
 
 /**Enum************************************************************************
@@ -121,9 +121,9 @@ typedef enum {
 ******************************************************************************/
 
 typedef enum {
-  DDDMP_BDD,
-  DDDMP_ADD,
-  DDDMP_CNF
+    DDDMP_BDD,
+    DDDMP_ADD,
+    DDDMP_CNF
 } Dddmp_DecompType;
 
 
@@ -137,11 +137,11 @@ typedef enum {
 ******************************************************************************/
 
 typedef enum {
-  DDDMP_VARIDS,
-  DDDMP_VARPERMIDS,
-  DDDMP_VARAUXIDS,
-  DDDMP_VARNAMES,
-  DDDMP_VARDEFAULT
+    DDDMP_VARIDS,
+    DDDMP_VARPERMIDS,
+    DDDMP_VARAUXIDS,
+    DDDMP_VARNAMES,
+    DDDMP_VARDEFAULT
 } Dddmp_VarInfoType;
 
 /**Enum************************************************************************
@@ -153,11 +153,11 @@ typedef enum {
 ******************************************************************************/
 
 typedef enum {
-  DDDMP_VAR_MATCHIDS,
-  DDDMP_VAR_MATCHPERMIDS,
-  DDDMP_VAR_MATCHAUXIDS,
-  DDDMP_VAR_MATCHNAMES,
-  DDDMP_VAR_COMPOSEIDS
+    DDDMP_VAR_MATCHIDS,
+    DDDMP_VAR_MATCHPERMIDS,
+    DDDMP_VAR_MATCHAUXIDS,
+    DDDMP_VAR_MATCHNAMES,
+    DDDMP_VAR_COMPOSEIDS
 } Dddmp_VarMatchType;
 
 /**Enum************************************************************************
@@ -169,8 +169,8 @@ typedef enum {
 ******************************************************************************/
 
 typedef enum {
-  DDDMP_ROOT_MATCHNAMES,
-  DDDMP_ROOT_MATCHLIST
+    DDDMP_ROOT_MATCHNAMES,
+    DDDMP_ROOT_MATCHLIST
 } Dddmp_RootMatchType;
 
 typedef struct Dddmp_Hdr_s Dddmp_Hdr_t;
@@ -184,20 +184,20 @@ typedef struct Dddmp_Hdr_s Dddmp_Hdr_t;
 /*---------------------------------------------------------------------------*/
 
 /**Macro***********************************************************************
- 
+
   Synopsis    [Checks for fatal bugs]
- 
+
   Description [Conditional safety assertion. It prints out the file
     name and line number where the fatal error occurred.
     Messages are printed out on stderr.
     ]
- 
+
   SideEffects [None]
- 
+
   SeeAlso     []
- 
+
 ******************************************************************************/
- 
+
 #ifdef DDDMP_DEBUG
 #  define Dddmp_Assert(expr,errMsg) \
      { \
@@ -215,18 +215,18 @@ typedef struct Dddmp_Hdr_s Dddmp_Hdr_t;
 #endif
 
 /**Macro***********************************************************************
- 
+
   Synopsis    [Checks for Warnings: If expr==1 it prints out the warning
     on stderr.]
- 
+
   Description []
- 
+
   SideEffects [None]
- 
+
   SeeAlso     []
- 
+
 ******************************************************************************/
- 
+
 #define Dddmp_Warning(expr,errMsg) \
   { \
   if ((expr) == 1) { \
@@ -238,17 +238,17 @@ typedef struct Dddmp_Hdr_s Dddmp_Hdr_t;
   }
 
 /**Macro***********************************************************************
- 
+
   Synopsis    [Checks for fatal bugs and return the DDDMP_FAILURE flag.]
- 
+
   Description []
- 
+
   SideEffects [None]
- 
+
   SeeAlso     []
- 
+
 ******************************************************************************/
- 
+
 #define Dddmp_CheckAndReturn(expr,errMsg) \
   { \
   if ((expr) == 1) { \
@@ -261,19 +261,19 @@ typedef struct Dddmp_Hdr_s Dddmp_Hdr_t;
   }
 
 /**Macro***********************************************************************
- 
+
   Synopsis    [Checks for fatal bugs and go to the label to deal with
     the error.
     ]
- 
+
   Description []
- 
+
   SideEffects [None]
- 
+
   SeeAlso     []
- 
+
 ******************************************************************************/
- 
+
 #define Dddmp_CheckAndGotoLabel(expr,errMsg,label) \
   { \
   if ((expr) == 1) { \

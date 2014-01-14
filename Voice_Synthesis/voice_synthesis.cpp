@@ -65,7 +65,7 @@ PLUGIN_DISPLAY_NAME(PLUGIN_NAME);
 PLUGIN_INIT()
 {
     // register our new renderer
-    std::cout << "PLUGIN_INIT" << std::endl;
+
     RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyRenderer);
     return 0;
 }
@@ -80,23 +80,23 @@ void Voice_Synthesis::Main()
 
         if (patrol->get_Instance().Sintetizer.get_Phrase()!="")
         {
-        std::stringstream ss;
-        ss << "echo  '" << patrol->get_Instance().Sintetizer.get_Phrase() << "' | festival --tts";
-        std::string temp=ss.str();
-        std::cout <<temp << std::endl;
-        system (temp.c_str());
-	
-        patrol->get_Instance().Sintetizer.set_Phrase("");
+            std::stringstream ss;
+            ss << "echo  '" << patrol->get_Instance().Sintetizer.get_Phrase() << "' | festival --tts";
+            std::string temp=ss.str();
+            std::cout <<temp << std::endl;
+            system (temp.c_str());
+
+            patrol->get_Instance().Sintetizer.set_Phrase("");
         }
-        
+
     }
-    
+
 }
 
 void Voice_Synthesis::run()
 {
-    
-    
+
+
     pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
 }
 

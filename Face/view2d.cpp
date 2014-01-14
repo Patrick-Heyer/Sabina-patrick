@@ -50,38 +50,38 @@ void resetPerspectiveProjection() {
 }
 void drawText(int x, int y, std::string text)
 {
-char c;
-       float color[4];
-         glEnable(GL_FOG);
-        glGetFloatv(GL_CURRENT_COLOR, color);
+    char c;
+    float color[4];
+    glEnable(GL_FOG);
+    glGetFloatv(GL_CURRENT_COLOR, color);
 
 
 
-        glDisable ( GL_TEXTURE_2D );
-        glColor4f (0,0,0,1);
-        glRasterPos2f (x,y );
+    glDisable ( GL_TEXTURE_2D );
+    glColor4f (0,0,0,1);
+    glRasterPos2f (x,y );
 
-        for ( c=0; c<text.length(); c++ )
+    for ( c=0; c<text.length(); c++ )
+    {
+        if(text[c]=='\n')
         {
-               if(text[c]=='\n')
-               {
-                glRasterPos2f (x,y+=12 );
-               }
-               else
-               {
-                glutBitmapCharacter ( GLUT_BITMAP_HELVETICA_12, text[c] );
-               }
+            glRasterPos2f (x,y+=12 );
         }
-        glDisable(GL_FOG);
-        glColor4fv(color);
+        else
+        {
+            glutBitmapCharacter ( GLUT_BITMAP_HELVETICA_12, text[c] );
+        }
+    }
+    glDisable(GL_FOG);
+    glColor4fv(color);
 
 }
 
 bool isOver ( int x, int y, int x1, int y1, int x2, int y2 )
 {
-if (x>=x1 && x<=x2+20 && y>=y1 && y<=y2)
-  return true;
-else return false;
+    if (x>=x1 && x<=x2+20 && y>=y1 && y<=y2)
+        return true;
+    else return false;
 
 }
 
@@ -110,12 +110,14 @@ int uiGetRoundBox(void)
 void gl_round_box(int mode, float minx, float miny, float maxx, float maxy, float rad)
 {
     float vec[7][2]= {{0.195, 0.02}, {0.383, 0.067}, {0.55, 0.169}, {0.707, 0.293},
-                      {0.831, 0.45}, {0.924, 0.617}, {0.98, 0.805}};
+        {0.831, 0.45}, {0.924, 0.617}, {0.98, 0.805}
+    };
     int a;
 
     /* mult */
     for(a=0; a<7; a++) {
-        vec[a][0]*= rad; vec[a][1]*= rad;
+        vec[a][0]*= rad;
+        vec[a][1]*= rad;
     }
 
     glBegin(mode);
@@ -163,7 +165,7 @@ void gl_round_box(int mode, float minx, float miny, float maxx, float maxy, floa
     glEnd();
 }
 
- void round_box_shade_col(float *col1, float *col2, float fac)
+void round_box_shade_col(float *col1, float *col2, float fac)
 {
     float col[3];
 
@@ -180,25 +182,33 @@ void gl_round_box(int mode, float minx, float miny, float maxx, float maxy, floa
 void gl_round_box_shade(int mode, float minx, float miny, float maxx, float maxy, float rad, float shadetop, float shadedown)
 {
     float vec[7][2]= {{0.195, 0.02}, {0.383, 0.067}, {0.55, 0.169}, {0.707, 0.293},
-                      {0.831, 0.45}, {0.924, 0.617}, {0.98, 0.805}};
+        {0.831, 0.45}, {0.924, 0.617}, {0.98, 0.805}
+    };
     float div= maxy-miny;
     float coltop[3], coldown[3], color[4];
     int a;
 
     /* mult */
     for(a=0; a<7; a++) {
-        vec[a][0]*= rad; vec[a][1]*= rad;
+        vec[a][0]*= rad;
+        vec[a][1]*= rad;
     }
     /* get current color, needs to be outside of glBegin/End */
     glGetFloatv(GL_CURRENT_COLOR, color);
 
     /* 'shade' defines strength of shading */
-    coltop[0]= color[0]+shadetop; if(coltop[0]>1.0) coltop[0]= 1.0;
-    coltop[1]= color[1]+shadetop; if(coltop[1]>1.0) coltop[1]= 1.0;
-    coltop[2]= color[2]+shadetop; if(coltop[2]>1.0) coltop[2]= 1.0;
-    coldown[0]= color[0]+shadedown; if(coldown[0]<0.0) coldown[0]= 0.0;
-    coldown[1]= color[1]+shadedown; if(coldown[1]<0.0) coldown[1]= 0.0;
-    coldown[2]= color[2]+shadedown; if(coldown[2]<0.0) coldown[2]= 0.0;
+    coltop[0]= color[0]+shadetop;
+    if(coltop[0]>1.0) coltop[0]= 1.0;
+    coltop[1]= color[1]+shadetop;
+    if(coltop[1]>1.0) coltop[1]= 1.0;
+    coltop[2]= color[2]+shadetop;
+    if(coltop[2]>1.0) coltop[2]= 1.0;
+    coldown[0]= color[0]+shadedown;
+    if(coldown[0]<0.0) coldown[0]= 0.0;
+    coldown[1]= color[1]+shadedown;
+    if(coldown[1]<0.0) coldown[1]= 0.0;
+    coldown[2]= color[2]+shadedown;
+    if(coldown[2]<0.0) coldown[2]= 0.0;
 
     glShadeModel(GL_SMOOTH);
     glBegin(mode);
@@ -287,25 +297,33 @@ void gl_round_box_shade(int mode, float minx, float miny, float maxx, float maxy
 void gl_round_box_vertical_shade(int mode, float minx, float miny, float maxx, float maxy, float rad, float shadeLeft, float shadeRight)
 {
     float vec[7][2]= {{0.195, 0.02}, {0.383, 0.067}, {0.55, 0.169}, {0.707, 0.293},
-                      {0.831, 0.45}, {0.924, 0.617}, {0.98, 0.805}};
+        {0.831, 0.45}, {0.924, 0.617}, {0.98, 0.805}
+    };
     float div= maxx-minx;
     float colLeft[3], colRight[3], color[4];
     int a;
 
     /* mult */
     for(a=0; a<7; a++) {
-        vec[a][0]*= rad; vec[a][1]*= rad;
+        vec[a][0]*= rad;
+        vec[a][1]*= rad;
     }
     /* get current color, needs to be outside of glBegin/End */
     glGetFloatv(GL_CURRENT_COLOR, color);
 
     /* 'shade' defines strength of shading */
-    colLeft[0]= color[0]+shadeLeft; if(colLeft[0]>1.0) colLeft[0]= 1.0;
-    colLeft[1]= color[1]+shadeLeft; if(colLeft[1]>1.0) colLeft[1]= 1.0;
-    colLeft[2]= color[2]+shadeLeft; if(colLeft[2]>1.0) colLeft[2]= 1.0;
-    colRight[0]= color[0]+shadeRight; if(colRight[0]<0.0) colRight[0]= 0.0;
-    colRight[1]= color[1]+shadeRight; if(colRight[1]<0.0) colRight[1]= 0.0;
-    colRight[2]= color[2]+shadeRight; if(colRight[2]<0.0) colRight[2]= 0.0;
+    colLeft[0]= color[0]+shadeLeft;
+    if(colLeft[0]>1.0) colLeft[0]= 1.0;
+    colLeft[1]= color[1]+shadeLeft;
+    if(colLeft[1]>1.0) colLeft[1]= 1.0;
+    colLeft[2]= color[2]+shadeLeft;
+    if(colLeft[2]>1.0) colLeft[2]= 1.0;
+    colRight[0]= color[0]+shadeRight;
+    if(colRight[0]<0.0) colRight[0]= 0.0;
+    colRight[1]= color[1]+shadeRight;
+    if(colRight[1]<0.0) colRight[1]= 0.0;
+    colRight[2]= color[2]+shadeRight;
+    if(colRight[2]<0.0) colRight[2]= 0.0;
 
     glShadeModel(GL_SMOOTH);
     glBegin(mode);
@@ -421,7 +439,7 @@ void uiRoundBox(float minx, float miny, float maxx, float maxy, float rad)
         glEnable( GL_BLEND );
     }
 
-  /* set antialias line */
+    /* set antialias line */
     glEnable( GL_LINE_SMOOTH );
     glEnable( GL_BLEND );
 
@@ -435,12 +453,12 @@ void uiRoundBox(float minx, float miny, float maxx, float maxy, float rad)
     color[3]= 0.4;
     glColor4fv(color);
     glDisable( GL_LINE_SMOOTH );
-    
+
     /* solid part */
     gl_round_box(GL_POLYGON, minx, miny, maxx, maxy, rad);
 
-      glDisable( GL_BLEND );
-    
+    glDisable( GL_BLEND );
+
 }
 
 

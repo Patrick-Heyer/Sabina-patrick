@@ -26,14 +26,14 @@
 class skeletonJoint
 {
 private:
-  float Pos_X;
-  float Pos_Y;
-  float Pos_Z;
-  int ID;
-  std::string Name;
-  
+    float Pos_X;
+    float Pos_Y;
+    float Pos_Z;
+    int ID;
+    std::string Name;
+
 public:
-  float heading, attitude, bank;
+    float heading, attitude, bank;
     skeletonJoint();
     float Get_x();
     float Get_y();
@@ -46,7 +46,7 @@ public:
     void Set_z(float value);
     void Set_ID(int value);
     void Set_name(std::string value);
-       
+
 };
 
 #endif // JOINT_H

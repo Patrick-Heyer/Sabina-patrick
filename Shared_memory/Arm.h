@@ -4,31 +4,31 @@
 
 ///*! \brief Information about the information of the arm
 // *
-// *  
+// *
 // */
 class Arm {
-  private:
+private:
     ///*! \brief Defines the state of the arm
     // *
-    // *   Define the state of the arm safe, extended, grabing position 
+    // *   Define the state of the arm safe, extended, grabing position
     // */
     int state;
 
     ///*! \brief X position of the end effector
     // *
-    // *  
+    // *
     // */
     int gripperX;
 
     ///*! \brief Y position of the end effector
     // *
-    // *  
+    // *
     // */
     int gripperY;
 
     ///*! \brief Z position of the end effector
     // *
-    // *  
+    // *
     // */
     int gripperZ;
 
@@ -39,7 +39,7 @@ class Arm {
     bool gripperOpen;
 
 
-  public:
+public:
     ///*! \brief Gets the state of the arm
     // *
     // *  Gets the state of the arm \return State
@@ -100,6 +100,6 @@ class Arm {
     // */
     void setGripperOpen(bool value);
 
-  friend class Robot;
+    friend class Robot;
 };
 #endif

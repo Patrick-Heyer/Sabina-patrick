@@ -70,7 +70,7 @@ PLUGIN_DISPLAY_NAME(PLUGIN_NAME);
 PLUGIN_INIT()
 {
     // register our new renderer
-    std::cout << "PLUGIN_INIT" << std::endl;
+
     RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyRenderer);
     return 0;
 }

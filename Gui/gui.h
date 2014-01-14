@@ -44,33 +44,33 @@ public:
     // */
     static Gui     & getInstance();
     static  void    freeInstance( void );
-	
-	/*! \brief Draws the Gui and its sub elements on screen
+
+    /*! \brief Draws the Gui and its sub elements on screen
      *
      *  Draws the Gui the tabs acces button and the activeTab
      */
     void Draw();
-	
-	/*! \brief Updates the Gui 
-     *	
-	 * Updates the Gui generaly not needed as Draw updates it 
-	*/
+
+    /*! \brief Updates the Gui
+     *
+     * Updates the Gui generaly not needed as Draw updates it
+    */
     void update();
     void proccesInput();
     void resize(int x, int y);
-	
-	/*! \brief Sets the tab to be displayed 
-     *	
-	 * Sets the tab to be displayed by the gui 
-	 * @param value is the name of the tab to display 
-	*/
+
+    /*! \brief Sets the tab to be displayed
+     *
+     * Sets the tab to be displayed by the gui
+     * @param value is the name of the tab to display
+    */
     void setActiveTab(std::string value);
-	
-	 /*! \brief Sets the tab to be displayed 
-     *	
-	 * Sets the tab to be displayed by the gui 
-	 * @param value is the numerical ID of the tab to display 
-	*/
+
+    /*! \brief Sets the tab to be displayed
+    *
+    * Sets the tab to be displayed by the gui
+    * @param value is the numerical ID of the tab to display
+    */
     void setActiveTab(int tab);
     void addTab(Tab *value);
     int getActiveTab();

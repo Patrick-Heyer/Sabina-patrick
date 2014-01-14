@@ -24,17 +24,17 @@
 class CORE_API PluginFactory
 {
 public:
-	typedef IPlugin *(*CreateCallback)();
+    typedef IPlugin *(*CreateCallback)();
 
-	static void RegisterPlugin(const std::string &type,
-								 CreateCallback cb);
-	static void UnregisterPlugin(const std::string &type);
+    static void RegisterPlugin(const std::string &type,
+                               CreateCallback cb);
+    static void UnregisterPlugin(const std::string &type);
 
-	static IPlugin *CreatePlugin(const std::string &type);
+    static IPlugin *CreatePlugin(const std::string &type);
 
 private:
-	typedef std::map<std::string, CreateCallback> CallbackMap;
-	static CallbackMap mPlugins;
+    typedef std::map<std::string, CreateCallback> CallbackMap;
+    static CallbackMap mPlugins;
 };
 
 #endif

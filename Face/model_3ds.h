@@ -12,22 +12,22 @@ using namespace std;
 // Our vertex type
 typedef struct {
     float x,y,z;
-}vertex_type;
+} vertex_type;
 
 // The polygon (triangle), 3 numbers that aim 3 vertices
 typedef struct {
     int a,b,c;
-}polygon_type;
+} polygon_type;
 
 // The mapcoord type, 2 texture coordinates for each vertex
 typedef struct {
     float u,v;
-}mapcoord_type;
+} mapcoord_type;
 
 
 class Model_3ds
 {
-  public:
+public:
     Model_3ds();
     void LoadModel(const char * filename);
     void SetTexture (const char *filename);
@@ -47,7 +47,7 @@ class Model_3ds
 
 class object
 {
-  public:
+public:
     object();
     ~object();
     void LoadMesh(const char * filename);
@@ -56,7 +56,7 @@ class object
     void setrot(float, float, float);
     void render();
 
-  private:
+private:
     float rot[3];
     float pos[3];
     Model_3ds *mesh;

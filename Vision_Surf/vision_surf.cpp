@@ -69,7 +69,7 @@ PLUGIN_DISPLAY_NAME(PLUGIN_NAME);
 PLUGIN_INIT()
 {
     // register our new renderer
-    std::cout << "PLUGIN_INIT" << std::endl;
+
     RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyRenderer);
     return 0;
 }
@@ -113,12 +113,12 @@ void Vision_Surf::Main()
             if (recognizer.recongnizeObjectInImage(frame))
             {
                 patrol->get_Instance().Sintetizer.set_Phrase("i found coca");
-		sleep(3);
-		patrol->get_Instance().set_Action(cambiar_estado("objeto_confirmado", "si"));
+                sleep(3);
+                patrol->get_Instance().set_Action(cambiar_estado("objeto_confirmado", "si"));
             }
             sleep(1);
             cvReleaseImage(&frame);
-            
+
         }
     }
 

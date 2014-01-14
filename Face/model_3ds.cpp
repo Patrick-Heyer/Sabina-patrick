@@ -32,11 +32,11 @@ void Model_3ds::LoadModel(const char * filename)
     l_file=fopen (filename, "rb"); //Open the file
     if (l_file == NULL)
     {
-      printf("no sucsddsdsddsdh file");
+        printf("no sucsddsdsddsdh file");
     }
 
     while (ftell (l_file) < filelength (fileno (l_file))) //Loop to scan the whole file
-    //while(!EOF)
+        //while(!EOF)
     {
         //getch(); //Insert this command for debug (to wait for keypress for each chuck reading)
 
@@ -97,7 +97,7 @@ void Model_3ds::LoadModel(const char * filename)
             fread (&l_qty, sizeof (unsigned short), 1, l_file);
             this->vertices_qty = l_qty;
             //printf("Number of vertices: %d\n",l_qty);
-           this->vertex=new vertex_type[this->vertices_qty];
+            this->vertex=new vertex_type[this->vertices_qty];
             for (i=0; i<l_qty; i++)
             {
                 fread (&this->vertex[i].x, sizeof(float), 1, l_file);
@@ -144,7 +144,7 @@ void Model_3ds::LoadModel(const char * filename)
         case 0x4140:
             fread (&l_qty, sizeof (unsigned short), 1, l_file);
             this->mapcoord= new mapcoord_type[l_qty];
-            
+
             for (i=0; i<l_qty; i++)
             {
                 fread (&this->mapcoord[i].u, sizeof (float), 1, l_file);
@@ -175,27 +175,27 @@ Model_3ds::Model_3ds()
 
 void Model_3ds::SetTexture(const char* filename)
 {
-this->Texture=LoadTexture(filename);
+    this->Texture=LoadTexture(filename);
 }
 
 
 Model_3ds::~Model_3ds()
 {
-delete this->vertex;
+    delete this->vertex;
 
-delete this->polygon;
+    delete this->polygon;
 
-delete this->mapcoord;
- CTextureManager::getInstance()->DeleteTexture(this->Texture);
+    delete this->mapcoord;
+    CTextureManager::getInstance()->DeleteTexture(this->Texture);
 }
 
 
 void Model_3ds::Render()
 {
-  glEnable(GL_TEXTURE_2D);
-  
-  glColor4f(1,1,1,1);
-  
+    glEnable(GL_TEXTURE_2D);
+
+    glColor4f(1,1,1,1);
+
     glBindTexture(GL_TEXTURE_2D, this->Texture);
     glBegin(GL_TRIANGLES); // glBegin and glEnd delimit the vertices that define a primitive (in our case triangles)
     for (int i=0; i<this->polygons_qty; i++)
@@ -203,7 +203,7 @@ void Model_3ds::Render()
         //----------------- FIRST VERTEX -----------------
         // Texture coordinates of the first vertex
         glTexCoord2f(this->mapcoord[ this->polygon[i].a ].u,
-                      this->mapcoord[ this->polygon[i].a ].v);
+                     this->mapcoord[ this->polygon[i].a ].v);
         // Coordinates of the first vertex
         glVertex3f( this->vertex[ this->polygon[i].a ].x,
                     this->vertex[ this->polygon[i].a ].y,
@@ -232,54 +232,54 @@ void Model_3ds::Render()
 
 object::object()
 {
-  mesh =new Model_3ds();
-  setpos(0,0,0);
-  setrot(0,0,0);
-  
+    mesh =new Model_3ds();
+    setpos(0,0,0);
+    setrot(0,0,0);
+
 }
 
 object::~object()
 {
-  mesh->~Model_3ds();
+    mesh->~Model_3ds();
 }
 
 
 void object::LoadMesh(const char* filename)
 {
-  mesh->LoadModel(filename);
+    mesh->LoadModel(filename);
 }
 
 void object::LoadImage(const char* texture)
 {
-mesh->SetTexture(texture);
+    mesh->SetTexture(texture);
 }
 
 
 
 void object::setpos(float x, float y, float z)
 {
-  pos[0]=x;
-  pos[1]=y;
-  pos[2]=z;
+    pos[0]=x;
+    pos[1]=y;
+    pos[2]=z;
 }
 
 void object::setrot(float x, float y, float z)
 {
-rot[0]=x;
-rot[1]=y;
-rot[2]=z;
+    rot[0]=x;
+    rot[1]=y;
+    rot[2]=z;
 }
 
 void object::render()
 {
 
-  glPushMatrix();
-  glTranslatef(pos[0], pos[1], pos[2]);
-  glRotatef(rot[0],1,0,0);
-  glRotatef(rot[1],0,1,0);
-  glRotatef(rot[2],0,0,1);
-mesh->Render();
-glPopMatrix();
+    glPushMatrix();
+    glTranslatef(pos[0], pos[1], pos[2]);
+    glRotatef(rot[0],1,0,0);
+    glRotatef(rot[1],0,1,0);
+    glRotatef(rot[2],0,0,1);
+    mesh->Render();
+    glPopMatrix();
 
 }
 

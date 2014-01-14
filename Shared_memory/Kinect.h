@@ -6,31 +6,33 @@
 
 ///*! \brief Information about the processed information of a kinect
 // *
-// *  
+// *
 // */
 class Kinect : public Camera {
-  private:
-      IplImage * depth;
-      IplImage * color;
-      int device;
-      
+private:
+    IplImage * depth;
+    IplImage * color;
+    int device;
+
     ///*! \brief The Z coordinate of an object in the depth image
     // *
-    // *  
+    // *
     // */
     int Focus_z;
 
     ///*! \brief The tilt value of the camera
     // *
-    // *  
+    // *
     // */
     float Tilt;
 
 
-  public:
-      void set_device(int value);
-      IplImage *get_RGB();
-      IplImage *get_depth();
+public:
+    void set_device(int value);
+    void set_RGB(IplImage *data);
+    void set_depth(IplImage *data);
+    IplImage *get_RGB();
+    IplImage *get_depth();
     ///*! \brief Gets the Z coordinate of an object
     // *
     // *  Gets the Z coordinate of the object of interest in the image captured by the camera
@@ -56,6 +58,6 @@ class Kinect : public Camera {
     // */
     void set_Tilt(float value);
 
-  friend class Camera;
+    friend class Camera;
 };
 #endif

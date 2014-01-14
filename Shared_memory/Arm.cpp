@@ -12,7 +12,7 @@ bool Gripper_open_escribible=true;
 // *  Gets the state of the arm \return State
 // */
 int Arm::getState() {
-  return state;
+    return state;
 }
 
 ///*! \brief Sets the state of the arm
@@ -27,7 +27,7 @@ void Arm::setState(int value) {
 // *  Gets the X coordinate of the end effector \return Gripper_x
 // */
 int Arm::getGripperX() {
-  return gripperX;
+    return gripperX;
 }
 
 ///*! \brief Sets the X coordinate of the end effector
@@ -35,7 +35,7 @@ int Arm::getGripperX() {
 // *  Sets the X coordinate of the end effector
 // */
 void Arm::setGripperX(int value) {
-  gripperX = value;
+    gripperX = value;
 }
 
 ///*! \brief Gets the Y coordinate of the end effector
@@ -43,7 +43,7 @@ void Arm::setGripperX(int value) {
 // *  Gets the Y coordinate of the end effector \return Gripper_y
 // */
 int Arm::getGripperY() {
-  return gripperY;
+    return gripperY;
 }
 
 ///*! \brief Sets the Y coordinate of the end effector
@@ -51,7 +51,7 @@ int Arm::getGripperY() {
 // *  Sets the Y coordinate of the end effector
 // */
 void Arm::setGripperY(int value) {
-  gripperY = value;
+    gripperY = value;
 }
 
 ///*! \brief Gets the Z coordinate of the end effector
@@ -59,7 +59,7 @@ void Arm::setGripperY(int value) {
 // *  Gets the Z coordinate of the end effector \return Gripper_z
 // */
 int Arm::getGripperZ() {
-  return gripperZ;
+    return gripperZ;
 }
 
 ///*! \brief Sets the Z coordinate of the end effector
@@ -67,7 +67,7 @@ int Arm::getGripperZ() {
 // *  Sets the Z coordinate of the end effector
 // */
 void Arm::setGripperZ(int value) {
-  gripperZ = value;
+    gripperZ = value;
 }
 
 ///*! \brief Gets the state of the end effector
@@ -75,7 +75,7 @@ void Arm::setGripperZ(int value) {
 // *  Gets the state of the end effector \return Gripper_open
 // */
 bool Arm::getGripperOpen() {
-  return gripperOpen;
+    return gripperOpen;
 }
 
 ///*! \brief Sets the state of the end effector
@@ -83,6 +83,6 @@ bool Arm::getGripperOpen() {
 // *  Sets the state of the end effector
 // */
 void Arm::setGripperOpen(bool value) {
-  gripperOpen = value;
+    gripperOpen = value;
 }
 

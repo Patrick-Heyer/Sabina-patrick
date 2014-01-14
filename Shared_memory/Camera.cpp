@@ -10,7 +10,7 @@ bool Image_width_escribible=true;
 // *  Gets the height of the image captured by the camera  \return Image_height
 // */
 int Camera::getImageHeight() {
-  return imageHeight;
+    return imageHeight;
 }
 
 ///*! \brief Sets the height in pixels of an image
@@ -18,7 +18,7 @@ int Camera::getImageHeight() {
 // *  Sets the height of the image captured by the camera
 // */
 void Camera::setImageHeight(int value) {
-  imageHeight = value;
+    imageHeight = value;
 }
 
 ///*! \brief Gets the width in pixels of an image
@@ -26,7 +26,7 @@ void Camera::setImageHeight(int value) {
 // *  Gets the width of the image captured by the camera  \return Image_width
 // */
 int Camera::getImageWidth() {
-  return imageWidth;
+    return imageWidth;
 }
 
 ///*! \brief Sets the width in pixels of an image
@@ -34,6 +34,6 @@ int Camera::getImageWidth() {
 // *  Sets the width of the image captured by the camera
 // */
 void Camera::setImageWidth(int value) {
-  imageWidth = value;
+    imageWidth = value;
 }
 

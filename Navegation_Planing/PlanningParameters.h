@@ -33,52 +33,52 @@ description
   .. try to connect to;
   double RobotSize => robotsize: distance of furthest vertex ..
   .. to robot-origin;
-  
+
 *** end of struct ***/
 struct uu_PlanningParameters
 {
-  int                 SamplingMethod ;       // sampling method used
-  double              Sigma ;                // used in resampling with gaussians
+    int                 SamplingMethod ;       // sampling method used
+    double              Sigma ;                // used in resampling with gaussians
 
-  int                 Method ;               // method used (nodes, times or connect)
-  int                 NodeNumber ;           // nr of nodes to generate
-  int                 RunTime;               // mseconds to run
-  int                 Connect ;              // connect or don't connect?
+    int                 Method ;               // method used (nodes, times or connect)
+    int                 NodeNumber ;           // nr of nodes to generate
+    int                 RunTime;               // mseconds to run
+    int                 Connect ;              // connect or don't connect?
 
-  int                 SmoothingMethod ;      // smoothing method used
-  int                 SmoothingTime;         // mseconds to smooth
+    int                 SmoothingMethod ;      // smoothing method used
+    int                 SmoothingTime;         // mseconds to smooth
 
-  clock_t        BeginTime ;            // timing information
-  clock_t        EndTime ;              // timing information
-  clock_t        ElapsedTime ;          // timing information
+    clock_t        BeginTime ;            // timing information
+    clock_t        EndTime ;              // timing information
+    clock_t        ElapsedTime ;          // timing information
 
-  int                 Local ;                // local method used DEPENDS OF CONF.TYPE
-  double              StepSize ;             // stepsize
-  double              NeighbourDistance ;    // distance of neighbours
-  double              MinNeighbourDistance ; // distance min of neighbours
-  double              NeighbourNumber ;      // max number of neighbours to try to connect to
-  int                 ConfigurationType ;    // configuration type DEPENDS OF LOCAL METHOD
-  int                 TryAll ;               // try connecting to all nodes within neighbourdistance..
-                                             // .. or only the closest node of different components
+    int                 Local ;                // local method used DEPENDS OF CONF.TYPE
+    double              StepSize ;             // stepsize
+    double              NeighbourDistance ;    // distance of neighbours
+    double              MinNeighbourDistance ; // distance min of neighbours
+    double              NeighbourNumber ;      // max number of neighbours to try to connect to
+    int                 ConfigurationType ;    // configuration type DEPENDS OF LOCAL METHOD
+    int                 TryAll ;               // try connecting to all nodes within neighbourdistance..
+    // .. or only the closest node of different components
 
-  int                 AllowLoops ;           // Allow edges that introduce loops in the graph.
+    int                 AllowLoops ;           // Allow edges that introduce loops in the graph.
 
-  int                 CurrentQuery ;         // Current Query (uu_MotionPlanner::SetCurrentQuery)
+    int                 CurrentQuery ;         // Current Query (uu_MotionPlanner::SetCurrentQuery)
 
-  bool                DisplayAlgo ;          // display algo selects whether or not to draw everything
-  bool                AddQueryToRoadmap ;    // during roadmap buildup add query to roadmap
-  bool                ReportStatistics ;     // report the statistics
+    bool                DisplayAlgo ;          // display algo selects whether or not to draw everything
+    bool                AddQueryToRoadmap ;    // during roadmap buildup add query to roadmap
+    bool                ReportStatistics ;     // report the statistics
 
-  int                 RandomSeed ;           // the seed that is used for taking random numbers
+    int                 RandomSeed ;           // the seed that is used for taking random numbers
 
-  int                 CollisionDetection ;   // This is the collision detection library that is used.
+    int                 CollisionDetection ;   // This is the collision detection library that is used.
 
-  bool                Interrupt ;            // This boolean is used to interrupt the action
+    bool                Interrupt ;            // This boolean is used to interrupt the action
 
-  uu_PlanningParameters() ;
+    uu_PlanningParameters() ;
 
-  void Save( std::string ) const ;
-  void Load( std::string ) ;
+    void Save( std::string ) const ;
+    void Load( std::string ) ;
 } ;
 
 #endif

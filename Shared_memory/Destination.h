@@ -6,26 +6,26 @@
 using namespace std;
 #include "Location.h"
 
-///*! \brief Associates a name to a Location 
-// * 
-// *   Associates a name to a Location so it can be referenced by name 
+///*! \brief Associates a name to a Location
+// *
+// *   Associates a name to a Location so it can be referenced by name
 // */
 class Destination {
-  private:
+private:
     ///*! \brief The name of the destination
     // *
-    // * 
+    // *
     // */
     string * Name;
 
     ///*! \brief The Location of the destination
     // *
-    // * 
+    // *
     // */
     Location Coordinate;
 
 
-  public:
+public:
     ///*! \brief Gets the Location of the destination
     // *
     // *  Gets the Location of the destination \return Coordinate
@@ -50,6 +50,6 @@ class Destination {
     // */
     void set_Name(string value);
 
-  friend class Robot;
+    friend class Robot;
 };
 #endif

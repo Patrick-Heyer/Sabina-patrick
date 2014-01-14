@@ -1,19 +1,19 @@
 /**@file
    Functions for detecting SIFT image features.
-   
+
    For more information, refer to:
-   
+
    Lowe, D.  Distinctive image features from scale-invariant keypoints.
    <EM>International Journal of Computer Vision, 60</EM>, 2 (2004),
    pp.91--110.
-  
+
    Copyright (C) 2006  Rob Hess <hess@eecs.oregonstate.edu>
-   
+
    Note: The SIFT algorithm is patented in the United States and cannot be
    used in commercial products without a license from the University of
    British Columbia.  For more information, refer to the file LICENSE.ubc
    that accompanied this distribution.
-   
+
    @version 1.1.1-20070119
 */
 
@@ -27,12 +27,12 @@
 /** holds feature data relevant to detection */
 struct detection_data
 {
-  int r;
-  int c;
-  int octv;
-  int intvl;
-  double subintvl;
-  double scl_octv;
+    int r;
+    int c;
+    int octv;
+    int intvl;
+    double subintvl;
+    double scl_octv;
 };
 
 struct feature;
@@ -140,7 +140,7 @@ extern int sift_features( IplImage* img, struct feature** feat );
    @see sift_features()
 */
 extern int _sift_features( IplImage* img, struct feature** feat, int intvls,
-			   double sigma, double contr_thr, int curv_thr,
-			   int img_dbl, int descr_width, int descr_hist_bins );
+                           double sigma, double contr_thr, int curv_thr,
+                           int img_dbl, int descr_width, int descr_hist_bins );
 
 #endif

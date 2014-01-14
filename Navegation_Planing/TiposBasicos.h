@@ -1,7 +1,9 @@
 #ifndef TiposBasicosH
 #define TiposBasicosH
 
-typedef struct { double Element[4][4] ; } uu_HomogeneousMatrix ;
+typedef struct {
+    double Element[4][4] ;
+} uu_HomogeneousMatrix ;
 
 
 /*** struct ***
@@ -15,16 +17,28 @@ description :
 *** end of struct ***/
 struct uu_Point
 {
-  double P[3] ;
-  double X() const { return P[0] ; }
-  double &X() { return P[0] ; } // Nu kan: p.X() = 5.8
-  double Y() const { return P[1] ; }
-  double &Y() { return P[1] ; }
-  double Z() const { return P[2] ; }
-  double &Z() { return P[2] ; }
+    double P[3] ;
+    double X() const {
+        return P[0] ;
+    }
+    double &X() {
+        return P[0] ;    // Nu kan: p.X() = 5.8
+    }
+    double Y() const {
+        return P[1] ;
+    }
+    double &Y() {
+        return P[1] ;
+    }
+    double Z() const {
+        return P[2] ;
+    }
+    double &Z() {
+        return P[2] ;
+    }
 
-  double Length() ; // Length when considered a vector.
-  double SqLength() ; // Square of the length when considered a vector.
+    double Length() ; // Length when considered a vector.
+    double SqLength() ; // Square of the length when considered a vector.
 } ;
 
 /*** operator ***

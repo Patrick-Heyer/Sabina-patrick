@@ -25,7 +25,7 @@ Tab::Tab(std::string name)
 {
     this->name=name;
     Gui::getInstance().addTab(this);
-    
+
 }
 
 void Tab::InsertWidget(Widget * value)
@@ -40,7 +40,7 @@ void Tab::Draw()
     for( ListItor itor = m_widgetslist.begin(); itor != m_widgetslist.end(); ++itor )
     {
         (*itor)->Draw();
-    }   
+    }
 
 }
 
@@ -54,8 +54,8 @@ void Tab::Update()
 {
     for( ListItor itor = m_widgetslist.begin(); itor != m_widgetslist.end(); ++itor )
     {
-			(*itor)->update();
-    }  
+        (*itor)->update();
+    }
 }
 
 void Tab::ProccesInput()
@@ -63,7 +63,7 @@ void Tab::ProccesInput()
     for( ListItor itor = m_widgetslist.begin(); itor != m_widgetslist.end(); ++itor )
     {
         (*itor)->proccesInput();
-    }   
+    }
 }
 
 void Tab::set_active(bool value)

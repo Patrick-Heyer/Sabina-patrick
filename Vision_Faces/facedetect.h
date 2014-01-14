@@ -1,5 +1,5 @@
-/*! \file 
- * 
+/*! \file
+ *
  */
 
 int      initFaceDet(const char * haarCascadePath);
@@ -11,8 +11,8 @@ void     closeEyeDet();
 void     closeEyesDet();
 
 /*! \fn CvRect * detectFace(IplImage * pImg, int *how_many)
- * \brief Detects human faces in a image a route 
- * 
+ * \brief Detects human faces in a image a route
+ *
  * \param pImg Image to proccess
  * \param how_many number of faces detected
  * \returns CvRect surounding the first fave

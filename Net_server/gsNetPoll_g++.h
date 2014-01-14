@@ -73,39 +73,39 @@ enum MODE {
 */
 
 enum MODE {
-	GSNPS_READ,
-	GSNPS_WRITE,
-	GSNPS_BIDI
+    GSNPS_READ,
+    GSNPS_WRITE,
+    GSNPS_BIDI
 } ;
 
 
 struct gsNetPollStruct {
-	MODE mode;
+    MODE mode;
 
-	/* mode we're open in, as requested        */
+    /* mode we're open in, as requested        */
 #ifdef WIN32
-	SOCKET listen_sock;                /* socket we'll open                    */
-	SOCKET connect_sock;
+    SOCKET listen_sock;                /* socket we'll open                    */
+    SOCKET connect_sock;
 #else
-	int listen_sock;                /* socket we'll open                    */
-	int connect_sock;
+    int listen_sock;                /* socket we'll open                    */
+    int connect_sock;
 #endif
-	struct sockaddr_in sin;    /* address of socket                    */
-	int    buffersize;            /* our data buffer size, as requested    */
-	char *write_buffer;            /* the data we're updating. This gets malloced if reading, ignored if writing. */
-	char *read_buffer;
-	int status;
-	char address[16];
-	int port;
-	int blocking;
-	int fl_in;
-	int fl_out;
+    struct sockaddr_in sin;    /* address of socket                    */
+    int    buffersize;            /* our data buffer size, as requested    */
+    char *write_buffer;            /* the data we're updating. This gets malloced if reading, ignored if writing. */
+    char *read_buffer;
+    int status;
+    char address[16];
+    int port;
+    int blocking;
+    int fl_in;
+    int fl_out;
 };
 
 typedef struct gsNetPollStruct GSNPS;
 
 GSNPS *gsNetPollOpen(char *hostname, int port,
-        int buffersize, char *mode, char *buffer);
+                     int buffersize, char *mode, char *buffer);
 int gsNetPollOpenSockets(GSNPS *g, char *hostname, int port);
 char *gsNetPollRead(GSNPS *g);
 void gsNetPollWrite(GSNPS *g, char *buffer);
@@ -118,8 +118,8 @@ int gsNetPollInit();
 void gsNetPollShutdown();
 
 #ifdef WIN32
-	void bzero(char *s, int n);
-	void bcopy(const void *src, void *dst, int n);
+void bzero(char *s, int n);
+void bcopy(const void *src, void *dst, int n);
 #else
 void poll_wait(int fd, int events);
 size_t readmore(int sock, char *buf, size_t n) ;

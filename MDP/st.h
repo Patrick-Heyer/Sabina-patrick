@@ -50,7 +50,7 @@ typedef int (*ST_PFICPCP)(const char *, const char *); /* type for comparison fu
 typedef int (*ST_PFICPI)(char *, int);     /* type for hash function */
 
 EXTERN st_table *st_init_table_with_params ARGS((ST_PFICPCP, ST_PFICPI, int, int, double, int));
-EXTERN st_table *st_init_table ARGS((ST_PFICPCP, ST_PFICPI)); 
+EXTERN st_table *st_init_table ARGS((ST_PFICPCP, ST_PFICPI));
 EXTERN void st_free_table ARGS((st_table *));
 EXTERN int st_lookup ARGS((st_table *, char *, char **));
 EXTERN int st_lookup_int ARGS((st_table *, char *, int *));

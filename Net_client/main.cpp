@@ -45,8 +45,8 @@ Console *cons;
 
 /**
  * @brief Net_client plugin
- * 
- * This plugin is a network server that accepts client conections to comunicate with other programs (running on the same computer or over the network) 
+ *
+ * This plugin is a network server that accepts client conections to comunicate with other programs (running on the same computer or over the network)
  * @author     Patrick Heyer, patrickhey@prodigy.net.mx, Juan Herrera juan_antonio_@hotmail.com, Manuel Oropeza zodiacanimations@msn.com
  * @date       jul 04, 2012
  * @version    1.0
@@ -55,7 +55,7 @@ class Net_client : public IPlugin
 {
 public:
     void Main();
-	void stop();
+    void stop();
     void run();
 };
 
@@ -74,7 +74,7 @@ PLUGIN_DISPLAY_NAME(PLUGIN_NAME);
 PLUGIN_INIT()
 {
     // register our new plugin
-    std::cout << "PLUGIN_INIT" << std::endl;
+
     RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyPlugin);
     return 0;
 }
@@ -86,107 +86,107 @@ void Net_client::Main()
     Gui::getInstance();
     pluginTab = new Tab("Net_client");
     cons= new Console(WIDTH-600,HEIGHT*.02,600,HEIGHT/2, "net_console", pluginTab);
-    
-	char message[1024];
+
+    char message[1024];
 
     NetThread *net = new  NetThread();
     net->SetOutputStream(stdout);
-	sleep(5);
+    sleep(5);
     net->OpenOutputAddress("localhost", 2070);
-	int x=0;
-	string accion;
-	while(1)
-	{
-		accion= patrol->getInstance().get_Action();
-		if(accion=="aprender_nombre")
-		{
-                net->Write("LINDA");
-				sleep(1);
-				net->Read();
-				if(net->GetStatus()>0)
-				{
-					string s = net->GetIncoming();
-			
-				}
-				
-				sleep(1);
-		}
-		
-		if(accion=="encontrar_persona")
-		{
-			net->Write("YES");
-				sleep(1);
-				net->Read();
-				if(net->GetStatus()>0)
-				{
-					string s = net->GetIncoming();
-			
-				}
-				sleep(1);
-		}
-		
-		if(accion=="aprender_orden")
-		{
-			net->Write("COCA");
-				sleep(1);
-				net->Read();
-				if(net->GetStatus()>0)
-				{
-					string s = net->GetIncoming();
-			
-				}
-				sleep(1);
-		}
-		
-		if(accion=="aprender_mesa")
-		{
-			std::stringstream ss;
-			ss<<"TABLE " << lugar;
-				net->Write(ss.str().c_str());
-				sleep(1);
-				net->Read();
-				if(net->GetStatus()>0)
-				{
-					string s = net->GetIncoming();
-			
-				}
-				sleep(1);
-				lugar++;
-		}
-		
-		if(accion=="aprender_drinks")
-		{
-			std::stringstream ss;
-			ss<<"DRINKS " ;
-				net->Write(ss.str().c_str());
-				sleep(1);
-				net->Read();
-				if(net->GetStatus()>0)
-				{
-					string s = net->GetIncoming();
-			
-				}
-				sleep(1);
-		}
-		
-		
-		if(accion=="aprender_snaks")
-		{
-			std::stringstream ss;
-			ss<<"SNAKS ";
-				net->Write(ss.str().c_str());
-				sleep(1);
-				net->Read();
-				if(net->GetStatus()>0)
-				{
-					string s = net->GetIncoming();
-			
-				}
-				sleep(1);
-		}
-		net->messages.clear();
-		sleep(1);
-		net->messages.clear();
+    int x=0;
+    string accion;
+    while(1)
+    {
+        accion= patrol->getInstance().get_Action();
+        if(accion=="aprender_nombre")
+        {
+            net->Write("LINDA");
+            sleep(1);
+            net->Read();
+            if(net->GetStatus()>0)
+            {
+                string s = net->GetIncoming();
+
+            }
+
+            sleep(1);
+        }
+
+        if(accion=="encontrar_persona")
+        {
+            net->Write("YES");
+            sleep(1);
+            net->Read();
+            if(net->GetStatus()>0)
+            {
+                string s = net->GetIncoming();
+
+            }
+            sleep(1);
+        }
+
+        if(accion=="aprender_orden")
+        {
+            net->Write("COCA");
+            sleep(1);
+            net->Read();
+            if(net->GetStatus()>0)
+            {
+                string s = net->GetIncoming();
+
+            }
+            sleep(1);
+        }
+
+        if(accion=="aprender_mesa")
+        {
+            std::stringstream ss;
+            ss<<"TABLE " << lugar;
+            net->Write(ss.str().c_str());
+            sleep(1);
+            net->Read();
+            if(net->GetStatus()>0)
+            {
+                string s = net->GetIncoming();
+
+            }
+            sleep(1);
+            lugar++;
+        }
+
+        if(accion=="aprender_drinks")
+        {
+            std::stringstream ss;
+            ss<<"DRINKS " ;
+            net->Write(ss.str().c_str());
+            sleep(1);
+            net->Read();
+            if(net->GetStatus()>0)
+            {
+                string s = net->GetIncoming();
+
+            }
+            sleep(1);
+        }
+
+
+        if(accion=="aprender_snaks")
+        {
+            std::stringstream ss;
+            ss<<"SNAKS ";
+            net->Write(ss.str().c_str());
+            sleep(1);
+            net->Read();
+            if(net->GetStatus()>0)
+            {
+                string s = net->GetIncoming();
+
+            }
+            sleep(1);
+        }
+        net->messages.clear();
+        sleep(1);
+        net->messages.clear();
     }
 
 }

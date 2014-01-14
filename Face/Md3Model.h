@@ -55,93 +55,93 @@ typedef GLfloat vec3_t[3];
 // MDL Header
 struct Md3Header_t
 {
-  int ident;            // Magic number, "IDP3"
-  int version;          // Md3 format version, should be 15
+    int ident;            // Magic number, "IDP3"
+    int version;          // Md3 format version, should be 15
 
-  char name[64];        // Path name
-  int flags;            // ?
+    char name[64];        // Path name
+    int flags;            // ?
 
-  int num_frames;       // Number of frames
-  int num_tags;         // Number of tags
-  int num_meshes;       // Number of meshes
-  int num_skins;        // Number of skins
+    int num_frames;       // Number of frames
+    int num_tags;         // Number of tags
+    int num_meshes;       // Number of meshes
+    int num_skins;        // Number of skins
 
-  int offset_frames;    // Offset to frame data
-  int offset_tag;       // Offset to tag data
-  int offset_meshes;    // Offset to meshes
-  int offset_eof;       // Offset end of file
+    int offset_frames;    // Offset to frame data
+    int offset_tag;       // Offset to tag data
+    int offset_meshes;    // Offset to meshes
+    int offset_eof;       // Offset end of file
 };
 
 
 // Frame data
 struct Md3Frame_t
 {
-  vec3_t min_bounds;    // First corner of the bbox
-  vec3_t max_bounds;    // Second corner of the bbox
-  vec3_t local_origin;
+    vec3_t min_bounds;    // First corner of the bbox
+    vec3_t max_bounds;    // Second corner of the bbox
+    vec3_t local_origin;
 
-  float radius;         // Radius of bounding sphere
-  char creator[16];
+    float radius;         // Radius of bounding sphere
+    char creator[16];
 };
 
 
 // Tag information
 struct Md3Tag_t
 {
-  char name[64];
-  vec3_t origin;        // Position vector
-  float axis[3][3];     // Orientation matrix
+    char name[64];
+    vec3_t origin;        // Position vector
+    float axis[3][3];     // Orientation matrix
 };
 
 
 // Mesh header
 struct Md3MeshHeader_t
 {
-  int ident;            // Magic number, "IDP3"
-  char name[64];        // Mesh's name
-  int flags;            // ?
+    int ident;            // Magic number, "IDP3"
+    char name[64];        // Mesh's name
+    int flags;            // ?
 
-  int num_frames;       // Number of frames
-  int num_shaders;      // Number of textures
-  int num_verts;        // Number of vertices per frame
-  int num_triangles;    // Number of triangles
+    int num_frames;       // Number of frames
+    int num_shaders;      // Number of textures
+    int num_verts;        // Number of vertices per frame
+    int num_triangles;    // Number of triangles
 
-  int offset_triangles; // Offset to triangle data
-  int offset_shaders;   // Offset to skin data
-  int offset_st;        // Offset to texture coords.
-  int offset_xyznormal; // Offset to vertex data
-  int offset_end;       // Offset to the end of the mesh
+    int offset_triangles; // Offset to triangle data
+    int offset_shaders;   // Offset to skin data
+    int offset_st;        // Offset to texture coords.
+    int offset_xyznormal; // Offset to vertex data
+    int offset_end;       // Offset to the end of the mesh
 };
 
 
 // Mesh texture
 struct Md3Shader_t
 {
-  char name[64];
-  int shader_index;
+    char name[64];
+    int shader_index;
 };
 
 
 // Triangle data
 struct Md3Triangle_t
 {
-  int index[3];         // Vertex indices
+    int index[3];         // Vertex indices
 };
 
 
 // Texture coordinates
 struct Md3TexCoord_t
 {
-  float	s;
-  float	t;
+    float	s;
+    float	t;
 };
 
 
 // Compressed vertex data
 struct Md3Vertex_t
 {
-  short v[3];
-  unsigned char normal[2];
+    short v[3];
+    unsigned char normal[2];
 };
 
 
@@ -157,18 +157,18 @@ struct Md3Vertex_t
 class NormalLookupTable
 {
 public:
-  // Constructor
-  NormalLookupTable ();
+    // Constructor
+    NormalLookupTable ();
 
 public:
-  // Accessors
-  const vec3_t *operator[] (int i) const {
-    return _normal[i];
-  }
+    // Accessors
+    const vec3_t *operator[] (int i) const {
+        return _normal[i];
+    }
 
 private:
-  // Member variables
-  vec3_t _normal[256][256];
+    // Member variables
+    vec3_t _normal[256][256];
 };
 
 
@@ -181,54 +181,56 @@ private:
 class Md3Mesh
 {
 public:
-  // Constructor/destructor
-  Md3Mesh (std::ifstream &ifs);
-  ~Md3Mesh ();
+    // Constructor/destructor
+    Md3Mesh (std::ifstream &ifs);
+    ~Md3Mesh ();
 
 private:
-  // Internal types
-  typedef shared_ptr<Md3Shader_t> Md3ShaderPtr;
-  typedef shared_ptr<Md3Triangle_t> Md3TrianglePtr;
-  typedef shared_ptr<Md3Vertex_t> Md3VertexPtr;
+    // Internal types
+    typedef shared_ptr<Md3Shader_t> Md3ShaderPtr;
+    typedef shared_ptr<Md3Triangle_t> Md3TrianglePtr;
+    typedef shared_ptr<Md3Vertex_t> Md3VertexPtr;
 
 public:
-  // Public interface
-  void loadShader (int index);
-  void bindTexture () const;
-  void setupVertexArrays (int frameA, int frameB, float interp, float scale);
+    // Public interface
+    void loadShader (int index);
+    void bindTexture () const;
+    void setupVertexArrays (int frameA, int frameB, float interp, float scale);
 
-  void renderFrameImmediate (int frame, float scale) const;
-  void renderWithVertexArrays () const;
+    void renderFrameImmediate (int frame, float scale) const;
+    void renderWithVertexArrays () const;
 
-  //void setTexture (const Texture2D *tex) { _tex = tex; }
+    //void setTexture (const Texture2D *tex) { _tex = tex; }
 
-  // Accessors
-  const char *name () const { return _header.name; }
+    // Accessors
+    const char *name () const {
+        return _header.name;
+    }
 
 private:
-  // Member variables
+    // Member variables
 
-  // Constants
-  static const NormalLookupTable _kAnorms;
-  static const int _kMd3Ident;
+    // Constants
+    static const NormalLookupTable _kAnorms;
+    static const int _kMd3Ident;
 
-  // Vertex arrays (shared by all meshes)
-  static vec3_t _kVertexArray[];
-  static vec3_t _kNormalArray[];
+    // Vertex arrays (shared by all meshes)
+    static vec3_t _kVertexArray[];
+    static vec3_t _kNormalArray[];
 
-  // Mesh data
-  Md3MeshHeader_t _header;
+    // Mesh data
+    Md3MeshHeader_t _header;
 
-  vector<Md3ShaderPtr> _shaders;
-  vector<Md3TrianglePtr> _triangles;
-  vector<Md3TexCoord_t> _texCoords;
-  vector<Md3VertexPtr> _vertices;
+    vector<Md3ShaderPtr> _shaders;
+    vector<Md3TrianglePtr> _triangles;
+    vector<Md3TexCoord_t> _texCoords;
+    vector<Md3VertexPtr> _vertices;
 
-  // Indices for vertex arrays
-  vector<GLuint> _indices;
+    // Indices for vertex arrays
+    vector<GLuint> _indices;
 
-  // Texture
-  GLint *Texture;
+    // Texture
+    GLint *Texture;
 };
 
 
@@ -242,72 +244,84 @@ private:
 class Md3Model
 {
 public:
-  // Constructor/destructor
-  Md3Model (const string &filename);
-  ~Md3Model ();
+    // Constructor/destructor
+    Md3Model (const string &filename);
+    ~Md3Model ();
 
 private:
-  // Internal types
+    // Internal types
 
-  // Tag information using Quaternion instead
-  // of a 3x3 rotation matrix
-  struct Md3QuaternionTag
-  {
-    // Constructor
-    Md3QuaternionTag (const Md3Tag_t &tag);
+    // Tag information using Quaternion instead
+    // of a 3x3 rotation matrix
+    struct Md3QuaternionTag
+    {
+        // Constructor
+        Md3QuaternionTag (const Md3Tag_t &tag);
 
-    string name;
-    Vector3f origin;
-    Quaternionf orient;
-  };
+        string name;
+        Vector3f origin;
+        Quaternionf orient;
+    };
 
-  typedef shared_ptr<Md3Frame_t> Md3FramePtr;
-  typedef shared_ptr<Md3Mesh> Md3MeshPtr;
-  typedef shared_ptr<Md3QuaternionTag> Md3TagPtr;
+    typedef shared_ptr<Md3Frame_t> Md3FramePtr;
+    typedef shared_ptr<Md3Mesh> Md3MeshPtr;
+    typedef shared_ptr<Md3QuaternionTag> Md3TagPtr;
 
 public:
-  // Public interface
+    // Public interface
 
-  void draw () const;
-  void renderFrameImmediate (int frame) const;
-  void renderFrameItpWithVertexArrays (int frameA, int frameB,
-				       float interp) const;
+    void draw () const;
+    void renderFrameImmediate (int frame) const;
+    void renderFrameItpWithVertexArrays (int frameA, int frameB,
+                                         float interp) const;
 
 
-  void setScale (float scale) { _scale = scale; }
- // void setTexture (const string &mesh, const Texture2D *tex);
-  void setupAnimation (int currFrame, int nextFrame, float interp);
+    void setScale (float scale) {
+        _scale = scale;
+    }
+// void setTexture (const string &mesh, const Texture2D *tex);
+    void setupAnimation (int currFrame, int nextFrame, float interp);
 
-  // Accessors
-  int numMeshes () const { return _header.num_meshes; }
-  int numFrames () const { return _header.num_frames; }
-  int numTags () const { return _header.num_tags; }
-  float scale () const { return _scale; }
-  const string &name () const { return _name; }
+    // Accessors
+    int numMeshes () const {
+        return _header.num_meshes;
+    }
+    int numFrames () const {
+        return _header.num_frames;
+    }
+    int numTags () const {
+        return _header.num_tags;
+    }
+    float scale () const {
+        return _scale;
+    }
+    const string &name () const {
+        return _name;
+    }
 
 private:
-  // Member variables
+    // Member variables
 
-  // Constants
-  static const int _kMd3Ident;
-  static const int _kMd3Version;
+    // Constants
+    static const int _kMd3Ident;
+    static const int _kMd3Version;
 
-  // Model data
-  Md3Header_t _header;
+    // Model data
+    Md3Header_t _header;
 
-  vector<Md3FramePtr> _frames;
-  vector<Md3MeshPtr> _meshes;
-  vector<Md3TagPtr> _qtags;
-  vector<const Md3Model*> _links;
+    vector<Md3FramePtr> _frames;
+    vector<Md3MeshPtr> _meshes;
+    vector<Md3TagPtr> _qtags;
+    vector<const Md3Model*> _links;
 
-  // Animation data used for the
-  // next rendering
-  int _currFrame;
-  int _nextFrame;
-  float _interp;
+    // Animation data used for the
+    // next rendering
+    int _currFrame;
+    int _nextFrame;
+    float _interp;
 
-  GLfloat _scale;
-  string _name;
+    GLfloat _scale;
+    string _name;
 };
 
 #endif	// __MD3MODEL_H__

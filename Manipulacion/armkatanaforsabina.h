@@ -50,6 +50,11 @@ ArmKatanaForSabina();
    * x,y,z are in arm coordinates. milimeters
    */
   int testGrasping(double x, double y, double z);
+  
+  /**
+   * x,y,z are in arm coordinates. milimeters
+   */
+  int Grasping(double x, double y, double z);
 
   /**
    * 
@@ -68,7 +73,7 @@ ArmKatanaForSabina();
 
 
 protected:
-  bool equalVectors(vector<int> A, vector<int> B);
+  bool equalVectors(vector<int> A, vector<int> B, int tolerance);
 };
 
 #endif // ARMKATANAFORSABINA_H

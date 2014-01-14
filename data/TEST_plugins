@@ -4,5 +4,6 @@
 ./lib/libNet_Server.so        
 ./lib/libVoice_Synthesis.so
 ./lib/libNavegacion_Planing.so
+./lib/libManipulacion.so
 ./lib/libPrueba_Dummy.so
 ./lib/libKinect.so

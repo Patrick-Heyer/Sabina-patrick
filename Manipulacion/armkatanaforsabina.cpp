@@ -207,17 +207,123 @@ void ArmKatanaForSabina::store()
 }
 
 
-bool ArmKatanaForSabina::equalVectors(std::vector< int > A, std::vector< int > B)
+bool ArmKatanaForSabina::equalVectors(std::vector< int > A, std::vector< int > B, int tolerance)
 {
   if(A.size() != B.size())
     return false;
   
   for(int i = 0;i < A.size(); i++){
-    if(A[i] != B[i])
+    if( abs(A[i] - B[i])>tolerance )
       return false;
   }
   
   return true;
+}
+
+
+int ArmKatanaForSabina::Grasping(double x, double y, double z)
+{
+  //asumption
+  x = 0.0;
+  
+  //approaching point
+  double h,ha,angulo;
+  double distancia=100;
+  angulo = atan2(y,z);
+  h = sqrt(pow(z,2)+pow(y,2));
+  ha = h - distancia;
+  double za = ha * cos(angulo);
+  double ya = ha * sin(angulo);
+  double xa = x; 
+  
+  // increments to test different approaching angles, over theta
+  int k = 10;
+  int i = 0;
+  double increment = M_PI /( 2* (double)k);
+  double signo = -1;
+  
+  double phi = 0;
+  double theta = 0;
+  double psi = M_PI/2;
+  
+  vector<int> enc0, enc1; 
+  
+  try{
+    
+  katana->openGripper(true);
+  /// Reach approaching position
+  while(i<k){
+    //signo = signo * -1;
+    signo = 1;
+    theta = signo * i * increment;
+    
+    cout << "Goal Approaching " << xa << " " << ya << " " << za << " " << phi << " " << theta << " " << psi << endl;
+    
+    enc0 = katana->getRobotEncoders(true);
+    katana->moveRobotTo(xa,ya,za,phi,theta, psi, true);
+    sleep(1);
+    enc1 = katana->getRobotEncoders(true);
+    
+    if(!equalVectors(enc0,enc1,5)){
+	cout << "Was a movement, I guess i reach the approaching position" << endl;
+	break;
+    }
+    
+    if(signo == 1){
+      i++;
+    } 
+  }
+  
+  ///Reach grasping position
+  i = 0;
+  while(i<k){
+    //signo = signo * -1;
+    signo = 1;
+    theta = signo * i * increment;
+    
+    cout << "Goal Grasping" << x << " " << y << " " << z << " " << phi << " " << theta << " " << psi << endl;
+    
+    enc0 = katana->getRobotEncoders(true);
+    katana->moveRobotTo(x,y,z,phi,theta, psi, true);
+    sleep(1);
+    enc1 = katana->getRobotEncoders(true);
+    
+    if(!equalVectors(enc0,enc1,5)){
+	cout << "Was a movement, I guess i reach the object" << endl;
+
+	break;
+    }
+    
+    if(signo == 1){
+      i++;
+    } 
+  }
+  
+  katana->closeGripper(false);
+  sleep(9);
+  int grip_enc = katana->getMotorEncoders(5,true);
+  katana->moveMotorToEnc(5,grip_enc,true);
+  
+  // return to carriying
+  vector<int> encoders_end(5);
+  encoders_end[0] = -6102 ;
+  encoders_end[1] = 2400 ;
+  encoders_end[2] = -5270 ;
+  encoders_end[3] = 30500 ;
+  encoders_end[4] = -6323 ;
+  //encoders[5] = 12240 ;
+  katana->moveRobotToEnc(encoders_end.begin(), encoders_end.end(), true);
+  cout << "done grasping" << endl;
+  currentArmPosition = CARRYING;
+  
+  } catch(Exception &e) {
+	std::cout << "ERROR: " << e.message() << std::endl;
+	//return -1;
+	katana->unBlock();
+	return 0;
+  }
+  
+  return 0;
 }
 
 
@@ -241,7 +347,12 @@ int ArmKatanaForSabina::testGrasping(double x, double y, double z)
   double increment = M_PI /( 2* (double)k);
   double signo = -1;
   double phi = 0;
+  
   double theta = 0;
+  // modification
+  //double theta = asin(z/h);
+  //double theta_a = asin(za / ha);
+  
   double psi = M_PI/2;
   
   std::vector<int> solutionEncoders;
@@ -257,20 +368,31 @@ int ArmKatanaForSabina::testGrasping(double x, double y, double z)
 
     try{
       vector<int> enc0, enc1; 
+      vector<int>::iterator it;
       //clock_t begin = clock();  
       enc0 = katana->getRobotEncoders(true);
+      for(it=enc0.begin(); it!= enc0.end(); it++)
+      {
+	cout << *it << " ";
+      } cout << endl;
       
-      katana->moveRobotTo(xa,ya,za,phi,theta,psi, true);
+      katana->moveRobotTo(xa,ya,za,phi,theta, psi, true);
       
-      sleep(1);
+      //sleep(1);
       
       enc1 = katana->getRobotEncoders(true);
-        
+      for(it=enc1.begin(); it!= enc1.end(); it++)
+      {
+	cout << *it << " ";
+      }	cout << endl;
+      
       //double time_threshold = 0.5;
       //TODO decide if there was a movement
-      if(!equalVectors(enc0,enc1)){
+      if(!equalVectors(enc0,enc1,5)){
 	cout << "was a movement" << endl;
 	
+	// TODO tambien tratar varios antulos de theta
+	theta = 0;
 	katana->moveRobotTo(x,y,z,phi,theta,psi);
 	
 	// close the gripper

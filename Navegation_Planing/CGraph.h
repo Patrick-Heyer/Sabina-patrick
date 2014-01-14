@@ -31,20 +31,20 @@ description :
 *** end of class ***/
 class uu_Queue
 {
-  protected:
+protected:
 
-  std::vector<int> TheQueue ;
-  int QHead, QTail, QSize ;
+    std::vector<int> TheQueue ;
+    int QHead, QTail, QSize ;
 
-  public:
+public:
 
-  uu_Queue( const int Size ) ;
-  int IsEmpty () const ;
-  void Enqueue ( const int i ) ;
-  int Dequeue () ;
-  void MakeEmpty () ;
-  void Print () ;
-  int Size () ;
+    uu_Queue( const int Size ) ;
+    int IsEmpty () const ;
+    void Enqueue ( const int i ) ;
+    int Dequeue () ;
+    void MakeEmpty () ;
+    void Print () ;
+    int Size () ;
 } ;
 
 
@@ -61,17 +61,17 @@ description :
 *** end of struct ***/
 class uu_Node
 {
-  public:
-  bool visited;				  // Util para generación de trayectoria Markovito
-  CPersonajeConfig Config ;   // Configuration of the node
-  int Component ;		    // Label of its connected component
-  std::vector<int> Edges ;        // Indices of the edges
-  std::vector<double> Lengths ;	// Lengths of paths to neighbours
+public:
+    bool visited;				  // Util para generación de trayectoria Markovito
+    CPersonajeConfig Config ;   // Configuration of the node
+    int Component ;		    // Label of its connected component
+    std::vector<int> Edges ;        // Indices of the edges
+    std::vector<double> Lengths ;	// Lengths of paths to neighbours
 
-  uu_Node() ;
-  ~uu_Node() ;
+    uu_Node() ;
+    ~uu_Node() ;
 
-  void Print() ;
+    void Print() ;
 } ;
 
 
@@ -92,7 +92,7 @@ description :
 *** end of class ***/
 class uu_Graph
 {
-  private:
+private:
 
     CProbot         * __Probot_p_m ;
     int                __Start_i_m ;  // index of start nodes (-1 if not specified)
@@ -111,7 +111,7 @@ class uu_Graph
     int  ParseNode( int, int ) ;
     int  ParseEdge( int ) ;
 
-  public:
+public:
 
     std::vector<uu_Node> Nodes ;	// The nodes in the graph
     int EdgeNumb ;		    // Total number of edges
@@ -123,7 +123,7 @@ class uu_Graph
     int EdgeNumber() const ;
     int ComponentNumber() const ;
     int AddNode( CPersonajeConfig ) ;	// Adds node with given configuration to graph..
-                                                              // ...returns its index
+    // ...returns its index
     void                  AddNodeAt( CPersonajeConfig , int ) ;
     int                   AddEdge( int, int, double ) ;
     double                EdgeLength( int, int ) const ;
@@ -136,7 +136,7 @@ class uu_Graph
     int                   ShortestPath( const int &n1,
                                         const int &n2,
                                         std::vector<int> &list ) ;
-    
+
     int                   StartNode() const ;
     int                   GoalNode() const ;
 

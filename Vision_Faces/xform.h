@@ -1,6 +1,6 @@
 /**@file
    Functions for computing transforms from image feature correspondences.
-  
+
    Copyright (C) 2006  Rob Hess <hess@eecs.oregonstate.edu>
 
    @version 1.1.1-20070119
@@ -19,8 +19,8 @@ struct feature;
 /** holds feature data relevant to ransac */
 struct ransac_data
 {
-  void* orig_feat_data;
-  int sampled;
+    void* orig_feat_data;
+    int sampled;
 };
 
 /******************************* Defs and macros *****************************/
@@ -47,12 +47,12 @@ struct ransac_data
    @param mpts array of corresponding points; each \a pts[\a i], \a i=0..\a
      n-1, corresponds to \a mpts[\a i]
    @param n number of points in both \a pts and \a mpts
-   
+
    @return Should return a transformation matrix that transforms each point in
      \a pts to the corresponding point in \a mpts or NULL on failure.
 */
 typedef CvMat* (*ransac_xform_fn)( CvPoint2D64f* pts, CvPoint2D64f* mpts,
-				   int n );
+                                   int n );
 
 
 /**
@@ -112,10 +112,10 @@ typedef double (*ransac_err_fn)( CvPoint2D64f pt, CvPoint2D64f mpt, CvMat* T );
      on error or if an acceptable transform could not be computed.
 */
 extern CvMat* ransac_xform( struct feature* features, int n, int mtype,
-			    ransac_xform_fn xform_fn, int m,
-			    double p_badxform, ransac_err_fn err_fn,
-			    double err_tol, struct feature*** inliers,
-			    int* n_in );
+                            ransac_xform_fn xform_fn, int m,
+                            double p_badxform, ransac_err_fn err_fn,
+                            double err_tol, struct feature*** inliers,
+                            int* n_in );
 
 
 /**
@@ -153,7 +153,7 @@ extern double homog_xfer_err( CvPoint2D64f pt, CvPoint2D64f mpt, CvMat* H );
    Performs a perspective transformation on a single point.  That is, for a
    point \f$(x, y)\f$ and a \f$3 \times 3\f$ matrix \f$T\f$ this function
    returns the point \f$(u, v)\f$, where<BR>
-   
+
    \f$[x' \ y' \ w']^T = T \times [x \ y \ 1]^T\f$,<BR>
 
    and<BR>
@@ -161,7 +161,7 @@ extern double homog_xfer_err( CvPoint2D64f pt, CvPoint2D64f mpt, CvMat* H );
    \f$(u, v) = (x'/w', y'/w')\f$.
 
    Note that affine transforms are a subset of perspective transforms.
-   
+
    @param pt a 2D point
    @param T a perspective transformation matrix
 

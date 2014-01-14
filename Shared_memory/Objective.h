@@ -5,17 +5,17 @@
 #include <string>
 using namespace std;
 
-///*! \brief Contains a mixture of information 
-// * 
+///*! \brief Contains a mixture of information
+// *
 // *  Contains a mixture of information about objects or persons the robot
-// *  has seen but that where irelevant at that moment but could be usefull 
-// *  in the future 
+// *  has seen but that where irelevant at that moment but could be usefull
+// *  in the future
 // */
 class Objective {
-  private:
+private:
     ///*! \brief Name of the Objective
     // *
-    // *  
+    // *
     // */
     string * Name;
 
@@ -33,18 +33,18 @@ class Objective {
 
     ///*! \brief Last X position the Objective was seen
     // *
-    // *  
+    // *
     // */
     float Last_x;
 
     ///*! \brief Last Y position the Objective was seen
     // *
-    // *  
+    // *
     // */
     float Last_y;
 
 
-  public:
+public:
     ///*! \brief Gets the Visual_ID of the objective
     // *
     // *  Gets the Visual_ID of the objective \return Visual_ID
@@ -105,6 +105,6 @@ class Objective {
     // */
     void set_Name(string value);
 
-  friend class Robot;
+    friend class Robot;
 };
 #endif

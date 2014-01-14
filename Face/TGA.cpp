@@ -20,42 +20,42 @@ void GetTextureInfo (tga_header_t *header, gl_texture_tga *texinfo)
 
     switch (header->image_type)
     {
-        case 3:  /* grayscale 8 bits */
-            case 11: /* grayscale 8 bits (RLE) */
-            {
-                if (header->pixel_depth == 8)
-                {
-                    texinfo->format = GL_LUMINANCE;
-                    texinfo->internalFormat = 1;
-                }
-                else /* 16 bits */
-                {
-                    texinfo->format = GL_LUMINANCE_ALPHA;
-                    texinfo->internalFormat = 2;
-                }
+    case 3:  /* grayscale 8 bits */
+    case 11: /* grayscale 8 bits (RLE) */
+    {
+        if (header->pixel_depth == 8)
+        {
+            texinfo->format = GL_LUMINANCE;
+            texinfo->internalFormat = 1;
+        }
+        else /* 16 bits */
+        {
+            texinfo->format = GL_LUMINANCE_ALPHA;
+            texinfo->internalFormat = 2;
+        }
 
-                break;
-            }
+        break;
+    }
 
-            case 1:  /* 8 bits color index */
-                case 2:  /* BGR 16-24-32 bits */
-                    case 9:  /* 8 bits color index (RLE) */
-                        case 10: /* BGR 16-24-32 bits (RLE) */
-                        {
-                            /* 8 bits and 16 bits images will be converted to 24 bits */
-                            if (header->pixel_depth <= 24)
-                            {
-                                texinfo->format = GL_RGB;
-                                texinfo->internalFormat = 3;
-                            }
-                            else /* 32 bits */
-                            {
-                                texinfo->format = GL_RGBA;
-                                texinfo->internalFormat = 4;
-                            }
+    case 1:  /* 8 bits color index */
+    case 2:  /* BGR 16-24-32 bits */
+    case 9:  /* 8 bits color index (RLE) */
+    case 10: /* BGR 16-24-32 bits (RLE) */
+    {
+        /* 8 bits and 16 bits images will be converted to 24 bits */
+        if (header->pixel_depth <= 24)
+        {
+            texinfo->format = GL_RGB;
+            texinfo->internalFormat = 3;
+        }
+        else /* 32 bits */
+        {
+            texinfo->format = GL_RGBA;
+            texinfo->internalFormat = 4;
+        }
 
-                            break;
-                        }
+        break;
+    }
     }
 }
 
@@ -391,7 +391,7 @@ gl_texture_tga *ReadTGAFile (const char *filename)
 
     /* memory allocation */
     texinfo->texels = (GLubyte *)malloc (sizeof (GLubyte) *
-            texinfo->width * texinfo->height * texinfo->internalFormat);
+                                         texinfo->width * texinfo->height * texinfo->internalFormat);
     if (!texinfo->texels)
     {
         free (texinfo);
@@ -403,91 +403,91 @@ gl_texture_tga *ReadTGAFile (const char *filename)
     {
         /* NOTE: color map is stored in BGR format */
         colormap = (GLubyte *)malloc (sizeof (GLubyte)
-                * header.cm_length * (header.cm_size >> 3));
+                                      * header.cm_length * (header.cm_size >> 3));
         fread (colormap, sizeof (GLubyte), header.cm_length
-                * (header.cm_size >> 3), fp);
+               * (header.cm_size >> 3), fp);
     }
 
     /* read image data */
     switch (header.image_type)
     {
-        case 0:
-            /* no data */
+    case 0:
+        /* no data */
+        break;
+
+    case 1:
+        /* uncompressed 8 bits color index */
+        ReadTGA8bits (fp, colormap, texinfo);
+        break;
+
+    case 2:
+        /* uncompressed 16-24-32 bits */
+        switch (header.pixel_depth)
+        {
+        case 16:
+            ReadTGA16bits (fp, texinfo);
             break;
 
-        case 1:
-            /* uncompressed 8 bits color index */
-            ReadTGA8bits (fp, colormap, texinfo);
+        case 24:
+            ReadTGA24bits (fp, texinfo);
             break;
 
-        case 2:
-            /* uncompressed 16-24-32 bits */
-            switch (header.pixel_depth)
-            {
-                case 16:
-                    ReadTGA16bits (fp, texinfo);
-                    break;
+        case 32:
+            ReadTGA32bits (fp, texinfo);
+            break;
+        }
 
-                case 24:
-                    ReadTGA24bits (fp, texinfo);
-                    break;
+        break;
 
-                case 32:
-                    ReadTGA32bits (fp, texinfo);
-                    break;
-            }
+    case 3:
+        /* uncompressed 8 or 16 bits grayscale */
+        if (header.pixel_depth == 8)
+            ReadTGAgray8bits (fp, texinfo);
+        else /* 16 */
+            ReadTGAgray16bits (fp, texinfo);
 
+        break;
+
+    case 9:
+        /* RLE compressed 8 bits color index */
+        ReadTGA8bitsRLE (fp, colormap, texinfo);
+        break;
+
+    case 10:
+        /* RLE compressed 16-24-32 bits */
+        switch (header.pixel_depth)
+        {
+        case 16:
+            ReadTGA16bitsRLE (fp, texinfo);
             break;
 
-        case 3:
-            /* uncompressed 8 or 16 bits grayscale */
-            if (header.pixel_depth == 8)
-                ReadTGAgray8bits (fp, texinfo);
-            else /* 16 */
-                ReadTGAgray16bits (fp, texinfo);
-
+        case 24:
+            ReadTGA24bitsRLE (fp, texinfo);
             break;
 
-        case 9:
-            /* RLE compressed 8 bits color index */
-            ReadTGA8bitsRLE (fp, colormap, texinfo);
+        case 32:
+            ReadTGA32bitsRLE (fp, texinfo);
             break;
+        }
 
-        case 10:
-            /* RLE compressed 16-24-32 bits */
-            switch (header.pixel_depth)
-            {
-                case 16:
-                    ReadTGA16bitsRLE (fp, texinfo);
-                    break;
+        break;
 
-                case 24:
-                    ReadTGA24bitsRLE (fp, texinfo);
-                    break;
+    case 11:
+        /* RLE compressed 8 or 16 bits grayscale */
+        if (header.pixel_depth == 8)
+            ReadTGAgray8bitsRLE (fp, texinfo);
+        else /* 16 */
+            ReadTGAgray16bitsRLE (fp, texinfo);
 
-                case 32:
-                    ReadTGA32bitsRLE (fp, texinfo);
-                    break;
-            }
+        break;
 
-            break;
-
-        case 11:
-            /* RLE compressed 8 or 16 bits grayscale */
-            if (header.pixel_depth == 8)
-                ReadTGAgray8bitsRLE (fp, texinfo);
-            else /* 16 */
-                ReadTGAgray16bitsRLE (fp, texinfo);
-
-            break;
-
-        default:
-            /* image type is not correct */
-            fprintf (stderr, "error: unknown TGA image type %i!\n", header.image_type);
-            free (texinfo->texels);
-            free (texinfo);
-            texinfo = NULL;
-            break;
+    default:
+        /* image type is not correct */
+        fprintf (stderr, "error: unknown TGA image type %i!\n", header.image_type);
+        free (texinfo->texels);
+        free (texinfo);
+        texinfo = NULL;
+        break;
     }
 
     /* no longer need colormap data */
@@ -519,11 +519,11 @@ GLuint loadTGATexture (const char *filename)
                       tga_tex->width, tga_tex->height, 0, tga_tex->format,
                       GL_UNSIGNED_BYTE, tga_tex->texels);
 
-       
+
         gluBuild2DMipmaps (GL_TEXTURE_2D, tga_tex->internalFormat,
-        tga_tex->width, tga_tex->height,
-        tga_tex->format, GL_UNSIGNED_BYTE, tga_tex->texels);
-        
+                           tga_tex->width, tga_tex->height,
+                           tga_tex->format, GL_UNSIGNED_BYTE, tga_tex->texels);
+
 
         tex_id = tga_tex->id;
 

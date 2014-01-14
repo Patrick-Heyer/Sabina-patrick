@@ -76,7 +76,7 @@ void Dummy::Main()
 
 
 //    patrol->get_Instance().set_Action(cambiar_estado("iniciado", "si"));
-            patrol->get_Instance().set_Current_destination("KITCHEN");
+    patrol->get_Instance().set_Current_destination("KITCHEN");
 // 	cambiar_estado("localizado", "si");
 // 	cambiar_estado("dentro_arena", "si")
 // 	cambiar_estado("detectada_p","si");

@@ -8,100 +8,100 @@
 
 void GetRandomSample(CPersonajeConfig &c_a, CProbot * Probot_p_a )
 {
-  uu_Point Position_v ;
-  switch(Probot_p_a->Parametros().ConfigurationType)
-  {
+    uu_Point Position_v ;
+    switch(Probot_p_a->Parametros().ConfigurationType)
+    {
     case PRM::TRANSLATING :
     {
-      Position_v = c_a.Position() ;
-      Position_v.X() = RandomBetween( Probot_p_a->Ambiente()->Workspace()->MinX(),
-                             Probot_p_a->Ambiente()->Workspace()->MaxX() ) ;
-      Position_v.Y() = RandomBetween( Probot_p_a->Ambiente()->Workspace()->MinY(),
-                             Probot_p_a->Ambiente()->Workspace()->MaxY() ) ;
-      Position_v.Z() = RandomBetween( Probot_p_a->Ambiente()->Workspace()->MinZ(),
-                             Probot_p_a->Ambiente()->Workspace()->MaxZ() ) ;
-      c_a.SetPosition(Position_v) ;
+        Position_v = c_a.Position() ;
+        Position_v.X() = RandomBetween( Probot_p_a->Ambiente()->Workspace()->MinX(),
+                                        Probot_p_a->Ambiente()->Workspace()->MaxX() ) ;
+        Position_v.Y() = RandomBetween( Probot_p_a->Ambiente()->Workspace()->MinY(),
+                                        Probot_p_a->Ambiente()->Workspace()->MaxY() ) ;
+        Position_v.Z() = RandomBetween( Probot_p_a->Ambiente()->Workspace()->MinZ(),
+                                        Probot_p_a->Ambiente()->Workspace()->MaxZ() ) ;
+        c_a.SetPosition(Position_v) ;
 
-      Probot_p_a->Counters[PRM::NR_SAMPLES]++ ;        // A sample is generated
-      break ;
+        Probot_p_a->Counters[PRM::NR_SAMPLES]++ ;        // A sample is generated
+        break ;
     }
     case PRM::CAR_LIKE :    //z <- theta
     {
-      Position_v.X() = RandomBetween( Probot_p_a->Ambiente()->Workspace()->MinX(),
-                             Probot_p_a->Ambiente()->Workspace()->MaxX() ) ;
-      Position_v.Y() = RandomBetween( Probot_p_a->Ambiente()->Workspace()->MinY(),
-                             Probot_p_a->Ambiente()->Workspace()->MaxY() ) ;
+        Position_v.X() = RandomBetween( Probot_p_a->Ambiente()->Workspace()->MinX(),
+                                        Probot_p_a->Ambiente()->Workspace()->MaxX() ) ;
+        Position_v.Y() = RandomBetween( Probot_p_a->Ambiente()->Workspace()->MinY(),
+                                        Probot_p_a->Ambiente()->Workspace()->MaxY() ) ;
 
-      Position_v.Z() = 0.0 ; //RandomBetween(0.0,360.0 ) ; //grados
+        Position_v.Z() = 0.0 ; //RandomBetween(0.0,360.0 ) ; //grados
 
-      c_a.SetPosition(Position_v) ;
+        c_a.SetPosition(Position_v) ;
 
-      Probot_p_a->Counters[PRM::NR_SAMPLES]++ ;        // A sample is generated
-      break ;
+        Probot_p_a->Counters[PRM::NR_SAMPLES]++ ;        // A sample is generated
+        break ;
     }
 
 
     default :
     {
-      uu_Utils::FlushConsole("ERROR: [Random Sampling]-: ARTICULATED & CAR_LIKE not implemented\n" ) ;
-      break ;
+        uu_Utils::FlushConsole("ERROR: [Random Sampling]-: ARTICULATED & CAR_LIKE not implemented\n" ) ;
+        break ;
     }
-  }
+    }
 }
 
 //---------------------------------------------------------------------------
 CPersonajeConfig GetNearbySample(const CPersonajeConfig &c_a, double Sigma_d_a,
-                CProbot * Probot_p_a )
+                                 CProbot * Probot_p_a )
 {
-  uu_Point Position_v ;
-  static CPersonajeConfig NewConf ;
-  switch(Probot_p_a->Parametros().ConfigurationType)
-  {
+    uu_Point Position_v ;
+    static CPersonajeConfig NewConf ;
+    switch(Probot_p_a->Parametros().ConfigurationType)
+    {
     case PRM::TRANSLATING :
     {
-      Position_v.X() = c_a.Position().X() + NormalRand( Sigma_d_a ) ; ;
-      Position_v.Y() = c_a.Position().Y() + NormalRand( Sigma_d_a ) ; ;
-      Position_v.Z() = c_a.Position().Z() + NormalRand( Sigma_d_a ) ; ;
-      NewConf.SetPosition(Position_v) ;
+        Position_v.X() = c_a.Position().X() + NormalRand( Sigma_d_a ) ; ;
+        Position_v.Y() = c_a.Position().Y() + NormalRand( Sigma_d_a ) ; ;
+        Position_v.Z() = c_a.Position().Z() + NormalRand( Sigma_d_a ) ; ;
+        NewConf.SetPosition(Position_v) ;
 
-      Probot_p_a->Counters[PRM::NR_SAMPLES]++ ;        // A sample is generated
-      break ;
+        Probot_p_a->Counters[PRM::NR_SAMPLES]++ ;        // A sample is generated
+        break ;
     }
     case PRM::FREE_FLYING :
     {
-      Position_v.X() = c_a.Position().X() + NormalRand( Sigma_d_a ) ; ;
-      Position_v.Y() = c_a.Position().Y() + NormalRand( Sigma_d_a ) ; ;
-      Position_v.Z() = c_a.Position().Z() + NormalRand( Sigma_d_a ) ; ;
-      NewConf.SetPosition(Position_v) ;
+        Position_v.X() = c_a.Position().X() + NormalRand( Sigma_d_a ) ; ;
+        Position_v.Y() = c_a.Position().Y() + NormalRand( Sigma_d_a ) ; ;
+        Position_v.Z() = c_a.Position().Z() + NormalRand( Sigma_d_a ) ; ;
+        NewConf.SetPosition(Position_v) ;
 
-      // TODO!? orientation is chosen randomly
-      //NewConf.SetOrientation( c_a.Orientation().random() ) ;
+        // TODO!? orientation is chosen randomly
+        //NewConf.SetOrientation( c_a.Orientation().random() ) ;
 
-      Probot_p_a->Counters[PRM::NR_SAMPLES]++ ;        // A sample is generated
-      break ;
+        Probot_p_a->Counters[PRM::NR_SAMPLES]++ ;        // A sample is generated
+        break ;
     }
     case PRM::CAR_LIKE :
     {
-      Position_v.X() = c_a.Position().X() + NormalRand( Sigma_d_a ) ; 
-      Position_v.Y() = c_a.Position().Y() + NormalRand( Sigma_d_a ) ; 
-      Position_v.Z() =  0.0 ; //c_a.Position().Z() + NormalRand( Sigma_d_a ) ; ;
-      NewConf.SetPosition(Position_v) ;
+        Position_v.X() = c_a.Position().X() + NormalRand( Sigma_d_a ) ;
+        Position_v.Y() = c_a.Position().Y() + NormalRand( Sigma_d_a ) ;
+        Position_v.Z() =  0.0 ; //c_a.Position().Z() + NormalRand( Sigma_d_a ) ; ;
+        NewConf.SetPosition(Position_v) ;
 
-      // TODO!? orientation theat is chosen randomly
+        // TODO!? orientation theat is chosen randomly
 //      NewConf.SetOrientation( c_a.Orientation().randomtheta() ) ;
 
-      Probot_p_a->Counters[PRM::NR_SAMPLES]++ ;        // A sample is generated
-      break ;
+        Probot_p_a->Counters[PRM::NR_SAMPLES]++ ;        // A sample is generated
+        break ;
     }
 
 
     default :
     {
-      uu_Utils::FlushConsole("ERROR: [Gaussian Sampling]-: ARTICULATED & CAR_LIKE not implemented\n") ;
-      break ;
+        uu_Utils::FlushConsole("ERROR: [Gaussian Sampling]-: ARTICULATED & CAR_LIKE not implemented\n") ;
+        break ;
     }
-  }
-  return NewConf ;
+    }
+    return NewConf ;
 }
 
 //---------------------------------------------------------------------------
@@ -118,7 +118,7 @@ description :
 *** end of memberfunction ***/
 uu_Sampler::uu_Sampler( const CProbot * Probot_p_a )
 {
-  _Probot_p_m = (CProbot *)Probot_p_a ;
+    _Probot_p_m = (CProbot *)Probot_p_a ;
 
 }
 
@@ -136,25 +136,25 @@ description :
 *** end of memberfunction ***/
 int  uu_UniformRandomSampler::Generate( CPersonajeConfig & NewConfig )
 {
-  CPersonajeConfig c1 ;
- 
+    CPersonajeConfig c1 ;
 
-  GetRandomSample( c1, _Probot_p_m ) ;
 
-  if ( (_Probot_p_m->Ambiente()->Colision( c1 )==0) )
-  // c1 is a free configuration
-  {
-    NewConfig = c1 ;
-    ((CSamples *)(_Probot_p_m->Samples()))->AddSample(PRM::FREE, c1 ) ;
-    _Probot_p_m->Counters[PRM::FREE]++ ;
+    GetRandomSample( c1, _Probot_p_m ) ;
 
-    return 1 ;
-  }
-  else
+    if ( (_Probot_p_m->Ambiente()->Colision( c1 )==0) )
+        // c1 is a free configuration
     {
-      ((CSamples *)(_Probot_p_m->Samples()))->AddSample(PRM::FAILED, c1 ) ;
-      _Probot_p_m->Counters[PRM::FAILED]++ ;
-      return 0 ;
+        NewConfig = c1 ;
+        ((CSamples *)(_Probot_p_m->Samples()))->AddSample(PRM::FREE, c1 ) ;
+        _Probot_p_m->Counters[PRM::FREE]++ ;
+
+        return 1 ;
+    }
+    else
+    {
+        ((CSamples *)(_Probot_p_m->Samples()))->AddSample(PRM::FAILED, c1 ) ;
+        _Probot_p_m->Counters[PRM::FAILED]++ ;
+        return 0 ;
     }
 }
 
@@ -173,93 +173,93 @@ description :
 
 int  uu_GaussianSampler::Generate(CPersonajeConfig & NewConfig )
 {
-;
-  CPersonajeConfig c1, c2 ;
-  std::vector <CPersonajeConfig> PersonajeConfigs_v_v;
+    ;
+    CPersonajeConfig c1, c2 ;
+    std::vector <CPersonajeConfig> PersonajeConfigs_v_v;
 
-  GetRandomSample( c1, _Probot_p_m ) ;  // distributed" distance
-  c2 = GetNearbySample( c1, _Probot_p_m->Parametros().Sigma, _Probot_p_m ) ; 
-//  c2 = GetNearbySample( c1, 0.7, _Probot_p_m ) ; 
-
-  while ( !c2.InWorkspace(_Probot_p_m) )
-  {
-    /////// tester; was: ////  _Probot_p_m->Counters[PRM::TEST] += ( !c2.InWorkspace(_Probot_p_m) ) ;
-   _Probot_p_m->Counters[PRM::TEST]++ ;
-                                      // this should count the number of
-                                      // configurations that have accidentally
-                                      // been sampled outside of the workspace
-                                      // after which we have to take another
-                                      // and do a new collision test etc...
+    GetRandomSample( c1, _Probot_p_m ) ;  // distributed" distance
     c2 = GetNearbySample( c1, _Probot_p_m->Parametros().Sigma, _Probot_p_m ) ;
+//  c2 = GetNearbySample( c1, 0.7, _Probot_p_m ) ;
 
-  }
-
-  if ( _Probot_p_m->Ambiente()->Colision( c1 )==0 )
-  // c1 is a free configuration
-  {
-    _Probot_p_m->Counters[PRM::FREE]++ ;
-
-    if ( _Probot_p_m->Ambiente()->Colision( c2 )==0 )
-    // c2 is a free configuration
+    while ( !c2.InWorkspace(_Probot_p_m) )
     {
-       _Probot_p_m->Counters[PRM::FREE]++ ;
+        /////// tester; was: ////  _Probot_p_m->Counters[PRM::TEST] += ( !c2.InWorkspace(_Probot_p_m) ) ;
+        _Probot_p_m->Counters[PRM::TEST]++ ;
+        // this should count the number of
+        // configurations that have accidentally
+        // been sampled outside of the workspace
+        // after which we have to take another
+        // and do a new collision test etc...
+        c2 = GetNearbySample( c1, _Probot_p_m->Parametros().Sigma, _Probot_p_m ) ;
 
-      ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::PAIRFREE, c1 ) ;
-      ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::PAIRFREE, c2 ) ;
-      // _Probot_p_m->Counters[PRM::FREE]++ ;
-      // _Probot_p_m->Counters[PRM::FREE]++ ;
-      _Probot_p_m->Counters[PRM::PAIRFREE]++ ;
-      _Probot_p_m->Counters[PRM::PAIRFREE]++ ;
-
-      return 0 ;
     }
-    else        // c2 is a forbidden configuration
+
+    if ( _Probot_p_m->Ambiente()->Colision( c1 )==0 )
+        // c1 is a free configuration
     {
-      _Probot_p_m->Counters[PRM::FAILED]++ ;
+        _Probot_p_m->Counters[PRM::FREE]++ ;
 
-      NewConfig = c1 ;
-      ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::MIXEDFREE, c1 ) ;
-      ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::MIXEDFAILED, c2 ) ;
-      _Probot_p_m->Counters[PRM::MIXEDFREE]++ ;
-      _Probot_p_m->Counters[PRM::MIXEDFAILED]++ ;
-      _Probot_p_m->Counters[PRM::SAMPLES]++ ;
-      _Probot_p_m->Counters[PRM::RESAMPLES]++ ;
+        if ( _Probot_p_m->Ambiente()->Colision( c2 )==0 )
+            // c2 is a free configuration
+        {
+            _Probot_p_m->Counters[PRM::FREE]++ ;
+
+            ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::PAIRFREE, c1 ) ;
+            ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::PAIRFREE, c2 ) ;
+            // _Probot_p_m->Counters[PRM::FREE]++ ;
+            // _Probot_p_m->Counters[PRM::FREE]++ ;
+            _Probot_p_m->Counters[PRM::PAIRFREE]++ ;
+            _Probot_p_m->Counters[PRM::PAIRFREE]++ ;
+
+            return 0 ;
+        }
+        else        // c2 is a forbidden configuration
+        {
+            _Probot_p_m->Counters[PRM::FAILED]++ ;
+
+            NewConfig = c1 ;
+            ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::MIXEDFREE, c1 ) ;
+            ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::MIXEDFAILED, c2 ) ;
+            _Probot_p_m->Counters[PRM::MIXEDFREE]++ ;
+            _Probot_p_m->Counters[PRM::MIXEDFAILED]++ ;
+            _Probot_p_m->Counters[PRM::SAMPLES]++ ;
+            _Probot_p_m->Counters[PRM::RESAMPLES]++ ;
 
 
-      return 1 ;
+            return 1 ;
+        }
     }
-  }
-  else          // c1 is a forbidden configuration
-  {
-    _Probot_p_m->Counters[PRM::FAILED]++ ;
-
-    if ( _Probot_p_m->Ambiente()->Colision( c2 )==0 )
-    // c2 is a free configuration
+    else          // c1 is a forbidden configuration
     {
-      _Probot_p_m->Counters[PRM::FREE]++ ;
+        _Probot_p_m->Counters[PRM::FAILED]++ ;
 
-      NewConfig = c2 ;
-      ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::MIXEDFREE, c2 ) ;
-      ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::MIXEDFAILED, c1 ) ;
-      _Probot_p_m->Counters[PRM::MIXEDFREE]++ ;
-      _Probot_p_m->Counters[PRM::MIXEDFAILED]++ ;
-      _Probot_p_m->Counters[PRM::SAMPLES]++ ;
-      _Probot_p_m->Counters[PRM::RESAMPLES]++ ;
+        if ( _Probot_p_m->Ambiente()->Colision( c2 )==0 )
+            // c2 is a free configuration
+        {
+            _Probot_p_m->Counters[PRM::FREE]++ ;
+
+            NewConfig = c2 ;
+            ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::MIXEDFREE, c2 ) ;
+            ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::MIXEDFAILED, c1 ) ;
+            _Probot_p_m->Counters[PRM::MIXEDFREE]++ ;
+            _Probot_p_m->Counters[PRM::MIXEDFAILED]++ ;
+            _Probot_p_m->Counters[PRM::SAMPLES]++ ;
+            _Probot_p_m->Counters[PRM::RESAMPLES]++ ;
 
 
-      return 1 ;
+            return 1 ;
+        }
+        else        // c2 is a forbidden configuration
+        {
+            _Probot_p_m->Counters[PRM::FAILED]++ ;
+
+            ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::PAIRFAILED, c1 ) ;
+            ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::PAIRFAILED, c2 ) ;
+            _Probot_p_m->Counters[PRM::PAIRFAILED]++ ;
+            _Probot_p_m->Counters[PRM::PAIRFAILED]++ ;
+            // _Probot_p_m->Counters[PRM::FAILED]++ ;
+            // _Probot_p_m->Counters[PRM::FAILED]++ ;
+            return 0 ;
+        }
     }
-    else        // c2 is a forbidden configuration
-    {
-      _Probot_p_m->Counters[PRM::FAILED]++ ;
-
-      ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::PAIRFAILED, c1 ) ;
-      ((CSamples *)(_Probot_p_m->Samples()))->AddSample( PRM::PAIRFAILED, c2 ) ;
-      _Probot_p_m->Counters[PRM::PAIRFAILED]++ ;
-      _Probot_p_m->Counters[PRM::PAIRFAILED]++ ;
-      // _Probot_p_m->Counters[PRM::FAILED]++ ;
-      // _Probot_p_m->Counters[PRM::FAILED]++ ;
-      return 0 ;
-    }
-  }
 }

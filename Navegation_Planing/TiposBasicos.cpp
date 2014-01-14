@@ -17,7 +17,7 @@ description :
 *** end of struct ***/
 double uu_Point::Length()
 {
-  return sqrt( X()*X() + Y()*Y() + Z()*Z() ) ;
+    return sqrt( X()*X() + Y()*Y() + Z()*Z() ) ;
 }
 
 
@@ -35,27 +35,27 @@ description :
 *** end of struct ***/
 double uu_Point::SqLength()
 {
-  return X()*X() + Y()*Y() + Z()*Z() ;
+    return X()*X() + Y()*Y() + Z()*Z() ;
 }
 
 
 uu_Point operator+( uu_Point P, uu_Point Q )
 {
-  uu_Point Result ;
-  Result.X() = P.X() + Q.X() ;
-  Result.Y() = P.Y() + Q.Y() ;
-  Result.Z() = P.Z() + Q.Z() ;
-  return Result ;
+    uu_Point Result ;
+    Result.X() = P.X() + Q.X() ;
+    Result.Y() = P.Y() + Q.Y() ;
+    Result.Z() = P.Z() + Q.Z() ;
+    return Result ;
 }
 
 
 uu_Point operator-( uu_Point P, uu_Point Q )
 {
-  uu_Point Result ;
-  Result.X() = P.X() - Q.X() ;
-  Result.Y() = P.Y() - Q.Y() ;
-  Result.Z() = P.Z() - Q.Z() ;
-  return Result ;
+    uu_Point Result ;
+    Result.X() = P.X() - Q.X() ;
+    Result.Y() = P.Y() - Q.Y() ;
+    Result.Z() = P.Z() - Q.Z() ;
+    return Result ;
 }
 
 

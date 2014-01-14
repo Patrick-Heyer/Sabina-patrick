@@ -17,14 +17,14 @@ description
 *** end of class ***/
 class NearNode
 {
-  public:
-  int i ;
-  double d ;
+public:
+    int i ;
+    double d ;
 
-  NearNode( ) ;
-  NearNode( int index, double distance) ;
-  int Index() const ;
-  double Distance() const ;
+    NearNode( ) ;
+    NearNode( int index, double distance) ;
+    int Index() const ;
+    double Distance() const ;
 } ;
 
 #endif

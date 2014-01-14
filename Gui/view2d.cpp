@@ -1,17 +1,17 @@
 /*
  < *one line to* give the program's name and a brief idea of what it does.>
  Copyright (C) 2011  <Patrick Heyer> <patrickhey@prodigy.net.mx>
- 
+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -32,37 +32,37 @@
 std::string RGB_to_Hex(color3 color)
 {
 
-              std::string result="";
-        
-              char r[255];
-              sprintf(r, "%.2X", (int)(color.r*255));
-              result.append(r );
-        
-              char g[255];
-              sprintf(g, "%.2X", (int)(color.g*255));
-              result.append(g );
-        
-              char b[255];
-              sprintf(b, "%.2X", (int)(color.b*255));
-              result.append(b );
-        
-              return result;
+    std::string result="";
+
+    char r[255];
+    sprintf(r, "%.2X", (int)(color.r*255));
+    result.append(r );
+
+    char g[255];
+    sprintf(g, "%.2X", (int)(color.g*255));
+    result.append(g );
+
+    char b[255];
+    sprintf(b, "%.2X", (int)(color.b*255));
+    result.append(b );
+
+    return result;
 
 }
 
 std::string RGB_to_Hex(color4 color)
 {
-    
+
     std::string result="";
-    
+
     char r[255];
     sprintf(r, "%.2X", (int)(color.r*255));
     result.append(r );
-    
+
     char g[255];
     sprintf(g, "%.2X", (int)(color.g*255));
     result.append(g );
-    
+
     char b[255];
     sprintf(b, "%.2X", (int)(color.b*255));
     result.append(b );
@@ -70,9 +70,9 @@ std::string RGB_to_Hex(color4 color)
     char a[255];
     sprintf(a, "%.2X", (int)(color.a*255));
     result.append(a );
-    
+
     return result;
-    
+
 }
 
 color3 Hex_to_RGB(const char * hex)
@@ -172,7 +172,7 @@ colorhsv rgb2hsv(int r, int g, int b)
 {
     float min, max, delta, rc, gc, bc;
     colorhsv temp;
-    
+
     rc = (float)r / 255.0;
     gc = (float)g / 255.0;
     bc = (float)b / 255.0;
@@ -180,12 +180,12 @@ colorhsv rgb2hsv(int r, int g, int b)
     min = std::min(rc, std::min(gc, bc));
     delta = max - min;
     temp.v = max;
-    
+
     if (max != 0.0)
         temp.s = delta / max;
     else
         temp.s = 0.0;
-    
+
     if (temp.s == 0.0) {
         temp.h = 0.0;
     }
@@ -196,7 +196,7 @@ colorhsv rgb2hsv(int r, int g, int b)
             temp.h = 2 + (bc - rc) / delta;
         else if (bc == max)
             temp.h = 4 + (rc - gc) / delta;
-        
+
         temp.h= 60.0;
         if (temp.h < 0)
             temp.h += 360.0;
@@ -205,90 +205,90 @@ colorhsv rgb2hsv(int r, int g, int b)
 
 color3 hsv2rgb(double h, double s, double l)
 {
-	double r, g, b;
-	double temp1, temp2, tempr, tempg, tempb;
-	
-	h =h / 360.0;  //Hue is represented as a range of 360 degrees
+    double r, g, b;
+    double temp1, temp2, tempr, tempg, tempb;
 
-	
-	if (s == 0)         //Saturation of 0 means a shade of grey
+    h =h / 360.0;  //Hue is represented as a range of 360 degrees
+
+
+    if (s == 0)         //Saturation of 0 means a shade of grey
     {
-		r = g = b = l;
-	}
-	else                //
+        r = g = b = l;
+    }
+    else                //
     {
-		if (l < 0.5) temp2 = l * (1.0 + s);
-		else temp2 = (l + s) - (l * s);
-		
-		temp1 = 2.0 * l - temp2;
-		tempr = h + 1.0 / 3.0;
-		if (tempr > 1.0) tempr-= 1.0;
-		tempg = h;
-		tempb = h - 1.0 / 3.0;
-		if (tempb < 0) tempb += 1.0; 
-		
-		// Calculate red value:     
-			if (6.0 * tempr < 1.0)
-			{
-				r = temp1 + (temp2 - temp1) * 6.0 * tempr;
-			}
-			else if (2.0 * tempr < 1.0)
-			{
-				r = temp2;
-			}
-			else if (3.0 * tempr < 2.0)
-			{
-				r = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempr) * 6.0;
-			}
-			else
-			{
-				r = temp1;
-			}
-			
-			// Calculate green value       
-			if (6.0 * tempg < 1.0)
-			{
-				g = temp1 + (temp2 - temp1) * 6.0 * tempg;
-			}
-			else if (2.0 * tempg < 1.0)
-			{
-				g = temp2;
-			}
-			else if (3.0 * tempg < 2.0)
-			{
-				g = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempg) * 6.0;
-			}
-			else
-			{
-				g = temp1; 
-			}
-			
-			// Calculate blue value    
-			if (6.0 * tempb < 1.0)
-			{
-				b = temp1 + (temp2 - temp1) * 6.0 * tempb;
-			}
-			else if (2.0 * tempb < 1.0)
-			{
-				b = temp2;
-			}
-			else if (3.0 * tempr < 2.0)
-			{
-				b = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempb) * 6.0;
-			}
-			else
-			{
-				g = temp1; 
-			}
-	}
-	
-	color3 TempColor;
-	TempColor.r =r;
-	TempColor.g =g;
-	TempColor.b =b;
-	
-	
-	return TempColor;
+        if (l < 0.5) temp2 = l * (1.0 + s);
+        else temp2 = (l + s) - (l * s);
+
+        temp1 = 2.0 * l - temp2;
+        tempr = h + 1.0 / 3.0;
+        if (tempr > 1.0) tempr-= 1.0;
+        tempg = h;
+        tempb = h - 1.0 / 3.0;
+        if (tempb < 0) tempb += 1.0;
+
+        // Calculate red value:
+        if (6.0 * tempr < 1.0)
+        {
+            r = temp1 + (temp2 - temp1) * 6.0 * tempr;
+        }
+        else if (2.0 * tempr < 1.0)
+        {
+            r = temp2;
+        }
+        else if (3.0 * tempr < 2.0)
+        {
+            r = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempr) * 6.0;
+        }
+        else
+        {
+            r = temp1;
+        }
+
+        // Calculate green value
+        if (6.0 * tempg < 1.0)
+        {
+            g = temp1 + (temp2 - temp1) * 6.0 * tempg;
+        }
+        else if (2.0 * tempg < 1.0)
+        {
+            g = temp2;
+        }
+        else if (3.0 * tempg < 2.0)
+        {
+            g = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempg) * 6.0;
+        }
+        else
+        {
+            g = temp1;
+        }
+
+        // Calculate blue value
+        if (6.0 * tempb < 1.0)
+        {
+            b = temp1 + (temp2 - temp1) * 6.0 * tempb;
+        }
+        else if (2.0 * tempb < 1.0)
+        {
+            b = temp2;
+        }
+        else if (3.0 * tempr < 2.0)
+        {
+            b = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempb) * 6.0;
+        }
+        else
+        {
+            g = temp1;
+        }
+    }
+
+    color3 TempColor;
+    TempColor.r =r;
+    TempColor.g =g;
+    TempColor.b =b;
+
+
+    return TempColor;
 }
 
 void setOrthographicProjection(int X, int Y) {
@@ -323,27 +323,27 @@ void drawText(int x, int y, std::string text, color4 text_color, int font)
     void *glut_font;
     switch (font)
     {
-        case 1:
-            glut_font= GLUT_BITMAP_9_BY_15;
-            break;
-        case 2:
-            glut_font= GLUT_BITMAP_8_BY_13;
-            break;
-        case 3:
-            glut_font= GLUT_BITMAP_TIMES_ROMAN_10;
-            break;
-        case 4:
-            glut_font= GLUT_BITMAP_TIMES_ROMAN_24;
-            break;
-        case 5:
-            glut_font= GLUT_BITMAP_HELVETICA_12;
-            break;
-        case 6:            
-            glut_font= GLUT_BITMAP_HELVETICA_18;
-            break;
-        default:
-            glut_font= GLUT_BITMAP_HELVETICA_10;
-            break;            
+    case 1:
+        glut_font= GLUT_BITMAP_9_BY_15;
+        break;
+    case 2:
+        glut_font= GLUT_BITMAP_8_BY_13;
+        break;
+    case 3:
+        glut_font= GLUT_BITMAP_TIMES_ROMAN_10;
+        break;
+    case 4:
+        glut_font= GLUT_BITMAP_TIMES_ROMAN_24;
+        break;
+    case 5:
+        glut_font= GLUT_BITMAP_HELVETICA_12;
+        break;
+    case 6:
+        glut_font= GLUT_BITMAP_HELVETICA_18;
+        break;
+    default:
+        glut_font= GLUT_BITMAP_HELVETICA_10;
+        break;
     }
     glEnable(GL_FOG);
     glGetFloatv(GL_CURRENT_COLOR, color);
@@ -375,7 +375,7 @@ void drawText ( int x, int y, std::string text, color3 text_color, int font)
     color.b=text_color.b;
     color.a=1;
     drawText(x, y, text, color, font);
-	
+
 }
 
 void drawText(int x, int y, std::string text, std::string text_color, int font)
@@ -402,17 +402,17 @@ void drawText ( int x, int y, std::string text, color3 text_color )
     color.b=text_color.b;
     color.a=1;
     drawText(x, y, text, color, 0);
-    
+
 }
 
 void drawText(int x, int y, std::string text, std::string text_color)
 {
     if (text_color.length()==8)
         drawText(x, y, text, Hex_to_RGBA(text_color.c_str()), 0);
-    
+
     if (text_color.length()==6)
         drawText(x, y, text, Hex_to_RGB(text_color.c_str()), 0);
-    
+
 }
 
 
@@ -420,9 +420,9 @@ int bin2dec(char *bin)
 {
     int b, k, m, n;
     int len, sum = 0;
-    
+
     len = strlen(bin) - 1;
-    
+
     for(k = 0; k <= len; k++)
     {
         n = (bin[k] - '0'); // char to numeric value
@@ -629,11 +629,11 @@ void gl_round_box_Hshade(int mode, float minx, float miny, float maxx, float max
 
 void gl_round_box_Hshade ( int mode, float minx, float miny, float maxx, float maxy, float rad, std::string shadedown, std::string shadetop )
 {
-	if (shadedown.length()==8 && shadetop.length()==8)
-		gl_round_box_Hshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGBA(shadedown.c_str()), Hex_to_RGBA(shadetop.c_str()));
-	
-	if (shadedown.length()==6 && shadetop.length()==6)
-		gl_round_box_Hshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGB(shadedown.c_str()), Hex_to_RGB(shadetop.c_str()));
+    if (shadedown.length()==8 && shadetop.length()==8)
+        gl_round_box_Hshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGBA(shadedown.c_str()), Hex_to_RGBA(shadetop.c_str()));
+
+    if (shadedown.length()==6 && shadetop.length()==6)
+        gl_round_box_Hshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGB(shadedown.c_str()), Hex_to_RGB(shadetop.c_str()));
 }
 
 void gl_round_box_MHshade(int mode, float minx, float miny, float maxx, float maxy, float rad, color4 shadedown, color4 shadetop)
@@ -681,11 +681,11 @@ void gl_round_box_MHshade(int mode, float minx, float miny, float maxx, float ma
 
 void gl_round_box_MHshade ( int mode, float minx, float miny, float maxx, float maxy, float rad, std::string shadedown, std::string shadetop )
 {
-	if (shadedown.length()==8 && shadetop.length()==8)
-		gl_round_box_MHshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGBA(shadedown.c_str()), Hex_to_RGBA(shadetop.c_str()));
-	
-	if (shadedown.length()==6 && shadetop.length()==6)
-		gl_round_box_MHshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGB(shadedown.c_str()), Hex_to_RGB(shadetop.c_str()));
+    if (shadedown.length()==8 && shadetop.length()==8)
+        gl_round_box_MHshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGBA(shadedown.c_str()), Hex_to_RGBA(shadetop.c_str()));
+
+    if (shadedown.length()==6 && shadetop.length()==6)
+        gl_round_box_MHshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGB(shadedown.c_str()), Hex_to_RGB(shadetop.c_str()));
 }
 
 
@@ -840,11 +840,11 @@ void gl_round_box_Vshade(int mode, float minx, float miny, float maxx, float max
 
 void gl_round_box_Vshade ( int mode, float minx, float miny, float maxx, float maxy, float rad, std::string shadedown, std::string shadetop )
 {
-	if (shadedown.length()==8 && shadetop.length()==8)
-		gl_round_box_Vshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGBA(shadedown.c_str()), Hex_to_RGBA(shadetop.c_str()));
-	
-	if (shadedown.length()==6 && shadetop.length()==6)
-		gl_round_box_Vshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGB(shadedown.c_str()), Hex_to_RGB(shadetop.c_str()));
+    if (shadedown.length()==8 && shadetop.length()==8)
+        gl_round_box_Vshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGBA(shadedown.c_str()), Hex_to_RGBA(shadetop.c_str()));
+
+    if (shadedown.length()==6 && shadetop.length()==6)
+        gl_round_box_Vshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGB(shadedown.c_str()), Hex_to_RGB(shadetop.c_str()));
 }
 
 void gl_round_box_MVshade(int mode, float minx, float miny, float maxx, float maxy, float rad, color4 shadeLeft, color4 shadeRight)
@@ -892,11 +892,11 @@ void gl_round_box_MVshade(int mode, float minx, float miny, float maxx, float ma
 
 void gl_round_box_MVshade ( int mode, float minx, float miny, float maxx, float maxy, float rad, std::string shadedown, std::string shadetop )
 {
-	if (shadedown.length()==8 && shadetop.length()==8)
-		gl_round_box_MVshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGBA(shadedown.c_str()), Hex_to_RGBA(shadetop.c_str()));
-	
-	if (shadedown.length()==6 && shadetop.length()==6)
-		gl_round_box_MVshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGB(shadedown.c_str()), Hex_to_RGB(shadetop.c_str()));
+    if (shadedown.length()==8 && shadetop.length()==8)
+        gl_round_box_MVshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGBA(shadedown.c_str()), Hex_to_RGBA(shadetop.c_str()));
+
+    if (shadedown.length()==6 && shadetop.length()==6)
+        gl_round_box_MVshade(mode, minx, miny, maxx, maxy, rad, Hex_to_RGB(shadedown.c_str()), Hex_to_RGB(shadetop.c_str()));
 }
 
 

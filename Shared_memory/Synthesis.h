@@ -5,38 +5,38 @@
 #include <string>
 using namespace std;
 
-///*! \brief  Information regarding the voice synthesis 
+///*! \brief  Information regarding the voice synthesis
 // *
-// *  
+// *
 // */
 class Synthesis {
-  private:
+private:
     ///*! \brief String containing the phrase that will be synthesized
     // *
-    // *  
+    // *
     // */
     string * Phrase;
 
     ///*! \brief Letter currently being synthesized
     // *
-    // *  
+    // *
     // */
     int Current_letter;
 
     ///*! \brief Speed of the synthetization
     // *
-    // *  
+    // *
     // */
     float Speed;
 
     ///*! \brief Volume the synthezicer should use for this phrase
     // *
-    // *  
+    // *
     // */
     int Volumen;
 
 
-  public:
+public:
     ///*! \brief Gets the letter index the sintetizer is sinthetizing
     // *
     // *   Gets the letter index the sintetizer is sinthetizing \return Current_letter
@@ -57,7 +57,7 @@ class Synthesis {
 
     ///*! \brief Sets the speed at which the sintetizer is sinthetizing
     // *
-    // *   Sets the speed at which the sintetizer is sinthetizing 
+    // *   Sets the speed at which the sintetizer is sinthetizing
     // */
     void set_Speed(float value);
 
@@ -69,7 +69,7 @@ class Synthesis {
 
     ///*! \brief Sets the volumen at which the sintetizer is sinthetizing
     // *
-    // *   Sets the volumen at which the sintetizer is sinthetizing 
+    // *   Sets the volumen at which the sintetizer is sinthetizing
     // */
     void set_Volumen(int value);
 
@@ -85,6 +85,6 @@ class Synthesis {
     // */
     void set_Phrase(string value);
 
-  friend class Robot;
+    friend class Robot;
 };
 #endif

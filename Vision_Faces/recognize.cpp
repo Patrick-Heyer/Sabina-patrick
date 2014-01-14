@@ -25,39 +25,39 @@ int recognize (IplImage *imagen) {
     int how_many,temp,count;
     //cvNamedWindow("reco",1);
     IniciaProbabilidades();
-   // fprintf( stdout, "(recognize.cpp) recognize function..\n");
+    // fprintf( stdout, "(recognize.cpp) recognize function..\n");
     count=0;
     int persona=0;
 
 
-        clone = cvCloneImage(imagen);
+    clone = cvCloneImage(imagen);
 
-        pFaceRect = detectFace(clone,&how_many);
-        //cvShowImage("reco",imageR);
-        if (how_many) {
-            IplImage *tmp = cvCreateImage( cvSize(pFaceRect->width,pFaceRect->height),8,3);
-            IplImage *face  = cvCreateImage( cvSize(pFaceRect->width,pFaceRect->height),8,1);
-            cvSetImageROI(clone, *pFaceRect );
-            cvCopy(clone,tmp,0);
-            cvResetImageROI(clone);
-            cvCvtColor(tmp,face,CV_RGB2GRAY);
-            int temp=ComparaBD(face,count++) ;
-          //  printf("(Reconoci a  %d)\n",temp);
-            if (temp!=0) {
-                persona=temp;
-            }
-            cvReleaseImage(&tmp);
-            cvReleaseImage(&face);
+    pFaceRect = detectFace(clone,&how_many);
+    //cvShowImage("reco",imageR);
+    if (how_many) {
+        IplImage *tmp = cvCreateImage( cvSize(pFaceRect->width,pFaceRect->height),8,3);
+        IplImage *face  = cvCreateImage( cvSize(pFaceRect->width,pFaceRect->height),8,1);
+        cvSetImageROI(clone, *pFaceRect );
+        cvCopy(clone,tmp,0);
+        cvResetImageROI(clone);
+        cvCvtColor(tmp,face,CV_RGB2GRAY);
+        int temp=ComparaBD(face,count++) ;
+        //  printf("(Reconoci a  %d)\n",temp);
+        if (temp!=0) {
+            persona=temp;
         }
-        else fprintf(stdout,"No vi a naiden \n");
+        cvReleaseImage(&tmp);
+        cvReleaseImage(&face);
+    }
+    else fprintf(stdout,"No vi a naiden \n");
 
 
-       
-    
+
+
     cvReleaseImage(&clone);
     //cvSaveImage("saved.jpg",clone);
     //cvDestroyWindow("reco");
-  //  fprintf( stdout, "(recognize.cpp) End recognize\n");
+    //  fprintf( stdout, "(recognize.cpp) End recognize\n");
     return persona;
 }
 

@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <pthread.h>
+#include <unistd.h>
 #include <GL/glut.h>
 #include <GL/freeglut_ext.h>
 
@@ -49,7 +50,7 @@ class Voice_Synthesis : public IPlugin
 {
 public:
     void Main();
-	void stop();
+    void stop();
     void run();
 };
 
@@ -68,7 +69,7 @@ PLUGIN_DISPLAY_NAME(PLUGIN_NAME);
 PLUGIN_INIT()
 {
     // register our new plugin
-    std::cout << "PLUGIN_INIT" << std::endl;
+
     RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyPlugin);
     return 0;
 }
@@ -93,53 +94,53 @@ void Voice_Synthesis::Main()
 
             for ( int i = 0 ; i < str.length(); i++)
             {
-               
+
                 char temp=str[i];
                 switch(temp)
                 {
-                    case 'a':
-                        patrol->getInstance().face_frame=1+emotion;
-                        break;
-                    case 'e':
-                        patrol->getInstance().face_frame=2+emotion;
-                        break;
-                    case 'f':
-                        patrol->getInstance().face_frame=11+emotion;
-                        break;
-                    case 'i':
-                        patrol->getInstance().face_frame=3+emotion;
-                        break;
-                    case 'o':
-                        patrol->getInstance().face_frame=4+emotion;
-                        break;
-                    case 's':
-                        patrol->getInstance().face_frame=17+emotion;
-                        break;                    
-                    case 't':
-                        patrol->getInstance().face_frame=3+emotion;
-                        break;
-                    case 'u':
-                        patrol->getInstance().face_frame=5+emotion;
-                        break;
-                    case 'y':
-                        patrol->getInstance().face_frame=3+emotion;
-                        break;
-                    default:
-                        patrol->getInstance().face_frame=0;
-                        break;
+                case 'a':
+                    patrol->getInstance().face_frame=1+emotion;
+                    break;
+                case 'e':
+                    patrol->getInstance().face_frame=2+emotion;
+                    break;
+                case 'f':
+                    patrol->getInstance().face_frame=11+emotion;
+                    break;
+                case 'i':
+                    patrol->getInstance().face_frame=3+emotion;
+                    break;
+                case 'o':
+                    patrol->getInstance().face_frame=4+emotion;
+                    break;
+                case 's':
+                    patrol->getInstance().face_frame=17+emotion;
+                    break;
+                case 't':
+                    patrol->getInstance().face_frame=3+emotion;
+                    break;
+                case 'u':
+                    patrol->getInstance().face_frame=5+emotion;
+                    break;
+                case 'y':
+                    patrol->getInstance().face_frame=3+emotion;
+                    break;
+                default:
+                    patrol->getInstance().face_frame=0;
+                    break;
                 }
-                    
+
 //                 patrol->getInstance().face_frame=i;
-//                 usleep(73000);
+                usleep(73000);
             }
             patrol->getInstance().Sintetizer.set_Phrase("");
             patrol->getInstance().face_frame=0;
         }
 
         else
-	{
-	    
-	}
+        {
+
+        }
     }
 
 }

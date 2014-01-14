@@ -60,7 +60,7 @@ typedef struct Image Image;
 void detect_and_draw ( IplImage* image );
 
 const char* cascade_name =
-"../data/haarcascade_frontalface_default.xml";
+    "../data/haarcascade_frontalface_default.xml";
 /*    "haarcascade_profileface.xml";*/
 
 void detect_and_draw ( IplImage* img )
@@ -76,17 +76,17 @@ void detect_and_draw ( IplImage* img )
         {{255,0,0}},
         {{255,0,255}}
     };
-    
+
     double scale = 2.0;
     IplImage* gray = cvCreateImage ( cvSize ( img->width,img->height ), 8, 1 );
     IplImage* small_img = cvCreateImage ( cvSize ( cvRound ( img->width/scale ), cvRound ( img->height/scale ) ), 8, 1 );
     int i;
-    
+
     cvCvtColor ( img, gray, CV_BGR2GRAY );
     cvResize ( gray, small_img, CV_INTER_LINEAR );
     cvEqualizeHist ( small_img, small_img );
     cvClearMemStorage ( storage );
-    
+
     if ( cascade )
     {
         double t = ( double ) cvGetTickCount();
@@ -98,17 +98,17 @@ void detect_and_draw ( IplImage* img )
         {
             CvRect* r = ( CvRect* ) cvGetSeqElem ( faces, i );
             CvPoint center;
-            
+
             center.x = cvRound ( ( r->x + r->width*0.5 ) *scale );
             center.y = cvRound ( ( r->y + r->height*0.5 ) *scale );
-            
+
             headX = center.x;
             headY = center.y;
-            
+
             cvCircle ( img, center, 1, colors[i%8], 3, 8, 0 );
         }
     }
-    
+
     cvReleaseImage ( &gray );
     cvReleaseImage ( &small_img );
 }
@@ -135,27 +135,27 @@ void setFace(int id)
     IntStringMap::iterator name;
     if (Face_ID.find(id)!=Face_ID.end())
     {
-    name = Face_ID.find(id);
-    
-    ss << "../data/Face/" << name->second << ".tga";
-    head_tex=LoadTexture(ss.str().c_str());
-    ss.str("");
-    ss << "../data/Face/" << name->second << ".md3";
-    std::cout <<"Loading " << ss.str().c_str() << std::endl;
-    head= new Md3Model(ss.str().c_str());
-    ss.str("");
+        name = Face_ID.find(id);
+
+        ss << "../data/Face/" << name->second << ".tga";
+        head_tex=LoadTexture(ss.str().c_str());
+        ss.str("");
+        ss << "../data/Face/" << name->second << ".md3";
+        std::cout <<"Loading " << ss.str().c_str() << std::endl;
+        head= new Md3Model(ss.str().c_str());
+        ss.str("");
     }
 }
 
 void initFace(string face_dir)
 {
     std::stringstream ss;
-        string name;
-        int ID;
+    string name;
+    int ID;
 
     CTextureManager::getInstance()->Initialize();
     cvInit ( );
-  
+
     ss << face_dir.c_str() << "Face_List";
     ifstream myfile(ss.str().c_str());
     ss.str("");
@@ -173,7 +173,7 @@ void initFace(string face_dir)
     }
 
 
-    
+
 
     ss << face_dir << name << ".tga";
 
@@ -181,7 +181,7 @@ void initFace(string face_dir)
     ss.str("");
     ss << face_dir << name << ".md3";
     head=new Md3Model(ss.str().c_str());
-    
+
     patrolbot->getInstance().face_frame=0;
     ss.str("");
 }
@@ -190,12 +190,12 @@ int skip=0;
 
 void DrawFace ( void )
 {
-    frame=patrolbot->getInstance().Ptz.get_image();
+    frame=cvCloneImage(patrolbot->getInstance().Ptz.get_image());
     cvFlip ( frame, frame,1 );
     detect_and_draw ( frame );
 
-    
-    
+
+
     glLoadIdentity();
     glPushMatrix();
     glTranslatef(0.0f,-2.9f,-15.0f);
@@ -210,56 +210,56 @@ void DrawFace ( void )
     u.Normalize();
     Vector3D v = n.Cross ( n,u );
     v.Normalize();
-    
+
     //create the viewmatrix
     double curmat[16];
-    
+
     curmat[0]=u.X;
     curmat[1]=u.Y;
     curmat[2]=u.Z;
     curmat[3]=0;
-    
+
     curmat[4]=v.X;
     curmat[5]=v.Y;
     curmat[6]=v.Z;
     curmat[7]=0;
-    
+
     curmat[8]=n.X;
     curmat[9]=n.Y;
     curmat[10]=n.Z;
     curmat[11]=0;
-    
+
     curmat[12]=0;
     curmat[13]=0;
     curmat[14]=0;
     curmat[15]=1;
     glMultMatrixd ( curmat );
-    
+
     glColor3f(1,1,1);
-    
+
     glEnable ( GL_TEXTURE_2D );
     glPolygonMode ( GL_FRONT, GL_FILL );
     glBindTexture(GL_TEXTURE_2D, head_tex);
 
     head->renderFrameImmediate(patrolbot->getInstance().face_frame);
     if (patrolbot->getInstance().face_frame<100)
-       if(skip<3)
-	 skip++;
-       else
-       {
-	 patrolbot->getInstance().face_frame++;
-	 skip=0;
-       }
+        if(skip<3)
+            skip++;
+        else
+        {
+            patrolbot->getInstance().face_frame++;
+            skip=0;
+        }
     else
-      patrolbot->getInstance().face_frame=0;
-    
+        patrolbot->getInstance().face_frame=0;
+
     glPopMatrix();
 
-    
+
     glPopMatrix();
-    
+
     cvReleaseImage(&frame);
 
-      usleep(10000);
+    usleep(10000);
 }
 

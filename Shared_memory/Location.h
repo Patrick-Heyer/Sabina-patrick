@@ -5,30 +5,30 @@
 ///*! \brief Contains the info about a position in 2D space
 // *
 // *  Contains the info about a position in 2D space x, y , angle it is used to
-// *  define points on the map 
+// *  define points on the map
 // */
 class Location {
-  private:
+private:
     ///*! \brief The X position of the location
     // *
-    // *  
+    // *
     // */
     int X;
 
     ///*! \brief The Y position of the location
     // *
-    // *  
+    // *
     // */
     int Y;
 
     ///*! \brief The angle of the location
     // *
-    // *  
+    // *
     // */
     float Angle;
 
 
-  public:
+public:
     ///*! \brief Gets the X position of the location
     // *
     // *  Gets the X position of the location \return X
@@ -71,6 +71,6 @@ class Location {
     // */
     void set(int x, int y, float angle);
 
-  friend class Robot;
+    friend class Robot;
 };
 #endif

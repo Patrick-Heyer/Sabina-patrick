@@ -21,20 +21,20 @@
 // #include <wx/intl.h>
 
 
-   void GetProfile(int len,
-                   float *buffer);
-   void RemoveNoise(int len,
-                   float *buffer); 
+void GetProfile(int len,
+                float *buffer);
+void RemoveNoise(int len,
+                 float *buffer);
 
-   int Amplify(float *buffer,
-                   int len);
+int Amplify(float *buffer,
+            int len);
 
-   extern int       windowSize;
-   extern float    *noiseGate;
-   extern float    *sum;
-   extern float    *sumsqz;
-   extern float    *smoothing;
-   extern int      *profileCount;
-   extern int       level;
+extern int       windowSize;
+extern float    *noiseGate;
+extern float    *sum;
+extern float    *sumsqz;
+extern float    *smoothing;
+extern int      *profileCount;
+extern int       level;
 
 #endif

@@ -18,9 +18,9 @@ description :
 
 class CSamples
 {
-  protected:
+protected:
     std::vector < std::vector < CPersonajeConfig > > _Samples_m ;
-  public:
+public:
 
     CSamples() ;
 

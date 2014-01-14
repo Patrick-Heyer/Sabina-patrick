@@ -70,7 +70,7 @@ extern char *optarg;
 extern int optind, opterr;
 #if defined(__STDC__) || defined(__cplusplus)
 /* Commented out by Don.. causing warnings under Linux
- * EXTERN void exit ARGS((int)); 
+ * EXTERN void exit ARGS((int));
  */
 #endif
 
@@ -149,25 +149,25 @@ extern VOID_OR_INT rewind();
 EXTERN void free ARGS((void *));
 #else
 # ifndef _IBMR2
-    extern VOID_OR_INT abort(), exit();
+extern VOID_OR_INT abort(), exit();
 # endif
 # if !defined(__STDC__) && !defined(_IBMR2)
-    extern VOID_OR_INT perror();
+extern VOID_OR_INT perror();
 #   ifdef __osf__
-      extern int sprintf();
+extern int sprintf();
 #   else
 #     ifndef _IBMR2
-        extern char *sprintf();
+extern char *sprintf();
 #     endif
 #   endif
 # endif
 # if !defined(MNEMOSYNE) && !defined(_IBMR2)
-    EXTERN VOID_OR_INT free ARGS((void *));
-    extern VOID_OR_CHAR *malloc(), *realloc();
+EXTERN VOID_OR_INT free ARGS((void *));
+extern VOID_OR_CHAR *malloc(), *realloc();
 # endif
-  extern char *getenv();
-  extern int system();
-  extern double atof();
+extern char *getenv();
+extern int system();
+extern double atof();
 #endif
 
 

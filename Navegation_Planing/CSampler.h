@@ -22,9 +22,9 @@ description :
 *** end of class ***/
 class uu_Sampler
 {
-  protected:
+protected:
     CProbot * _Probot_p_m ;
-  public:
+public:
     uu_Sampler( const CProbot * ) ;
     virtual int Generate(CPersonajeConfig & ) = 0 ;
 } ;
@@ -41,7 +41,7 @@ description :
 *** end of class ***/
 class uu_UniformRandomSampler : public uu_Sampler
 {
-  public:
+public:
     uu_UniformRandomSampler( const CProbot * Probot_p_m ) : uu_Sampler(Probot_p_m) {}
     int Generate(CPersonajeConfig & ) ;
 } ;
@@ -60,7 +60,7 @@ description :
 class uu_GaussianSampler : public uu_Sampler
 {
 
-  public:
+public:
     uu_GaussianSampler( const CProbot * Probot_p_m ) : uu_Sampler(Probot_p_m) {}
     int Generate(CPersonajeConfig & ) ;
 } ;

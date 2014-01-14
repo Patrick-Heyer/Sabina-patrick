@@ -1,20 +1,20 @@
 /* A Bison parser, made by GNU Bison 2.4.3.  */
 
 /* Skeleton interface for Bison's Yacc-like parsers in C
-   
+
       Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
    2009, 2010 Free Software Foundation, Inc.
-   
+
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
@@ -27,7 +27,7 @@
    special exception, which will cause the skeleton and the resulting
    Bison output files to be licensed under the GNU General Public
    License without this special exception.
-   
+
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
@@ -35,39 +35,39 @@
 /* Tokens.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum yytokentype {
-     NAME = 258,
-     REAL = 259,
-     INTGR = 260,
-     OPP = 261,
-     CLP = 262,
-     VARIABLES = 263,
-     DISCOUNT = 264,
-     TOLERANCE = 265,
-     REWARD = 266,
-     VALUE = 267,
-     ACTION = 268,
-     ENDACTION = 269,
-     OBSERVATIONS = 270,
-     OBSERVE = 271,
-     ENDOBSERVE = 272,
-     BELIEF = 273,
-     ENDBELIEF = 274,
-     DISJ = 275,
-     CONJ = 276,
-     RENORM = 277,
-     OSB = 278,
-     CSB = 279,
-     HORIZON = 280,
-     VAL = 281,
-     COST = 282,
-     PRIME = 283,
-     UNNORM = 284,
-     STARTDD = 285,
-     ENDDD = 286
-   };
+/* Put the tokens into the symbol table, so that GDB and other debuggers
+   know about them.  */
+enum yytokentype {
+    NAME = 258,
+    REAL = 259,
+    INTGR = 260,
+    OPP = 261,
+    CLP = 262,
+    VARIABLES = 263,
+    DISCOUNT = 264,
+    TOLERANCE = 265,
+    REWARD = 266,
+    VALUE = 267,
+    ACTION = 268,
+    ENDACTION = 269,
+    OBSERVATIONS = 270,
+    OBSERVE = 271,
+    ENDOBSERVE = 272,
+    BELIEF = 273,
+    ENDBELIEF = 274,
+    DISJ = 275,
+    CONJ = 276,
+    RENORM = 277,
+    OSB = 278,
+    CSB = 279,
+    HORIZON = 280,
+    VAL = 281,
+    COST = 282,
+    PRIME = 283,
+    UNNORM = 284,
+    STARTDD = 285,
+    ENDDD = 286
+};
 #endif
 
 
@@ -76,19 +76,19 @@
 typedef union YYSTYPE
 {
 
-/* Line 1685 of yacc.c  */
+    /* Line 1685 of yacc.c  */
 #line 44 "mdpparser.y"
 
-  double val;
-  int ival;
-  DdNode * dnode;
-  DdNode ** p_dnode;
-  double *darray;
-  char *nme;
+    double val;
+    int ival;
+    DdNode * dnode;
+    DdNode ** p_dnode;
+    double *darray;
+    char *nme;
 
 
 
-/* Line 1685 of yacc.c  */
+    /* Line 1685 of yacc.c  */
 #line 93 "mdpparser.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1

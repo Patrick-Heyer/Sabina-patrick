@@ -8,8 +8,8 @@ gui::gui ( int x, int y )
     size[1]=y;
     AddWindow(0,0,0,100,990,"Task");
     AddWindow(1,250,-TITLE_BAR_HEIGHT,940,20,"Terminal");
-	this->FindWindow("Terminal")->hide=true;
-    
+    this->FindWindow("Terminal")->hide=true;
+
 }
 
 void gui::AddWindow ( bool max, int x, int y, int w, int h, std::string label )
@@ -219,8 +219,8 @@ void gui::Draw()
 }
 
 void gui::ReSize ( int x, int y )
-{ if(x>0)  size[0]=x;
-  if(y>0)  size[1]=y;
+{   if(x>0)  size[0]=x;
+    if(y>0)  size[1]=y;
 }
 
 window::window (bool max, int x, int y, int w, int h, std::string label, gui &par )
@@ -519,22 +519,22 @@ void window::DrawTitle()
 
     glColor4fv (color_mouse_pasive_over);
     gl_round_box_shade ( GL_POLYGON,pos[0],pos[1],pos[0]+size[0],pos[1]+TITLE_BAR_HEIGHT,CORNER_RADIUS,.5,1 );
-	DrawText ( pos[0]+20,pos[1]+TITLE_BAR_HEIGHT-3, name );
+    DrawText ( pos[0]+20,pos[1]+TITLE_BAR_HEIGHT-3, name );
 
-if(name!="Task")
-{
-   
-    glColor4f (1,0,0,1);
-    uiSetRoundBox ( 15 );
-    gl_round_box( GL_POLYGON,pos[0]+size[0]-40-TITLE_BAR_HEIGHT,pos[1]+1,pos[0]+size[0]-42,pos[1]+TITLE_BAR_HEIGHT-2,6 );
+    if(name!="Task")
+    {
 
-    
-    glColor4f (0,1,0,1);
-    uiSetRoundBox ( 15 );
-    gl_round_box( GL_POLYGON,pos[0]+size[0]-60-TITLE_BAR_HEIGHT,pos[1]+1,pos[0]+size[0]-62,pos[1]+TITLE_BAR_HEIGHT-2,6 );
- 	DrawText ( pos[0]+size[0]-40-(TITLE_BAR_HEIGHT-3),pos[1]+TITLE_BAR_HEIGHT-3, "X" );
-	DrawText ( pos[0]+size[0]-60-(TITLE_BAR_HEIGHT-3),pos[1]+TITLE_BAR_HEIGHT-5, ">" );
-}
+        glColor4f (1,0,0,1);
+        uiSetRoundBox ( 15 );
+        gl_round_box( GL_POLYGON,pos[0]+size[0]-40-TITLE_BAR_HEIGHT,pos[1]+1,pos[0]+size[0]-42,pos[1]+TITLE_BAR_HEIGHT-2,6 );
+
+
+        glColor4f (0,1,0,1);
+        uiSetRoundBox ( 15 );
+        gl_round_box( GL_POLYGON,pos[0]+size[0]-60-TITLE_BAR_HEIGHT,pos[1]+1,pos[0]+size[0]-62,pos[1]+TITLE_BAR_HEIGHT-2,6 );
+        DrawText ( pos[0]+size[0]-40-(TITLE_BAR_HEIGHT-3),pos[1]+TITLE_BAR_HEIGHT-3, "X" );
+        DrawText ( pos[0]+size[0]-60-(TITLE_BAR_HEIGHT-3),pos[1]+TITLE_BAR_HEIGHT-5, ">" );
+    }
     glColor3f ( 0,0,0 );
     if ( state==MAXIMIZED )
     {
@@ -717,23 +717,23 @@ void button::Draw()
 {
     if (type==1 || type==0)
     {
-if (clicked)  glColor4f(.3,1,.3,.8);
+        if (clicked)  glColor4f(.3,1,.3,.8);
         else glColor4f(.3,.3,1,.8);
-      
+
 
         uiSetRoundBox ( 15 );
         gl_round_box_shade ( GL_POLYGON,pos[0],pos[1],pos[0]+size[0],pos[1]+size[1],BUTTON_RADIUS,.1,.5 );
-DrawText ( pos[0]+20,pos[1]+BUTTON_HEIGHT-3, name );
+        DrawText ( pos[0]+20,pos[1]+BUTTON_HEIGHT-3, name );
     }
     if (type==2)
     {
         std::ostringstream stm;
         stm <<*value;
 
-        
+
         uiSetRoundBox ( 15 );
 
-		if (clicked)  glColor4f(.3,1,.3,.8);
+        if (clicked)  glColor4f(.3,1,.3,.8);
         else glColor4f(.3,.3,1,.8);
         gl_round_box_shade ( GL_POLYGON,pos[0],pos[1],pos[0]+size[0],pos[1]+size[1],BUTTON_RADIUS,.1,.5 );
 
@@ -743,13 +743,13 @@ DrawText ( pos[0]+20,pos[1]+BUTTON_HEIGHT-3, name );
         glColor4f(.1,.1,1,1);
         uiSetRoundBox ( 6 );
         gl_round_box_shade ( GL_POLYGON,pos[0]+size[0]-(size[0]/6),pos[1],pos[0]+size[0],pos[1]+size[1],BUTTON_RADIUS,.1,.5 );
-		DrawText ( pos[0]+(size[0]/2)-name.length(),pos[1]+BUTTON_HEIGHT-3, name );
-		DrawText ( pos[0]+5,pos[1]+BUTTON_HEIGHT-3, " - " );
+        DrawText ( pos[0]+(size[0]/2)-name.length(),pos[1]+BUTTON_HEIGHT-3, name );
+        DrawText ( pos[0]+5,pos[1]+BUTTON_HEIGHT-3, " - " );
         DrawText ( pos[0]+50,pos[1]+BUTTON_HEIGHT-3, stm.str() );
         DrawText ( pos[0]+(size[0]-15),pos[1]+BUTTON_HEIGHT-3, " + " );
     }
 
-  
+
 }
 
 textbox::textbox(int x, int y, int w, int h, std::string label, window& par)
@@ -856,7 +856,7 @@ locator::locator(std::string label, std::string *ref, window& par)
     name=label;
     x=0;
     y=0;
-rotation=0;
+    rotation=0;
     brother=temp;
 
 }
@@ -864,11 +864,11 @@ rotation=0;
 void locator::Draw()
 {
     if (rotation<-179) rotation+=360;
-  if (rotation>180) rotation-=360;
-	if(this->x<=0) x=0;
-	if(this->x>=size[0]) x=size[0]; 	
+    if (rotation>180) rotation-=360;
+    if(this->x<=0) x=0;
+    if(this->x>=size[0]) x=size[0];
     if(this->y<=0) y=0;
-	if(this->y>=size[1]) y=size[1]; 	
+    if(this->y>=size[1]) y=size[1];
     glDisable (GL_TEXTURE_2D);
     glColor4f(1,0,0,.5);
     glBegin(GL_LINES);
@@ -888,7 +888,7 @@ void locator::Draw()
     glVertex2f(pos[0]+x+(cos(-1*rotation*PI/180)*100),pos[1]+y+(sin(-1*rotation*PI/180)*100));
     glEnd();
 
- 
+
     glPointSize ( 50 );
 }
 
@@ -910,15 +910,15 @@ void locator::Mouse_Left_Click(int x, int y)
 
 void locator::Mouse_Right_Click(int x, int y)
 {
- if ( x>=pos[0] && x<=pos[0]+size[0] && y>=pos[1] && y<=pos[1]+size[1])
+    if ( x>=pos[0] && x<=pos[0]+size[0] && y>=pos[1] && y<=pos[1]+size[1])
     {
-   float angle=atan2(pos[0]+this->x-x, pos[1]+this->y-y);
-   
-   rotation=angle* 180 / PI;
-   rotation=rotation*-1;
-   rotation=rotation-90;
- int temp=rotation;
- rotation=temp*-1;
+        float angle=atan2(pos[0]+this->x-x, pos[1]+this->y-y);
+
+        rotation=angle* 180 / PI;
+        rotation=rotation*-1;
+        rotation=rotation-90;
+        int temp=rotation;
+        rotation=temp*-1;
     }
 
 }
@@ -935,15 +935,15 @@ void locator::Mouse_Over_Active_L(int x, int y)
 
 void locator::Mouse_Over_Active_R(int x, int y)
 {
- if ( x>=pos[0] && x<=pos[0]+size[0] && y>=pos[1] && y<=pos[1]+size[1])
+    if ( x>=pos[0] && x<=pos[0]+size[0] && y>=pos[1] && y<=pos[1]+size[1])
     {
-   float angle=atan2(pos[0]+this->x-x, pos[1]+this->y-y);
-   
-   rotation=angle* 180 / PI;
-   rotation=rotation*-1;
-   rotation=rotation-90;
-  int temp=rotation;
- rotation=temp*-1;
+        float angle=atan2(pos[0]+this->x-x, pos[1]+this->y-y);
+
+        rotation=angle* 180 / PI;
+        rotation=rotation*-1;
+        rotation=rotation-90;
+        int temp=rotation;
+        rotation=temp*-1;
     }
 
 }
@@ -992,8 +992,8 @@ void drop::Draw()
 
     uiSetRoundBox ( 15 );
 
-if (clicked)  glColor4f(.3,1,.3,.8);
-        else glColor4f(.3,.3,1,.8);
+    if (clicked)  glColor4f(.3,1,.3,.8);
+    else glColor4f(.3,.3,1,.8);
     gl_round_box_shade ( GL_POLYGON,pos[0],pos[1],pos[0]+size[0],pos[1]+size[1],BUTTON_RADIUS,.1,.5 );
 
     glColor4f(.1,.1,1,1);
@@ -1061,4 +1061,4 @@ void drop::Mouse_Right_Released(int x, int y)
 
 
 
- 
+

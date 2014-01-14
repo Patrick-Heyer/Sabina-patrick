@@ -25,12 +25,12 @@ description :
 
 class uu_LocalPlanner
 {
-  protected:
+protected:
 
     CProbot *                       __Probot_p_m ;
     std::vector < CPersonajeConfig >           __LocalPath_m ;
 
-  public:
+public:
 
     int Count, CCCount ;
 
@@ -65,14 +65,14 @@ description :
 class TranslateOnlyPlanner : public uu_LocalPlanner
 {
 
-  public:
+public:
 
     TranslateOnlyPlanner( const CProbot * ) ;
     double Distance( const CPersonajeConfig &, const CPersonajeConfig & ) ;
     double SquareDistance( const CPersonajeConfig &,
                            const CPersonajeConfig & ) ;
     int CheckPath( const CPersonajeConfig &, const CPersonajeConfig &,
-                      double &PathLength ) ;
+                   double &PathLength ) ;
     int ReturnPath( const CPersonajeConfig &,
                     const CPersonajeConfig & ) ;
 } ;

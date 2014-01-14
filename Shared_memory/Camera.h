@@ -6,25 +6,25 @@
 
 ///*! \brief Information about the processed information of a camara
 // *
-// *  
+// *
 // */
 class Camera {
-  private:
-      ///*! \brief The height in pixels of the image
+private:
+    ///*! \brief The height in pixels of the image
     // *
-    // *  
+    // *
     // */
     int imageHeight;
 
     ///*! \brief The width in pixels of the image
     // *
-    // *  
+    // *
     // */
     int imageWidth;
 
 
-  public:
- 
+public:
+
     ///*! \brief Gets the height in pixels of an image
     // *
     // *  Gets the height of the image captured by the camera  \return Image_height
@@ -49,6 +49,6 @@ class Camera {
     // */
     void setImageWidth(int value);
 
-  friend class Robot;
+    friend class Robot;
 };
 #endif

@@ -81,57 +81,57 @@ void Manipulacion::Main()
     current_tab = new tab("Manipulacion");
     console *error_terminal;
     error_terminal = new console(0,HEIGHT*.02,500,HEIGHT/2,"error", current_tab);
-   // ArmKatanaForSabina brazo;
+    // ArmKatanaForSabina brazo;
     std::cout << "antes de init: ";
-  //  brazo.init();
- //   brazo.moveToCarriyingPos();
-    sleep(2);    
- //   brazo.closerGripper();
+    //  brazo.init();
+//   brazo.moveToCarriyingPos();
+    sleep(2);
+//   brazo.closerGripper();
 
-    
+
     std::string accion;
     for (;;)
     {
-	accion=patrol->get_Instance().get_Action();
-	if(accion=="entregar_objeto")
-	{
-	    GUI::GetInstance().Set_Active_Tab("Manipulacion");
-	    patrol->get_Instance().Sintetizer.set_Phrase("Please take the objet of my gripper");
-	    sleep(10);
-	 //  brazo.openGripper();
-	    sleep(5);
-	  // brazo.moveToNavigationPos();
-	    patrol->get_Instance().set_Action(cambiar_estado("objeto_entregado","si"));
-	    
-	}
-	
-	if(accion=="sujetar_objeto")
-	{
-	    GUI::GetInstance().Set_Active_Tab("Manipulacion");
-	    patrol->get_Instance().Sintetizer.set_Phrase("please put the object in front of me in my gripper");
-	    sleep(10);
-	 //  brazo.openGripper();
-	    sleep(5);
-	  // brazo.moveToNavigationPos();
-	    patrol->get_Instance().set_Current_destination(patrol->get_Instance().prev_destination->c_str());
-	    
-	    cambiar_estado("ruta_planeada", "no");
-	   cambiar_estado("destino_alcanzado","no");
-	    patrol->get_Instance().set_Action(cambiar_estado("objeto_sujetado","si"));
-	    
-	}
+        accion=patrol->get_Instance().get_Action();
+        if(accion=="entregar_objeto")
+        {
+            GUI::GetInstance().Set_Active_Tab("Manipulacion");
+            patrol->get_Instance().Sintetizer.set_Phrase("Please take the objet of my gripper");
+            sleep(10);
+            //  brazo.openGripper();
+            sleep(5);
+            // brazo.moveToNavigationPos();
+            patrol->get_Instance().set_Action(cambiar_estado("objeto_entregado","si"));
+
+        }
+
+        if(accion=="sujetar_objeto")
+        {
+            GUI::GetInstance().Set_Active_Tab("Manipulacion");
+            patrol->get_Instance().Sintetizer.set_Phrase("please put the object in front of me in my gripper");
+            sleep(10);
+            //  brazo.openGripper();
+            sleep(5);
+            // brazo.moveToNavigationPos();
+            patrol->get_Instance().set_Current_destination(patrol->get_Instance().prev_destination->c_str());
+
+            cambiar_estado("ruta_planeada", "no");
+            cambiar_estado("destino_alcanzado","no");
+            patrol->get_Instance().set_Action(cambiar_estado("objeto_sujetado","si"));
+
+        }
     }
     //brazo.calibrate();
 //     while( true ){
-// 	
+//
 // 	std::cout << "Valor de X: ";
 // 	std::cin>>x;
 // 	std::cout << "Valor de Y: ";
 // 	std::cin>>y;
 // 	std::cout << "Valor de Z: ";
 // 	std::cin>>z;
-// 	
-// 	brazo.graspObjectAt(x, y, z);  
+//
+// 	brazo.graspObjectAt(x, y, z);
 //     }
 //     std::cout << "Done!" << std::endl;
 

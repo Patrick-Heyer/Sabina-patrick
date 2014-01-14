@@ -13,19 +13,19 @@ NearNode::NearNode(int index, double distance) : i(index), d(distance) {}
 
 
 /*** memberfunction ***
-name :     Index 
-class :    NearNode 
-input :    
-output :   int  
-author :   Valerie Boor 
-date :     09/02/1999 
-see also : 
-description 
+name :     Index
+class :    NearNode
+input :
+output :   int
+author :   Valerie Boor
+date :     09/02/1999
+see also :
+description
 
 *** end of memberfunction ***/
 int  NearNode::Index() const
 {
-  return i ;
+    return i ;
 }
 
 
@@ -42,7 +42,7 @@ description
 *** end of memberfunction ***/
 double  NearNode::Distance() const
 {
-  return d ;
+    return d ;
 }
 
 

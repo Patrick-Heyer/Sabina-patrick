@@ -10,7 +10,7 @@ bool Words_escribible=true;
 // *   Gets the direction of the sound source \return Direction
 // */
 int Voice::get_Direction() {
-  return Direction;
+    return Direction;
 }
 
 ///*! \brief Sets the direction of the sound source
@@ -18,12 +18,12 @@ int Voice::get_Direction() {
 // *   Sets the direction of the sound source
 // */
 void Voice::set_Direction(int value) {
-  do
-  {
-  }while (!Direction_escribible);
-  Direction_escribible=false;
-  Direction = value;
-  Direction_escribible=true;
+    do
+    {
+    } while (!Direction_escribible);
+    Direction_escribible=false;
+    Direction = value;
+    Direction_escribible=true;
 }
 
 ///*! \brief Gets the list of words in the phrase said to the voice recognition system
@@ -31,15 +31,15 @@ void Voice::set_Direction(int value) {
 // *   Gets the list of words in the phrase said to the voice recognition system \return Words
 // */
 string Voice::get_Words() {
-  return *Words;
+    return *Words;
 }
 
 ///*! \brief Sets the list of words in the phrase said to the voice recognition system
 // *
-// *   Sets the list of words in the phrase said to the voice recognition system 
+// *   Sets the list of words in the phrase said to the voice recognition system
 // */
 void Voice::set_Words(string value) {
-  *Words = value;
+    *Words = value;
 }
 
 ///*! \brief Gets the phrase the said to the voice recognition system
@@ -47,7 +47,7 @@ void Voice::set_Words(string value) {
 // *   Gets the phrase the user said to the voice recognition system \return Phrase
 // */
 string Voice::get_Phrase() {
-  return *Phrase;
+    return *Phrase;
 }
 
 ///*! \brief Sets the phrase the user said to the voice recognition system
@@ -57,8 +57,9 @@ string Voice::get_Phrase() {
 void Voice::set_Phrase(string value) {
     do
     {
-    }while (!Phrase_escribible);
+    } while (!Phrase_escribible);
     Phrase_escribible=false;
     *Phrase = value;
-    Phrase_escribible=true;}
+    Phrase_escribible=true;
+}
 

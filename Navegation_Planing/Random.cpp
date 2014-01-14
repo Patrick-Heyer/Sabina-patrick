@@ -17,10 +17,10 @@
 /////////////////////////////////////////////////
 double RandomBetween( double a, double b )
 {
-   double i ;
-   i = (double)rand() / (double)RAND_MAX ;   // rand() returns a random
-   i *= b - a ;			                 // int between 0 and RAND_MAX.
-   return i + a ;
+    double i ;
+    i = (double)rand() / (double)RAND_MAX ;   // rand() returns a random
+    i *= b - a ;			                 // int between 0 and RAND_MAX.
+    return i + a ;
 }
 
 
@@ -30,8 +30,8 @@ double RandomBetween( double a, double b )
 /////////////////////////////////////////////////
 double NormalRand( double Sigma )
 {
-  double a = RandomBetween( 0.0, 1.0 ) ;
-  while(a == 0.0) a = RandomBetween( 0.0, 1.0 ) ;
-  double b = RandomBetween( 0.0, 1.0 ) ;
-  return Sigma*cos(2.0*M_PI*b)*sqrt(-2.0*log(a)) ;
+    double a = RandomBetween( 0.0, 1.0 ) ;
+    while(a == 0.0) a = RandomBetween( 0.0, 1.0 ) ;
+    double b = RandomBetween( 0.0, 1.0 ) ;
+    return Sigma*cos(2.0*M_PI*b)*sqrt(-2.0*log(a)) ;
 }

@@ -92,7 +92,7 @@ void Robot::Initialize(string filename) {
         getInstance();
 
     ConfigFile config( filename );
-    
+
 
     int temp_int;
     float temp_float;
@@ -147,19 +147,19 @@ void Robot::Initialize(string filename) {
     getInstance().prev_destination= new string;
     getInstance().Sintetizer.Phrase = new string;
     getInstance().Microphone.Phrase=new string;
-	getInstance().Microphone.Words=new string;
+    getInstance().Microphone.Words=new string;
     getInstance().Route=new list<Location>;
-	
-	getInstance().seguir=false;
-	
-	
-	
-	getInstance().laser= new Laser();
-	getInstance().localized = false;
-	getInstance().estimatedPosition.set_X(0);
-	getInstance().estimatedPosition.set_Y(0);
-	getInstance().estimatedPosition.set_Angle(0);
-    
+
+    getInstance().seguir=false;
+
+
+
+    getInstance().laser= new Laser();
+    getInstance().localized = false;
+    getInstance().estimatedPosition.set_X(0);
+    getInstance().estimatedPosition.set_Y(0);
+    getInstance().estimatedPosition.set_Angle(0);
+
 }
 
 
@@ -184,7 +184,13 @@ Robot & Robot::getInstance() {
 // *  Gets the position of the robot (x, y, angle) \return Position
 // */
 Location Robot::get_Position() {
-    return Position;
+    {
+    } while (!Position_escribible);
+    Position_escribible=false;
+    Location temp=Position;
+    Position_escribible=true;
+
+    return temp;
 }
 
 ///*! \brief Sets the position of the robot
@@ -193,7 +199,7 @@ Location Robot::get_Position() {
 // */
 void Robot::setPosition(Location value) {
     {
-    }while (!Position_escribible);
+    } while (!Position_escribible);
     Position_escribible=false;
     Position = value;
     Position_escribible=true;
@@ -358,12 +364,12 @@ bool Robot::Load_Destinations(string filename) {
 // *  Deletes the first element of the Route list
 // */
 void Robot::Delete_Location_from_path() {
-  Route->pop_front();
+    Route->pop_front();
 }
 
 void Robot::Clear_path()
 {
-	Route->clear();
+    Route->clear();
 }
 
 
@@ -410,6 +416,6 @@ void Robot::setEstimatedPosition(Location newPosition) {
     {
     } while (!estimatedPosition_escribible);
     estimatedPosition_escribible=false;
-	estimatedPosition = newPosition;
+    estimatedPosition = newPosition;
     estimatedPosition_escribible=true;
 }

@@ -51,7 +51,7 @@ InputSingleton *teclado;
 
 /**
  * @brief Vision_Faces plugin
- * 
+ *
  * This plugin is used to detect, learn and recognize human faces.
  * @author     Patrick Heyer, patrickhey@prodigy.net.mx
  * @date       jul 04, 2012
@@ -60,135 +60,135 @@ InputSingleton *teclado;
 class Vision_Faces : public IPlugin
 {
 public:
-	void Main();
-	void stop();
-	void run();
+    void Main();
+    void stop();
+    void run();
 };
 
 PLUGIN_FUNC IPlugin *CreatePlugin()
 {
-	return new Vision_Faces;
+    return new Vision_Faces;
 }
 
 PLUGIN_FUNC void DestroyPlugin(IPlugin *r)
 {
-	delete r;
+    delete r;
 }
 
 PLUGIN_DISPLAY_NAME(PLUGIN_NAME);
 
 PLUGIN_INIT()
 {
-	// register our new plugin
-	std::cout << "PLUGIN_INIT" << std::endl;
-	RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyPlugin);
-	return 0;
+    // register our new plugin
+
+    RegisterPlugin(PLUGIN_NAME, CreatePlugin, DestroyPlugin);
+    return 0;
 }
 
 
 void Vision_Faces::Main()
 {
-	
-	/**
-	 * \sa detectFace
-	 * \sa learn
-	 * \sa recognize
-	 * \sa cambiar_estado
-	 **/
-	int polo=0;
-	
-	Gui::getInstance();
-	
-	IplImage *frame;
-	pluginTab = new Tab("Vision_Faces");
-	videoDisplay = new Video(0,HEIGHT*.02,WIDTH/2,HEIGHT/2,"Vision_Faces", pluginTab);
-	
-	cons= new Console(WIDTH/2,HEIGHT*.02,WIDTH/2,HEIGHT/2, "Error", pluginTab);
-	initFaceDet("../data/haarcascade_frontalface_default.xml");
-	initEyeDet("../data/parojos.xml");
-	initEyeDetD("../data/ojoD.xml");
-	initEyeDetI("../data/ojoI.xml");
-	
-	
-	
-	
-	std::map<std::string, Objective>::iterator iter;
-	std::string name;
-	
-	std::string accion;
-	for (;;)
-	{
-		accion=patrol->getInstance().get_Action();
-		frame=patrol->getInstance().Ptz.get_image();
-		if (accion=="detectar_paciente")
-		{
-			//GUI::getInstance().Set_Active_Tab("Vision_Faces");
-			if (detectFace(frame,&polo)!=NULL)
-			{
-				patrol->getInstance().Sintetizer.set_Phrase("hello DAVID i will take you to your therapy");
-		sleep(5);
-		patrol->getInstance().set_Action(cambiar_estado("detectada_p","si"));
-			}
-		}
-		
-		if (accion=="aprender_persona")
-		{
-			//GUI::getInstance().Set_Active_Tab("Vision_Faces");
-			int aprendi;
-			patrol->getInstance().Sintetizer.set_Phrase("Hello i am sabina I am waiting for a user please aproach me ");
-			sleep(2);
-			do
-			{	
-				
-				
-				frame=patrol->getInstance().Ptz.get_image();
-				aprendi=learn(frame);
-				videoDisplay->SetImage(frame);
-			}while(aprendi==0);
-			patrol->getInstance().Sintetizer.set_Phrase( "Ok i learnd your face ");
-			sleep(3);
-			patrol->getInstance().Sintetizer.set_Phrase( " ");
-			sleep(7);
-			patrol->getInstance().set_Action(cambiar_estado("aprendida_p","si"));
-			
-			
-		}
-		
-		if (accion=="reconocer_persona")
-		{
-			//GUI::getInstance().Set_Active_Tab("Vision_Faces");
-			int reconocio;
-			do
-			{
-				reconocio=recognize(frame);
-				frame=patrol->getInstance().Ptz.get_image();
-				
-			}while(reconocio==0);
+
+    /**
+     * \sa detectFace
+     * \sa learn
+     * \sa recognize
+     * \sa cambiar_estado
+     **/
+    int polo=0;
+
+    Gui::getInstance();
+
+    IplImage *frame;
+    pluginTab = new Tab("Vision_Faces");
+    videoDisplay = new Video(0,HEIGHT*.02,WIDTH/2,HEIGHT/2,"Vision_Faces", pluginTab);
+
+    cons= new Console(WIDTH/2,HEIGHT*.02,WIDTH/2,HEIGHT/2, "Error", pluginTab);
+    initFaceDet("../data/haarcascade_frontalface_default.xml");
+    initEyeDet("../data/parojos.xml");
+    initEyeDetD("../data/ojoD.xml");
+    initEyeDetI("../data/ojoI.xml");
 
 
-				std::stringstream ss;
-				
-				ss << "hello here is the " << patrol->getInstance().Microphone.get_Phrase() << " you orderd";
-				patrol->getInstance().Sintetizer.set_Phrase(ss.str());
-				sleep(3);
-				
-				patrol->getInstance().set_Action(cambiar_estado("persona_reconocida","si"));
 
-		}
-		videoDisplay->SetImage(frame);
-		cvReleaseImage(&frame);
-	}
-	
+
+    std::map<std::string, Objective>::iterator iter;
+    std::string name;
+
+    std::string accion;
+    for (;;)
+    {
+        accion=patrol->getInstance().get_Action();
+        frame=patrol->getInstance().Ptz.get_image();
+        if (accion=="detectar_paciente")
+        {
+            //GUI::getInstance().Set_Active_Tab("Vision_Faces");
+            if (detectFace(frame,&polo)!=NULL)
+            {
+                patrol->getInstance().Sintetizer.set_Phrase("hello DAVID i will take you to your therapy");
+                sleep(5);
+                patrol->getInstance().set_Action(cambiar_estado("detectada_p","si"));
+            }
+        }
+
+        if (accion=="aprender_persona")
+        {
+            //GUI::getInstance().Set_Active_Tab("Vision_Faces");
+            int aprendi;
+            patrol->getInstance().Sintetizer.set_Phrase("Hello i am sabina I am waiting for a user please aproach me ");
+            sleep(2);
+            do
+            {
+
+
+                frame=patrol->getInstance().Ptz.get_image();
+                aprendi=learn(frame);
+                videoDisplay->SetImage(frame);
+            } while(aprendi==0);
+            patrol->getInstance().Sintetizer.set_Phrase( "Ok i learnd your face ");
+            sleep(3);
+            patrol->getInstance().Sintetizer.set_Phrase( " ");
+            sleep(7);
+            patrol->getInstance().set_Action(cambiar_estado("aprendida_p","si"));
+
+
+        }
+
+        if (accion=="reconocer_persona")
+        {
+            //GUI::getInstance().Set_Active_Tab("Vision_Faces");
+            int reconocio;
+            do
+            {
+                reconocio=recognize(frame);
+                frame=patrol->getInstance().Ptz.get_image();
+
+            } while(reconocio==0);
+
+
+            std::stringstream ss;
+
+            ss << "hello here is the " << patrol->getInstance().Microphone.get_Phrase() << " you orderd";
+            patrol->getInstance().Sintetizer.set_Phrase(ss.str());
+            sleep(3);
+
+            patrol->getInstance().set_Action(cambiar_estado("persona_reconocida","si"));
+
+        }
+        videoDisplay->SetImage(frame);
+        cvReleaseImage(&frame);
+    }
+
 }
 
 void Vision_Faces::run()
 {
-	pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
+    pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
 }
 
 void Vision_Faces::stop()
 {
-	
+
 }
 
 

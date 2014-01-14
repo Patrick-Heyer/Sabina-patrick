@@ -28,7 +28,7 @@ Gui	*Gui::guiSingleton = 0;
 
 Gui::Gui()
 {
-	initialize();
+    initialize();
 }
 
 Gui::Gui(const Gui& other)
@@ -48,43 +48,43 @@ Gui& Gui::operator=(const Gui& other)
 
 void Gui::initialize()
 {
-	height=HEIGHT;
-	width=WIDTH;
-	selectedTab=0;
-	numTabs=0;
-	activeTab=0;
+    height=HEIGHT;
+    width=WIDTH;
+    selectedTab=0;
+    numTabs=0;
+    activeTab=0;
     InputSingleton::getInstance().Initialize();
 }
 
 Gui& Gui::getInstance(void )
 {
-	if ( guiSingleton == 0 )
-		guiSingleton = new Gui;
-	
-	return *guiSingleton;
+    if ( guiSingleton == 0 )
+        guiSingleton = new Gui;
+
+    return *guiSingleton;
 }
 
 void Gui::freeInstance(void )
 {
-	if ( guiSingleton != 0 )
-	{
-		delete guiSingleton;
-		guiSingleton = 0;
-	}
+    if ( guiSingleton != 0 )
+    {
+        delete guiSingleton;
+        guiSingleton = 0;
+    }
 }
 
 void Gui::Draw()
 {
-	float color[4];
-	glLoadIdentity();
-	glDisable ( GL_TEXTURE_2D );
-	setOrthographicProjection ( width, height);
+    float color[4];
+    glLoadIdentity();
+    glDisable ( GL_TEXTURE_2D );
+    setOrthographicProjection ( width, height);
     int w=width/numTabs;
     int i=0;
     for( ListItor itor = tabList.begin(); itor != tabList.end(); ++itor )
     {
         uiSetRoundBox("1100");
-        
+
         if (i==getActiveTab ())
         {
             gl_round_box_Hshade(GL_POLYGON,i*w+1,1,(i+1)*w,height*.02,height*.02*.5,"FFFFFF", "008800");
@@ -97,7 +97,7 @@ void Gui::Draw()
         drawText((w*i)+5, 15,(*itor)->get_Name(), "FFFFFF", 1 );
         i++;
     }
-	resetPerspectiveProjection();
+    resetPerspectiveProjection();
 }
 
 void Gui::update()
@@ -115,80 +115,80 @@ void Gui::proccesInput()
     unsigned char key=InputSingleton::getInstance().special_key;
     switch ( key )
     {
-        case GLUT_KEY_F1:
-            Gui::getInstance().setActiveTab(0);
-            break;
-        case GLUT_KEY_F2:
-            Gui::getInstance().setActiveTab(1);
-            break;
-        case GLUT_KEY_F3:
-            Gui::getInstance().setActiveTab(2);
-            break;
-        case GLUT_KEY_F4:
-            Gui::getInstance().setActiveTab(3);
-            break;
-        case GLUT_KEY_F5:
-            Gui::getInstance().setActiveTab(4);
-            break;
-        case GLUT_KEY_F6:
-            Gui::getInstance().setActiveTab(5);
-            break;
-        case GLUT_KEY_F7:
-            Gui::getInstance().setActiveTab(6);
-            break;
-        case GLUT_KEY_F8:
-            Gui::getInstance().setActiveTab(7);
-            break;
-        case GLUT_KEY_F9:
-            Gui::getInstance().setActiveTab(8);
-            break;
-        case GLUT_KEY_F10:
-            Gui::getInstance().setActiveTab(9);
-            break;
-        case GLUT_KEY_F11:
-            Gui::getInstance().setActiveTab(10);
-            break;
-        case GLUT_KEY_F12:
-            Gui::getInstance().setActiveTab(11);
-            break;
-        case GLUT_KEY_PAGE_UP:
-            break;
-        case GLUT_KEY_PAGE_DOWN:
-            break;
-        case GLUT_KEY_UP:
-            
-            break;
-        case GLUT_KEY_DOWN:
-            
-            break;
-        case GLUT_KEY_LEFT:
-            
-            break;
-        case GLUT_KEY_RIGHT:
-            
-            break;
-        default:
-            break;
+    case GLUT_KEY_F1:
+        Gui::getInstance().setActiveTab(0);
+        break;
+    case GLUT_KEY_F2:
+        Gui::getInstance().setActiveTab(1);
+        break;
+    case GLUT_KEY_F3:
+        Gui::getInstance().setActiveTab(2);
+        break;
+    case GLUT_KEY_F4:
+        Gui::getInstance().setActiveTab(3);
+        break;
+    case GLUT_KEY_F5:
+        Gui::getInstance().setActiveTab(4);
+        break;
+    case GLUT_KEY_F6:
+        Gui::getInstance().setActiveTab(5);
+        break;
+    case GLUT_KEY_F7:
+        Gui::getInstance().setActiveTab(6);
+        break;
+    case GLUT_KEY_F8:
+        Gui::getInstance().setActiveTab(7);
+        break;
+    case GLUT_KEY_F9:
+        Gui::getInstance().setActiveTab(8);
+        break;
+    case GLUT_KEY_F10:
+        Gui::getInstance().setActiveTab(9);
+        break;
+    case GLUT_KEY_F11:
+        Gui::getInstance().setActiveTab(10);
+        break;
+    case GLUT_KEY_F12:
+        Gui::getInstance().setActiveTab(11);
+        break;
+    case GLUT_KEY_PAGE_UP:
+        break;
+    case GLUT_KEY_PAGE_DOWN:
+        break;
+    case GLUT_KEY_UP:
+
+        break;
+    case GLUT_KEY_DOWN:
+
+        break;
+    case GLUT_KEY_LEFT:
+
+        break;
+    case GLUT_KEY_RIGHT:
+
+        break;
+    default:
+        break;
     }
     for( ListItor itor = tabList.begin(); itor != tabList.end(); ++itor )
     {
         if (InputSingleton::getInstance().left_button)
         {
-        if (IsOver(InputSingleton::getInstance().left_click_x, InputSingleton::getInstance().left_click_y, i*w+1,1,(i+1)*w,height*0.02))
-        {
-            Gui::getInstance().setActiveTab(i);
-        }
+            if (IsOver(InputSingleton::getInstance().left_click_x, InputSingleton::getInstance().left_click_y, i*w+1,1,(i+1)*w,height*0.02))
+            {
+                Gui::getInstance().setActiveTab(i);
+            }
         }
         if((*itor)->get_active())
-        (*itor)->ProccesInput();
+            (*itor)->ProccesInput();
         i++;
     }
 }
 
 void Gui::resize(int x, int y)
 {
-	width=x;
-	height=y;
+    width=x;
+    height=y;
 }
 
 void Gui::setActiveTab(int tab)
@@ -200,10 +200,10 @@ void Gui::setActiveTab(int tab)
     int i=0;
     for( ListItor itor = tabList.begin(); itor != tabList.end(); ++itor )
     {
-     
+
         if (i==getActiveTab ())
         {
-            
+
             (*itor)->set_active(true);
         }
         else
@@ -220,7 +220,7 @@ void Gui::setActiveTab(std::string value)
     iter = pestana.find(value);
     if (iter != pestana.end() )
     {
-      setActiveTab(iter->second);
+        setActiveTab(iter->second);
     }
 }
 

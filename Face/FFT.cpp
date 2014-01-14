@@ -42,68 +42,68 @@ static void InitFFT();
 
 int IsPowerOfTwo(int x)
 {
-   if (x < 2)
-      return 0;
+    if (x < 2)
+        return 0;
 
-   if (x & (x - 1))             /* Thanks to 'byang' for this cute trick! */
-      return 0;
+    if (x & (x - 1))             /* Thanks to 'byang' for this cute trick! */
+        return 0;
 
-   return 1;
+    return 1;
 }
 
 int NumberOfBitsNeeded(int PowerOfTwo)
 {
-   int i;
+    int i;
 
-   if (PowerOfTwo < 2) {
-      fprintf(stderr, "Error: FFT called with size %d\n", PowerOfTwo);
-      exit(1);
-   }
+    if (PowerOfTwo < 2) {
+        fprintf(stderr, "Error: FFT called with size %d\n", PowerOfTwo);
+        exit(1);
+    }
 
-   for (i = 0;; i++)
-      if (PowerOfTwo & (1 << i))
-         return i;
+    for (i = 0;; i++)
+        if (PowerOfTwo & (1 << i))
+            return i;
 }
 
 int ReverseBits(int index, int NumBits)
 {
-   int i, rev;
+    int i, rev;
 
-   for (i = rev = 0; i < NumBits; i++) {
-      rev = (rev << 1) | (index & 1);
-      index >>= 1;
-   }
+    for (i = rev = 0; i < NumBits; i++) {
+        rev = (rev << 1) | (index & 1);
+        index >>= 1;
+    }
 
-   return rev;
+    return rev;
 }
 
 void InitFFT()
 {
-   gFFTBitTable = (int**)calloc(MaxFastBits, sizeof(int*));
-   if (gFFTBitTable == NULL)
-      fprintf(stderr, "No se esta asignando memoria a gFFBitTable");
+    gFFTBitTable = (int**)calloc(MaxFastBits, sizeof(int*));
+    if (gFFTBitTable == NULL)
+        fprintf(stderr, "No se esta asignando memoria a gFFBitTable");
 
-   int len = 2;
-   int b = 0;
-   int i = 0;
+    int len = 2;
+    int b = 0;
+    int i = 0;
 
-   for (b = 1; b <= MaxFastBits; b++) {
-      gFFTBitTable[b - 1] = (int*)calloc(len, sizeof(int));
-      if (gFFTBitTable[b - 1] == NULL)
-         fprintf(stderr, "No se esta asignando memoria a los elementos de gFFTBitTable");
-      for (i = 0; i < len; i++)
-         gFFTBitTable[b - 1][i] = ReverseBits(i, b);
+    for (b = 1; b <= MaxFastBits; b++) {
+        gFFTBitTable[b - 1] = (int*)calloc(len, sizeof(int));
+        if (gFFTBitTable[b - 1] == NULL)
+            fprintf(stderr, "No se esta asignando memoria a los elementos de gFFTBitTable");
+        for (i = 0; i < len; i++)
+            gFFTBitTable[b - 1][i] = ReverseBits(i, b);
 
-      len <<= 1;
-   }
+        len <<= 1;
+    }
 }
 
 inline int FastReverseBits(int i, int NumBits)
 {
-   if (NumBits <= MaxFastBits)
-      return gFFTBitTable[NumBits - 1][i];
-   else
-      return ReverseBits(i, NumBits);
+    if (NumBits <= MaxFastBits)
+        return gFFTBitTable[NumBits - 1][i];
+    else
+        return ReverseBits(i, NumBits);
 }
 
 /*
@@ -114,95 +114,95 @@ void FFT(int NumSamples,
          int InverseTransform,
          float *RealIn, float *ImagIn, float *RealOut, float *ImagOut)
 {
-   int NumBits;                 /* Number of bits needed to store indices */
-   int i, j, k, n;
-   int BlockSize, BlockEnd;
+    int NumBits;                 /* Number of bits needed to store indices */
+    int i, j, k, n;
+    int BlockSize, BlockEnd;
 
-   double angle_numerator = 2.0 * M_PI;
-   double tr, ti;                /* temp real, temp imaginary */
+    double angle_numerator = 2.0 * M_PI;
+    double tr, ti;                /* temp real, temp imaginary */
 
-   if (!IsPowerOfTwo(NumSamples)) {
-      fprintf(stderr, "%d is not a power of two\n", NumSamples);
-      exit(1);
-   }
+    if (!IsPowerOfTwo(NumSamples)) {
+        fprintf(stderr, "%d is not a power of two\n", NumSamples);
+        exit(1);
+    }
 
-   if (!gFFTBitTable)
-      InitFFT();
+    if (!gFFTBitTable)
+        InitFFT();
 
-   if (InverseTransform)
-      angle_numerator = -angle_numerator;
+    if (InverseTransform)
+        angle_numerator = -angle_numerator;
 
-   NumBits = NumberOfBitsNeeded(NumSamples);
+    NumBits = NumberOfBitsNeeded(NumSamples);
 
-   /*
-    **   Do simultaneous data copy and bit-reversal ordering into outputs...
-    */
+    /*
+     **   Do simultaneous data copy and bit-reversal ordering into outputs...
+     */
 
-   for (i = 0; i < NumSamples; i++) {
-      j = FastReverseBits(i, NumBits);
-      RealOut[j] = RealIn[i];
-      ImagOut[j] = (ImagIn == NULL) ? 0.0 : ImagIn[i];
-   }
+    for (i = 0; i < NumSamples; i++) {
+        j = FastReverseBits(i, NumBits);
+        RealOut[j] = RealIn[i];
+        ImagOut[j] = (ImagIn == NULL) ? 0.0 : ImagIn[i];
+    }
 
-   /*
-    **   Do the FFT itself...
-    */
+    /*
+     **   Do the FFT itself...
+     */
 
-   BlockEnd = 1;
-   for (BlockSize = 2; BlockSize <= NumSamples; BlockSize <<= 1) {
+    BlockEnd = 1;
+    for (BlockSize = 2; BlockSize <= NumSamples; BlockSize <<= 1) {
 
-      double delta_angle = angle_numerator / (double) BlockSize;
+        double delta_angle = angle_numerator / (double) BlockSize;
 
-      double sm2 = sin(-2 * delta_angle);
-      double sm1 = sin(-delta_angle);
-      double cm2 = cos(-2 * delta_angle);
-      double cm1 = cos(-delta_angle);
-      double w = 2 * cm1;
-      double ar0, ar1, ar2, ai0, ai1, ai2;
+        double sm2 = sin(-2 * delta_angle);
+        double sm1 = sin(-delta_angle);
+        double cm2 = cos(-2 * delta_angle);
+        double cm1 = cos(-delta_angle);
+        double w = 2 * cm1;
+        double ar0, ar1, ar2, ai0, ai1, ai2;
 
-      for (i = 0; i < NumSamples; i += BlockSize) {
-         ar2 = cm2;
-         ar1 = cm1;
+        for (i = 0; i < NumSamples; i += BlockSize) {
+            ar2 = cm2;
+            ar1 = cm1;
 
-         ai2 = sm2;
-         ai1 = sm1;
+            ai2 = sm2;
+            ai1 = sm1;
 
-         for (j = i, n = 0; n < BlockEnd; j++, n++) {
-            ar0 = w * ar1 - ar2;
-            ar2 = ar1;
-            ar1 = ar0;
+            for (j = i, n = 0; n < BlockEnd; j++, n++) {
+                ar0 = w * ar1 - ar2;
+                ar2 = ar1;
+                ar1 = ar0;
 
-            ai0 = w * ai1 - ai2;
-            ai2 = ai1;
-            ai1 = ai0;
+                ai0 = w * ai1 - ai2;
+                ai2 = ai1;
+                ai1 = ai0;
 
-            k = j + BlockEnd;
-            tr = ar0 * RealOut[k] - ai0 * ImagOut[k];
-            ti = ar0 * ImagOut[k] + ai0 * RealOut[k];
+                k = j + BlockEnd;
+                tr = ar0 * RealOut[k] - ai0 * ImagOut[k];
+                ti = ar0 * ImagOut[k] + ai0 * RealOut[k];
 
-            RealOut[k] = RealOut[j] - tr;
-            ImagOut[k] = ImagOut[j] - ti;
+                RealOut[k] = RealOut[j] - tr;
+                ImagOut[k] = ImagOut[j] - ti;
 
-            RealOut[j] += tr;
-            ImagOut[j] += ti;
-         }
-      }
+                RealOut[j] += tr;
+                ImagOut[j] += ti;
+            }
+        }
 
-      BlockEnd = BlockSize;
-   }
+        BlockEnd = BlockSize;
+    }
 
-   /*
-      **   Need to normalize if inverse transform...
-    */
+    /*
+       **   Need to normalize if inverse transform...
+     */
 
-   if (InverseTransform) {
-      float denom = (float) NumSamples;
+    if (InverseTransform) {
+        float denom = (float) NumSamples;
 
-      for (i = 0; i < NumSamples; i++) {
-         RealOut[i] /= denom;
-         ImagOut[i] /= denom;
-      }
-   }
+        for (i = 0; i < NumSamples; i++) {
+            RealOut[i] /= denom;
+            ImagOut[i] /= denom;
+        }
+    }
 }
 
 /*
@@ -222,57 +222,57 @@ void FFT(int NumSamples,
 
 void RealFFT(int NumSamples, float *RealIn, float *RealOut, float *ImagOut)
 {
-   int Half = NumSamples / 2;
-   int i;
+    int Half = NumSamples / 2;
+    int i;
 
-   float theta = M_PI / Half;
+    float theta = M_PI / Half;
 
-   float *tmpReal;
-   float *tmpImag;
-   tmpReal = (float*)calloc(Half, sizeof(float));
-   tmpImag = (float*)calloc(Half, sizeof(float));
+    float *tmpReal;
+    float *tmpImag;
+    tmpReal = (float*)calloc(Half, sizeof(float));
+    tmpImag = (float*)calloc(Half, sizeof(float));
 
-   for (i = 0; i < Half; i++) {
-      tmpReal[i] = RealIn[2 * i];
-      tmpImag[i] = RealIn[2 * i + 1];
-   }
+    for (i = 0; i < Half; i++) {
+        tmpReal[i] = RealIn[2 * i];
+        tmpImag[i] = RealIn[2 * i + 1];
+    }
 
-   FFT(Half, 0, tmpReal, tmpImag, RealOut, ImagOut);
+    FFT(Half, 0, tmpReal, tmpImag, RealOut, ImagOut);
 
-   float wtemp = (float)sin(0.5 * theta);
+    float wtemp = (float)sin(0.5 * theta);
 
-   float wpr = -2.0 * wtemp * wtemp;
-   float wpi = (float)sin(theta);
-   float wr = 1.0 + wpr;
-   float wi = wpi;
+    float wpr = -2.0 * wtemp * wtemp;
+    float wpi = (float)sin(theta);
+    float wr = 1.0 + wpr;
+    float wi = wpi;
 
-   int i3;
+    int i3;
 
-   float h1r, h1i, h2r, h2i;
+    float h1r, h1i, h2r, h2i;
 
-   for (i = 1; i < Half / 2; i++) {
+    for (i = 1; i < Half / 2; i++) {
 
-      i3 = Half - i;
+        i3 = Half - i;
 
-      h1r = 0.5 * (RealOut[i] + RealOut[i3]);
-      h1i = 0.5 * (ImagOut[i] - ImagOut[i3]);
-      h2r = 0.5 * (ImagOut[i] + ImagOut[i3]);
-      h2i = -0.5 * (RealOut[i] - RealOut[i3]);
+        h1r = 0.5 * (RealOut[i] + RealOut[i3]);
+        h1i = 0.5 * (ImagOut[i] - ImagOut[i3]);
+        h2r = 0.5 * (ImagOut[i] + ImagOut[i3]);
+        h2i = -0.5 * (RealOut[i] - RealOut[i3]);
 
-      RealOut[i] = h1r + wr * h2r - wi * h2i;
-      ImagOut[i] = h1i + wr * h2i + wi * h2r;
-      RealOut[i3] = h1r - wr * h2r + wi * h2i;
-      ImagOut[i3] = -h1i + wr * h2i + wi * h2r;
+        RealOut[i] = h1r + wr * h2r - wi * h2i;
+        ImagOut[i] = h1i + wr * h2i + wi * h2r;
+        RealOut[i3] = h1r - wr * h2r + wi * h2i;
+        ImagOut[i3] = -h1i + wr * h2i + wi * h2r;
 
-      wr = (wtemp = wr) * wpr - wi * wpi + wr;
-      wi = wi * wpr + wtemp * wpi + wi;
-   }
+        wr = (wtemp = wr) * wpr - wi * wpi + wr;
+        wi = wi * wpr + wtemp * wpi + wi;
+    }
 
-   RealOut[0] = (h1r = RealOut[0]) + ImagOut[0];
-   ImagOut[0] = h1r - ImagOut[0];
+    RealOut[0] = (h1r = RealOut[0]) + ImagOut[0];
+    ImagOut[0] = h1r - ImagOut[0];
 
-   free ((float*)tmpReal);
-   free ((float*)tmpImag);
+    free ((float*)tmpReal);
+    free ((float*)tmpImag);
 }
 
 /*
@@ -289,75 +289,75 @@ void RealFFT(int NumSamples, float *RealIn, float *RealOut, float *ImagOut)
 
 void PowerSpectrum(int NumSamples, float *In, float *Out)
 {
-   int Half = NumSamples / 2;
-   int i;
+    int Half = NumSamples / 2;
+    int i;
 
-   float theta;
+    float theta;
 
-   float *tmpReal;
-   float *tmpImag;
-   float *RealOut;
-   float *ImagOut;
-   tmpReal = (float*)calloc(Half, sizeof(float));
-   tmpImag = (float*)calloc(Half, sizeof(float));
-   RealOut = (float*)calloc(Half, sizeof(float));
-   ImagOut = (float*)calloc(Half, sizeof(float));
+    float *tmpReal;
+    float *tmpImag;
+    float *RealOut;
+    float *ImagOut;
+    tmpReal = (float*)calloc(Half, sizeof(float));
+    tmpImag = (float*)calloc(Half, sizeof(float));
+    RealOut = (float*)calloc(Half, sizeof(float));
+    ImagOut = (float*)calloc(Half, sizeof(float));
 
-   theta =  M_PI / Half;
+    theta =  M_PI / Half;
 
-   for (i = 0; i < Half; i++) {
-      tmpReal[i] = In[2 * i];
-      tmpImag[i] = In[2 * i + 1];
-   }
+    for (i = 0; i < Half; i++) {
+        tmpReal[i] = In[2 * i];
+        tmpImag[i] = In[2 * i + 1];
+    }
 
-   FFT(Half, 0, tmpReal, tmpImag, RealOut, ImagOut);
+    FFT(Half, 0, tmpReal, tmpImag, RealOut, ImagOut);
 
-   float wtemp = (float)sin(0.5 * theta);
+    float wtemp = (float)sin(0.5 * theta);
 
-   float wpr = -2.0 * wtemp * wtemp;
-   float wpi = (float)sin(theta);
-   float wr = 1.0 + wpr;
-   float wi = wpi;
+    float wpr = -2.0 * wtemp * wtemp;
+    float wpi = (float)sin(theta);
+    float wr = 1.0 + wpr;
+    float wi = wpi;
 
-   int i3;
+    int i3;
 
-   float h1r, h1i, h2r, h2i, rt, it;
+    float h1r, h1i, h2r, h2i, rt, it;
 
-   for (i = 1; i < Half / 2; i++) {
+    for (i = 1; i < Half / 2; i++) {
 
-      i3 = Half - i;
+        i3 = Half - i;
 
-      h1r = 0.5 * (RealOut[i] + RealOut[i3]);
-      h1i = 0.5 * (ImagOut[i] - ImagOut[i3]);
-      h2r = 0.5 * (ImagOut[i] + ImagOut[i3]);
-      h2i = -0.5 * (RealOut[i] - RealOut[i3]);
+        h1r = 0.5 * (RealOut[i] + RealOut[i3]);
+        h1i = 0.5 * (ImagOut[i] - ImagOut[i3]);
+        h2r = 0.5 * (ImagOut[i] + ImagOut[i3]);
+        h2i = -0.5 * (RealOut[i] - RealOut[i3]);
 
-      rt = h1r + wr * h2r - wi * h2i;
-      it = h1i + wr * h2i + wi * h2r;
+        rt = h1r + wr * h2r - wi * h2i;
+        it = h1i + wr * h2i + wi * h2r;
 
-      Out[i] = rt * rt + it * it;
+        Out[i] = rt * rt + it * it;
 
-      rt = h1r - wr * h2r + wi * h2i;
-      it = -h1i + wr * h2i + wi * h2r;
+        rt = h1r - wr * h2r + wi * h2i;
+        it = -h1i + wr * h2i + wi * h2r;
 
-      Out[i3] = rt * rt + it * it;
+        Out[i3] = rt * rt + it * it;
 
-      wr = (wtemp = wr) * wpr - wi * wpi + wr;
-      wi = wi * wpr + wtemp * wpi + wi;
-   }
+        wr = (wtemp = wr) * wpr - wi * wpi + wr;
+        wi = wi * wpr + wtemp * wpi + wi;
+    }
 
-   rt = (h1r = RealOut[0]) + ImagOut[0];
-   it = h1r - ImagOut[0];
-   Out[0] = rt * rt + it * it;
+    rt = (h1r = RealOut[0]) + ImagOut[0];
+    it = h1r - ImagOut[0];
+    Out[0] = rt * rt + it * it;
 
-   rt = RealOut[Half / 2];
-   it = ImagOut[Half / 2];
-   Out[Half / 2] = rt * rt + it * it;
+    rt = RealOut[Half / 2];
+    it = ImagOut[Half / 2];
+    Out[Half / 2] = rt * rt + it * it;
 
-   free ((float*)tmpReal);
-   free ((float*)tmpImag);
-   free ((float*)RealOut);
-   free ((float*)ImagOut);
+    free ((float*)tmpReal);
+    free ((float*)tmpImag);
+    free ((float*)RealOut);
+    free ((float*)ImagOut);
 }
 
 /*
@@ -366,46 +366,46 @@ void PowerSpectrum(int NumSamples, float *In, float *Out)
 
 int NumWindowFuncs()
 {
-   return 4;
+    return 4;
 }
 
 const char *WindowFuncName(int whichFunction)
 {
-   switch (whichFunction) {
-   default:
-   case 0:
-      return "Rectangular";
-   case 1:
-      return "Bartlett";
-   case 2:
-      return "Hamming";
-   case 3:
-      return "Hanning";
-   }
+    switch (whichFunction) {
+    default:
+    case 0:
+        return "Rectangular";
+    case 1:
+        return "Bartlett";
+    case 2:
+        return "Hamming";
+    case 3:
+        return "Hanning";
+    }
 }
 
 void WindowFunc(int whichFunction, int NumSamples, float *in)
 {
-   int i;
+    int i;
 
-   if (whichFunction == 1) {
-      // Bartlett (triangular) window
-      for (i = 0; i < NumSamples / 2; i++) {
-         in[i] *= (i / (float) (NumSamples / 2));
-         in[i + (NumSamples / 2)] *=
-             (1.0 - (i / (float) (NumSamples / 2)));
-      }
-   }
+    if (whichFunction == 1) {
+        // Bartlett (triangular) window
+        for (i = 0; i < NumSamples / 2; i++) {
+            in[i] *= (i / (float) (NumSamples / 2));
+            in[i + (NumSamples / 2)] *=
+                (1.0 - (i / (float) (NumSamples / 2)));
+        }
+    }
 
-   if (whichFunction == 2) {
-      // Hamming
-      for (i = 0; i < NumSamples; i++)
-         in[i] *= 0.54 - 0.46 * cos(2 * M_PI * i / (NumSamples - 1));
-   }
+    if (whichFunction == 2) {
+        // Hamming
+        for (i = 0; i < NumSamples; i++)
+            in[i] *= 0.54 - 0.46 * cos(2 * M_PI * i / (NumSamples - 1));
+    }
 
-   if (whichFunction == 3) {
-      // Hanning
-      for (i = 0; i < NumSamples; i++)
-         in[i] *= 0.50 - 0.50 * cos(2 * M_PI * i / (NumSamples - 1));
-   }
+    if (whichFunction == 3) {
+        // Hanning
+        for (i = 0; i < NumSamples; i++)
+            in[i] *= 0.50 - 0.50 * cos(2 * M_PI * i / (NumSamples - 1));
+    }
 }

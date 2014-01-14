@@ -19,9 +19,9 @@
   Author       [Gianpiero Cabodi and Stefano Quer]
 
   Copyright    [This file was created at the Politecnico di Torino,
-    Torino, Italy. 
-    The  Politecnico di Torino makes no warranty about the suitability of 
-    this software for any purpose.  
+    Torino, Italy.
+    The  Politecnico di Torino makes no warranty about the suitability of
+    this software for any purpose.
     It is presented on an AS IS basis.
     ]
 
@@ -55,23 +55,23 @@
 
 /**Struct**********************************************************************
  Synopsis    [used in binary mode to store code info of a dd node]
- Description [V , T , E store the mode used to represent variable, Then 
+ Description [V , T , E store the mode used to represent variable, Then
               and Else indexes. An index is either an absolute
 	      ( DDDMP_ABSOLUTE_ID ),
-              a relative numbers ( DDDMP_RELATIVE_ID , DDDMP_RELATIVE_1 ) or 
+              a relative numbers ( DDDMP_RELATIVE_ID , DDDMP_RELATIVE_1 ) or
               a terminal node ( DDDMP_TERMINAL ) .
 	      Ecomp is used for the complemented edge attribute.
              ]
  SideEffect  [none]
- SeeAlso     [DddmpWriteCode DddmpReadCode] 
+ SeeAlso     [DddmpWriteCode DddmpReadCode]
 ******************************************************************************/
 
 struct binary_dd_code {
-  unsigned  Unused : 1;
-  unsigned  V      : 2;
-  unsigned  T      : 2;
-  unsigned  Ecompl : 1;
-  unsigned  E      : 2;
+    unsigned  Unused : 1;
+    unsigned  V      : 2;
+    unsigned  T      : 2;
+    unsigned  Ecompl : 1;
+    unsigned  E      : 2;
 };
 
 /**Struct*********************************************************************
@@ -83,27 +83,27 @@ struct binary_dd_code {
 ******************************************************************************/
 
 struct Dddmp_Hdr_s {
-  char *ver;
-  char mode;
-  Dddmp_DecompType dd_type;
-  Dddmp_VarInfoType varinfo;
-  char *dd;
-  int nnodes;
-  int nVars;
-  int nsuppvars;
-  char **orderedVarNames;
-  char **suppVarNames;
-  int *ids;
-  int *permids;
-  int *auxids;
-  int *cnfids;
-  int nRoots;
-  int *rootids;
-  char **rootnames;
-  int nAddedCnfVar;
-  int nVarsCnf;
-  int nClausesCnf;  
-};	
+    char *ver;
+    char mode;
+    Dddmp_DecompType dd_type;
+    Dddmp_VarInfoType varinfo;
+    char *dd;
+    int nnodes;
+    int nVars;
+    int nsuppvars;
+    char **orderedVarNames;
+    char **suppVarNames;
+    int *ids;
+    int *permids;
+    int *auxids;
+    int *cnfids;
+    int nRoots;
+    int *rootids;
+    char **rootnames;
+    int nAddedCnfVar;
+    int nVarsCnf;
+    int nClausesCnf;
+};
 
 /*---------------------------------------------------------------------------*/
 /* Variable declarations                                                     */

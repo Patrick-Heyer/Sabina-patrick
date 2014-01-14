@@ -19,14 +19,14 @@
 /* OpenGL texture info */
 struct gl_texture_t
 {
-  GLsizei width;
-  GLsizei height;
+    GLsizei width;
+    GLsizei height;
 
-  GLenum format;
-  GLint internalFormat;
-  GLuint id;
+    GLenum format;
+    GLint internalFormat;
+    GLuint id;
 
-  GLubyte *texels;
+    GLubyte *texels;
 };
 
 extern GLuint loadPNGTexture (const char *filename);

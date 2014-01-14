@@ -19,7 +19,7 @@ description :
 *** end of memberfunction ***/
 uu_LocalPlanner::uu_LocalPlanner( const CProbot * MP_p_a )
 {
-  __Probot_p_m = (CProbot *)MP_p_a ;
+    __Probot_p_m = (CProbot *)MP_p_a ;
 }
 
 /*** memberfunction ***
@@ -35,7 +35,7 @@ description :
 *** end of memberfunction ***/
 void uu_LocalPlanner::Clear( )
 {
-  __LocalPath_m.clear() ;
+    __LocalPath_m.clear() ;
 }
 
 /*** memberfunction ***
@@ -51,11 +51,11 @@ description :
 *** end of memberfunction ***/
 double uu_LocalPlanner::Distance( const CPersonajeConfig &c1, const CPersonajeConfig &c2 )
 {
-  uu_Point dv = c2.Position() - c1.Position() ;
+    uu_Point dv = c2.Position() - c1.Position() ;
 
-//hereee  Quaternion dq = c2.Orientation() -  c1.Orientation() ; 
+//hereee  Quaternion dq = c2.Orientation() -  c1.Orientation() ;
 
-  return dv.Length(); // + length( dq ) ;
+    return dv.Length(); // + length( dq ) ;
 }
 
 
@@ -73,16 +73,16 @@ description :
 *** end of memberfunction ***/
 double uu_LocalPlanner::SquareDistance( const CPersonajeConfig & c1, const CPersonajeConfig & c2 )
 {
-  uu_Point dv = c2.Position() - c1.Position() ;
- // Quaternion dq = c2.Orientation() -  c1.Orientation() ;
+    uu_Point dv = c2.Position() - c1.Position() ;
+// Quaternion dq = c2.Orientation() -  c1.Orientation() ;
 
-  return dv.SqLength(); // + length2( dq )  ;
+    return dv.SqLength(); // + length2( dq )  ;
 }
 
 
 const std::vector < CPersonajeConfig > & uu_LocalPlanner::LocalPath() const
 {
-  return __LocalPath_m ;
+    return __LocalPath_m ;
 }
 
 //-------------------------------------------------------------------------
@@ -99,7 +99,7 @@ description :
   Constructor of TranslateOnlyPlanner.
 *** end of memberfunction ***/
 TranslateOnlyPlanner::TranslateOnlyPlanner( const CProbot * MP_p_a )
-  : uu_LocalPlanner( MP_p_a )
+    : uu_LocalPlanner( MP_p_a )
 {
 }
 
@@ -116,9 +116,9 @@ description :
 *** end of memberfunction ***/
 double TranslateOnlyPlanner::Distance( const CPersonajeConfig &c1, const CPersonajeConfig &c2 )
 {
-  uu_Point dv = c2.Position() - c1.Position() ;
+    uu_Point dv = c2.Position() - c1.Position() ;
 
-  return dv.Length() ;
+    return dv.Length() ;
 }
 
 
@@ -136,9 +136,9 @@ description :
 *** end of memberfunction ***/
 double TranslateOnlyPlanner::SquareDistance( const CPersonajeConfig & c1, const CPersonajeConfig & c2 )
 {
-  uu_Point dv = c2.Position() - c1.Position() ;
+    uu_Point dv = c2.Position() - c1.Position() ;
 
-  return dv.SqLength() ;
+    return dv.SqLength() ;
 }
 
 /*** memberfunction ***
@@ -162,50 +162,50 @@ description :
   The robot should be grown by 0.5*stepsize.
 *** end of memberfunction ***/
 int TranslateOnlyPlanner::CheckPath(
-        const CPersonajeConfig &c1, const CPersonajeConfig &c2,
-        double &PathLength )
+    const CPersonajeConfig &c1, const CPersonajeConfig &c2,
+    double &PathLength )
 {
-  CPersonajeConfig TheConfig ;
+    CPersonajeConfig TheConfig ;
 //  TheConfig.SetPersonaje( __Animacion_p_m->Ambiente()->Personaje() ) ;
 
-  PathLength = Distance( c1, c2 ) ;
+    PathLength = Distance( c1, c2 ) ;
 
-  Count++ ;
+    Count++ ;
 
-  if ( PathLength <= __Probot_p_m->Parametros().StepSize )
-  {
-    // A collision check should be performed here too.
-    if ( (__Probot_p_m->Ambiente()->Colision( c1 ) )|| (__Probot_p_m->Ambiente()->Colision( c2 ) ))
-      return 0 ;
+    if ( PathLength <= __Probot_p_m->Parametros().StepSize )
+    {
+        // A collision check should be performed here too.
+        if ( (__Probot_p_m->Ambiente()->Colision( c1 ) )|| (__Probot_p_m->Ambiente()->Colision( c2 ) ))
+            return 0 ;
 
+        return 1 ;
+    }
+
+    int StepNumber = int( PathLength / __Probot_p_m->Parametros().StepSize ) ;
+
+    double XStep = ( c2.Position().X() - c1.Position().X() ) / StepNumber ;
+    double YStep = ( c2.Position().Y() - c1.Position().Y() ) / StepNumber ;
+    double ZStep = ( c2.Position().Z() - c1.Position().Z() ) / StepNumber ;
+
+    uu_Point StepVector ;
+    StepVector.X() = XStep ;
+    StepVector.Y() = YStep ;
+    StepVector.Z() = ZStep ;
+
+    uu_Point P( c1.Position() ) ;
+
+    for ( int i=0 ; i<StepNumber ; i++ )
+    {
+        P = P + StepVector ;
+        TheConfig.SetPosition(P) ;
+        CCCount++ ;
+#ifdef __BORLANDC__
+        Application->ProcessMessages() ;
+#endif
+        if ( __Probot_p_m->Ambiente()->Colision( TheConfig ) )
+            return 0 ;
+    }
     return 1 ;
-  }
-
-  int StepNumber = int( PathLength / __Probot_p_m->Parametros().StepSize ) ;
-
-  double XStep = ( c2.Position().X() - c1.Position().X() ) / StepNumber ;
-  double YStep = ( c2.Position().Y() - c1.Position().Y() ) / StepNumber ;
-  double ZStep = ( c2.Position().Z() - c1.Position().Z() ) / StepNumber ;
-
-  uu_Point StepVector ;
-  StepVector.X() = XStep ;
-  StepVector.Y() = YStep ;
-  StepVector.Z() = ZStep ;
-
-  uu_Point P( c1.Position() ) ;
-
-  for ( int i=0 ; i<StepNumber ; i++ )
-  {
-    P = P + StepVector ;
-    TheConfig.SetPosition(P) ;
-    CCCount++ ;
-    #ifdef __BORLANDC__
-      Application->ProcessMessages() ;
-    #endif
-    if ( __Probot_p_m->Ambiente()->Colision( TheConfig ) )
-      return 0 ;
-  }
-  return 1 ;
 }
 
 /*** memberfunction ***
@@ -230,49 +230,49 @@ description :
   configurations that form the steps of the path.
 *** end of memberfunction ***/
 int TranslateOnlyPlanner::ReturnPath(
-           const CPersonajeConfig &c1, const CPersonajeConfig &c2 )
+    const CPersonajeConfig &c1, const CPersonajeConfig &c2 )
 {
-  CPersonajeConfig TheConfig ;
-  //Quaternion Orientacion_v ;
+    CPersonajeConfig TheConfig ;
+    //Quaternion Orientacion_v ;
 
-  __LocalPath_m.clear() ;
-  __LocalPath_m.push_back( c1 ) ;
+    __LocalPath_m.clear() ;
+    __LocalPath_m.push_back( c1 ) ;
 
-  if ( Distance(c1,c2) <= __Probot_p_m->Parametros().StepSize )
-  {
-    // A collision check should be performed here too.
+    if ( Distance(c1,c2) <= __Probot_p_m->Parametros().StepSize )
+    {
+        // A collision check should be performed here too.
+        __LocalPath_m.push_back( c2 ) ;
+        if ( (__Probot_p_m->Ambiente()->Colision( c1 ) )|| (__Probot_p_m->Ambiente()->Colision( c2 ) ))
+            return 0 ;
+        return 1 ;
+    }
+
+    int StepNumber = int( Distance(c1,c2) / __Probot_p_m->Parametros().StepSize ) ;
+
+    double XStep = ( c2.Position().X() - c1.Position().X() ) / StepNumber ;
+    double YStep = ( c2.Position().Y() - c1.Position().Y() ) / StepNumber ;
+    double ZStep = ( c2.Position().Z() - c1.Position().Z() ) / StepNumber ;
+
+    uu_Point StepVector ;
+    StepVector.X() = XStep ;
+    StepVector.Y() = YStep ;
+    StepVector.Z() = ZStep ;
+
+    uu_Point P( c1.Position() ) ;
+
+    for ( int i=0 ; i<StepNumber ; i++ )
+    {
+        P = P + StepVector ;
+        TheConfig.SetPosition(P) ;
+#ifdef __BORLANDC__
+        Application->ProcessMessages() ;
+#endif
+        if ( __Probot_p_m->Ambiente()->Colision( TheConfig ) ) return 0 ;
+
+        __LocalPath_m.push_back( TheConfig ) ;
+    }
+
     __LocalPath_m.push_back( c2 ) ;
-    if ( (__Probot_p_m->Ambiente()->Colision( c1 ) )|| (__Probot_p_m->Ambiente()->Colision( c2 ) ))
-        return 0 ;
     return 1 ;
-  }
-
-  int StepNumber = int( Distance(c1,c2) / __Probot_p_m->Parametros().StepSize ) ;
-
-  double XStep = ( c2.Position().X() - c1.Position().X() ) / StepNumber ;
-  double YStep = ( c2.Position().Y() - c1.Position().Y() ) / StepNumber ;
-  double ZStep = ( c2.Position().Z() - c1.Position().Z() ) / StepNumber ;
-
-  uu_Point StepVector ;
-  StepVector.X() = XStep ;
-  StepVector.Y() = YStep ;
-  StepVector.Z() = ZStep ;
-
-  uu_Point P( c1.Position() ) ;
-
-  for ( int i=0 ; i<StepNumber ; i++ )
-  {
-    P = P + StepVector ;
-    TheConfig.SetPosition(P) ;
-    #ifdef __BORLANDC__
-      Application->ProcessMessages() ;
-    #endif
-    if ( __Probot_p_m->Ambiente()->Colision( TheConfig ) ) return 0 ;
-
-    __LocalPath_m.push_back( TheConfig ) ;
-  }
-
-  __LocalPath_m.push_back( c2 ) ;
-  return 1 ;
 }
 //-------------------------------------------------------------------------

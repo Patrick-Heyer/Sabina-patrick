@@ -24,7 +24,7 @@ description
 
 class CPersonajeConfig
 {
-  private:
+private:
 
     uu_Point   __P_m ;
     std::vector< double* > * __JointValues_p_m ;
@@ -32,11 +32,11 @@ class CPersonajeConfig
 
     uu_Point   __RobotPoint_m ;
     uu_Point   __WSPoint_m ;
-  public:
+public:
 
     CPersonajeConfig() ;
     CPersonajeConfig( const uu_Point & ) ;
-    ~CPersonajeConfig(){};
+    ~CPersonajeConfig() {};
     const uu_Point & Position() const ;
     void SetPosition( const uu_Point & ) ;
 

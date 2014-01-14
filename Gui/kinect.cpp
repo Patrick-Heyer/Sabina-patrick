@@ -132,7 +132,7 @@ void kinect::UpdateDepth(IplImage * value)
     if (value)
     {
         if(depth_mode==1)
-        value=GlViewCode(value);
+            value=GlViewCode(value);
         else
             value=GlViewColor(value);
 
@@ -142,7 +142,7 @@ void kinect::UpdateDepth(IplImage * value)
         int width    = value->width;
         int channels = value->nChannels;
         char * data  = (char *)value->imageData;
-        for (int i=0;i<height;i++)
+        for (int i=0; i<height; i++)
         {
             memcpy(&buffer[i*width*channels],&(data[i*step]),width*channels);
         }
@@ -175,7 +175,7 @@ void kinect::UpdateColor(IplImage * value)
         int width    = temp->width;
         int channels = temp->nChannels;
         char * data  = (char *)temp->imageData;
-        for (int i=0;i<height;i++)
+        for (int i=0; i<height; i++)
         {
             memcpy(&buffer[i*width*channels],&(data[i*step]),width*channels);
         }
@@ -205,8 +205,8 @@ void kinect::UpdateColor(IplImage * value)
 void kinect::Draw()
 {
     IplImage * image;
-    
-   
+
+
     if (mode==0)
     {
 //        image=freenect_sync_get_depth_cv(0);
@@ -214,11 +214,11 @@ void kinect::Draw()
     }
     if (mode==1)
     {
- //       image=freenect_sync_get_rgb_cv(0);
+//       image=freenect_sync_get_rgb_cv(0);
         cvCvtColor(image,image,CV_RGB2BGR);
         DrawIplImage(image,Get_x(),Get_y(),1,-1);
     }
-       
+
 
 }
 

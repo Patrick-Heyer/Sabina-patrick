@@ -7,30 +7,30 @@ using namespace std;
 
 ///*! \brief Information about the processed information from the voice recognition
 // *
-// *  
+// *
 // */
 class Voice {
-  private:
+private:
     ///*! \brief String containing the phrase recogniced
     // *
-    // *  
+    // *
     // */
     string * Phrase;
 
     ///*! \brief List of the individual words recognized in the phrase
     // *
-    // *  
+    // *
     // */
     string * Words;
 
     ///*! \brief Value indicating the direction of the sound source
     // *
-    // *  
+    // *
     // */
     int Direction;
 
 
-  public:
+public:
     ///*! \brief Gets the direction of the sound source
     // *
     // *   Gets the direction of the sound source \return Direction
@@ -51,7 +51,7 @@ class Voice {
 
     ///*! \brief Sets the list of words in the phrase said to the voice recognition system
     // *
-    // *   Sets the list of words in the phrase said to the voice recognition system 
+    // *   Sets the list of words in the phrase said to the voice recognition system
     // */
     void set_Words(string value);
 
@@ -67,6 +67,6 @@ class Voice {
     // */
     void set_Phrase(string value);
 
-  friend class Robot;
+    friend class Robot;
 };
 #endif

@@ -48,17 +48,17 @@
 ******************************************************************************/
 #ifdef	EPD_BIG_ENDIAN
 struct IeeeDoubleStruct {	/* BIG_ENDIAN */
-  unsigned int sign: 1;
-  unsigned int exponent: 11;
-  unsigned int mantissa0: 20;
-  unsigned int mantissa1: 32;
+    unsigned int sign: 1;
+    unsigned int exponent: 11;
+    unsigned int mantissa0: 20;
+    unsigned int mantissa1: 32;
 };
 #else
 struct IeeeDoubleStruct {	/* LITTLE_ENDIAN */
-  unsigned int mantissa1: 32;
-  unsigned int mantissa0: 20;
-  unsigned int exponent: 11;
-  unsigned int sign: 1;
+    unsigned int mantissa1: 32;
+    unsigned int mantissa0: 20;
+    unsigned int exponent: 11;
+    unsigned int sign: 1;
 };
 #endif
 
@@ -73,19 +73,19 @@ struct IeeeDoubleStruct {	/* LITTLE_ENDIAN */
 ******************************************************************************/
 #ifdef	EPD_BIG_ENDIAN
 struct IeeeNanStruct {	/* BIG_ENDIAN */
-  unsigned int sign: 1;
-  unsigned int exponent: 11;
-  unsigned int quiet_bit: 1;
-  unsigned int mantissa0: 19;
-  unsigned int mantissa1: 32;
+    unsigned int sign: 1;
+    unsigned int exponent: 11;
+    unsigned int quiet_bit: 1;
+    unsigned int mantissa0: 19;
+    unsigned int mantissa1: 32;
 };
 #else
 struct IeeeNanStruct {	/* LITTLE_ENDIAN */
-  unsigned int mantissa1: 32;
-  unsigned int mantissa0: 19;
-  unsigned int quiet_bit: 1;
-  unsigned int exponent: 11;
-  unsigned int sign: 1;
+    unsigned int mantissa1: 32;
+    unsigned int mantissa0: 19;
+    unsigned int quiet_bit: 1;
+    unsigned int exponent: 11;
+    unsigned int sign: 1;
 };
 #endif
 
@@ -99,12 +99,12 @@ struct IeeeNanStruct {	/* LITTLE_ENDIAN */
 
 ******************************************************************************/
 struct EpDoubleStruct {
-  union {
-    double			value;
-    struct IeeeDoubleStruct	bits;
-    struct IeeeNanStruct	nan;
-  } type;
-  int		exponent;
+    union {
+        double			value;
+        struct IeeeDoubleStruct	bits;
+        struct IeeeNanStruct	nan;
+    } type;
+    int		exponent;
 };
 
 /*---------------------------------------------------------------------------*/

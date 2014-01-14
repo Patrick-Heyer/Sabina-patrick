@@ -7,54 +7,54 @@ using namespace std;
 
 ///*! \brief  Information regarding the image used as map
 // *
-// *  
+// *
 // */
 class Map {
-  private:
+private:
     ///*! \brief File path of the image used as a map
     // *
-    // *  
+    // *
     // */
     string * Image_path;
 
     ///*! \brief Height in pixels of the image used as map
     // *
-    // *  
+    // *
     // */
     int Height_px;
 
     ///*! \brief Width in pixels of the image used as map
     // *
-    // *  
+    // *
     // */
     int Width_px;
 
     ///*! \brief Height in meters of the image used as map
     // *
-    // *  
+    // *
     // */
     float Height_m;
 
     ///*! \brief Width in meters of the image used as map
     // *
-    // *  
+    // *
     // */
     float Width_m;
 
     ///*! \brief  Relation of pixels to meters of the image on the X axis
     // *
-    // *  
+    // *
     // */
     float Ratio_x;
 
     ///*! \brief  Relation of pixels to meters of the image on the Y axis
     // *
-    // *  
+    // *
     // */
     float Ratio_y;
 
 
-  public:
+public:
     ///*! \brief Gets the height of the image in pixels
     // *
     // *   Gets the height of the image in pixels \return Height_px
@@ -139,6 +139,6 @@ class Map {
     // */
     void set_Image_path(string value);
 
-  friend class Robot;
+    friend class Robot;
 };
 #endif

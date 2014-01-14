@@ -29,7 +29,7 @@ template <typename Real> class Quaternion;
 
 // Type definitions
 enum Axis {
-  kXaxis, kYaxis, kZaxis
+    kXaxis, kYaxis, kZaxis
 };
 
 // Declare a global constant for pi and a few multiples.
@@ -56,18 +56,26 @@ void canonizeEulerAngles (Real &roll, Real &pitch, Real &yaw);
 
 // Convert between degrees and radians
 template <typename Real>
-inline Real degToRad (Real deg) { return deg * kPiOver180; }
+inline Real degToRad (Real deg) {
+    return deg * kPiOver180;
+}
 
 template <typename Real>
-inline Real radToDeg (Real rad) { return rad * k180OverPi; }
+inline Real radToDeg (Real rad) {
+    return rad * k180OverPi;
+}
 
 // Convert between "field of view" and "zoom".
 // The FOV angle is specified in radians.
 template <typename Real>
-inline Real fovToZoom (Real fov) { return 1.0f / std::tan (fov * 0.5f); }
+inline Real fovToZoom (Real fov) {
+    return 1.0f / std::tan (fov * 0.5f);
+}
 
 template <typename Real>
-inline Real zoomToFov (Real zoom) { return 2.0f * std::atan (1.0f / zoom); }
+inline Real zoomToFov (Real zoom) {
+    return 2.0f * std::atan (1.0f / zoom);
+}
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -80,54 +88,56 @@ template <typename Real>
 class Vector3
 {
 public:
-  // Constructors
-  Vector3 () { }
-  Vector3 (Real x, Real y, Real z)
-    : _x (x), _y (y), _z (z) { }
+    // Constructors
+    Vector3 () { }
+    Vector3 (Real x, Real y, Real z)
+        : _x (x), _y (y), _z (z) { }
 
 public:
-  // Vector comparison
-  bool operator== (const Vector3<Real> &v) const;
-  bool operator!= (const Vector3<Real> &v) const;
+    // Vector comparison
+    bool operator== (const Vector3<Real> &v) const;
+    bool operator!= (const Vector3<Real> &v) const;
 
-  // Vector negation
-  Vector3<Real> operator- () const;
+    // Vector negation
+    Vector3<Real> operator- () const;
 
-  // Vector operations
-  Vector3<Real> operator+ (const Vector3<Real> &v) const;
-  Vector3<Real> operator- (const Vector3<Real> &v) const;
-  Vector3<Real> operator* (Real s) const;
-  Vector3<Real> operator/ (Real s) const;
+    // Vector operations
+    Vector3<Real> operator+ (const Vector3<Real> &v) const;
+    Vector3<Real> operator- (const Vector3<Real> &v) const;
+    Vector3<Real> operator* (Real s) const;
+    Vector3<Real> operator/ (Real s) const;
 
-  // Combined assignment operators to conform to
-  // C notation convention
-  Vector3<Real> &operator+= (const Vector3<Real> &v);
-  Vector3<Real> &operator-= (const Vector3<Real> &v);
-  Vector3<Real> &operator*= (Real s);
-  Vector3<Real> &operator/= (Real s);
+    // Combined assignment operators to conform to
+    // C notation convention
+    Vector3<Real> &operator+= (const Vector3<Real> &v);
+    Vector3<Real> &operator-= (const Vector3<Real> &v);
+    Vector3<Real> &operator*= (Real s);
+    Vector3<Real> &operator/= (Real s);
 
-  // Accessor.  This allows to use the vector object
-  // like an array of Real. For example:
-  // Vector3<float> v (...);
-  // float f = v[1]; // access to _y
-  operator const Real *() { return _v; }
-
-public:
-  // Other vector operations
-  bool isZero ();
-  void normalize ();
+    // Accessor.  This allows to use the vector object
+    // like an array of Real. For example:
+    // Vector3<float> v (...);
+    // float f = v[1]; // access to _y
+    operator const Real *() {
+        return _v;
+    }
 
 public:
-  // Member variables
-  union
-  {
-    struct
+    // Other vector operations
+    bool isZero ();
+    void normalize ();
+
+public:
+    // Member variables
+    union
     {
-      Real _x, _y, _z;
-    };
+        struct
+        {
+            Real _x, _y, _z;
+        };
 
-    Real _v[3];
-  };
+        Real _v[3];
+    };
 };
 
 
@@ -158,7 +168,7 @@ Vector3<Real> CrossProduct (const Vector3<Real> &a, const Vector3<Real> &b);
 
 template <typename Real>
 Vector3<Real> ComputeNormal (const Vector3<Real> &p1,
-     const Vector3<Real> &p2, const Vector3<Real> &p3);
+                             const Vector3<Real> &p2, const Vector3<Real> &p3);
 
 template <typename Real>
 Real Distance (const Vector3<Real> &a, const Vector3<Real> &b);
@@ -178,67 +188,69 @@ template <typename Real>
 class Matrix4x4
 {
 public:
-  // Constructor - Initialize the last (never used) row of the matrix
-  // so that we can do any operation on matrices on the 3x4 portion
-  // and forget that line which will (and should) never change.
-  Matrix4x4 ()
-    : _h14 (0.0f), _h24 (0.0f), _h34 (0.0f), _tw (1.0f) { }
+    // Constructor - Initialize the last (never used) row of the matrix
+    // so that we can do any operation on matrices on the 3x4 portion
+    // and forget that line which will (and should) never change.
+    Matrix4x4 ()
+        : _h14 (0.0f), _h24 (0.0f), _h34 (0.0f), _tw (1.0f) { }
 
-  // Note that we don't define the copy constructor and let the compiler
-  // doing it itself because such initialization is not necessary
-  // since the source matrix has its last row already initialized...
-
-public:
-  // Public interface
-  void identity ();
-  void transpose ();
-  void invert ();
-  void setTranslation (const Vector3<Real> &v);
-
-  void transform (Vector3<Real> &v) const;
-  void rotate (Vector3<Real> &v) const;
-  void inverseRotate (Vector3<Real> &v) const;
-  void inverseTranslate (Vector3<Real> &v) const;
-
-  void fromQuaternion (const Quaternion<Real> &q);
-
-  // Matrix <-> Euler conversions; XYZ rotation order; angles in radians
-  void fromEulerAngles (Real x, Real y, Real z);
-  void toEulerAngles (Real &x, Real &y, Real &z) const;
-
-  // Return a base vector from the matrix
-  Vector3<Real> rightVector () const;
-  Vector3<Real> upVector () const;
-  Vector3<Real> forwardVector () const;
-  Vector3<Real> translationVector () const;
-
-  // Accessor.  This allows to use the matrix object
-  // like an array of Real. For example:
-  // Matrix4x4<float> mat;
-  // float f = mat[4]; // access to _m21
-  operator const Real *() { return _m; }
+    // Note that we don't define the copy constructor and let the compiler
+    // doing it itself because such initialization is not necessary
+    // since the source matrix has its last row already initialized...
 
 public:
-  // Member variables
+    // Public interface
+    void identity ();
+    void transpose ();
+    void invert ();
+    void setTranslation (const Vector3<Real> &v);
 
-  // The values of the matrix.  Basically the upper 3x3 portion
-  // contains a linear transformation, and the last column is the
-  // translation portion. Here data is transposed, see the Mathlib.inl
-  // for more details.
-  union
-  {
-    struct
+    void transform (Vector3<Real> &v) const;
+    void rotate (Vector3<Real> &v) const;
+    void inverseRotate (Vector3<Real> &v) const;
+    void inverseTranslate (Vector3<Real> &v) const;
+
+    void fromQuaternion (const Quaternion<Real> &q);
+
+    // Matrix <-> Euler conversions; XYZ rotation order; angles in radians
+    void fromEulerAngles (Real x, Real y, Real z);
+    void toEulerAngles (Real &x, Real &y, Real &z) const;
+
+    // Return a base vector from the matrix
+    Vector3<Real> rightVector () const;
+    Vector3<Real> upVector () const;
+    Vector3<Real> forwardVector () const;
+    Vector3<Real> translationVector () const;
+
+    // Accessor.  This allows to use the matrix object
+    // like an array of Real. For example:
+    // Matrix4x4<float> mat;
+    // float f = mat[4]; // access to _m21
+    operator const Real *() {
+        return _m;
+    }
+
+public:
+    // Member variables
+
+    // The values of the matrix.  Basically the upper 3x3 portion
+    // contains a linear transformation, and the last column is the
+    // translation portion. Here data is transposed, see the Mathlib.inl
+    // for more details.
+    union
     {
-      Real _m11, _m12, _m13, _h14;
-      Real _m21, _m22, _m23, _h24;
-      Real _m31, _m32, _m33, _h34;
-      Real _tx,  _ty,  _tz,  _tw;
-    };
+        struct
+        {
+            Real _m11, _m12, _m13, _h14;
+            Real _m21, _m22, _m23, _h24;
+            Real _m31, _m32, _m33, _h34;
+            Real _tx,  _ty,  _tz,  _tw;
+        };
 
-    // Access to raw packed matrix data (usefull for
-    // glLoadMatrixf () and glMultMatrixf ())
-    Real _m[16];
-  };
+        // Access to raw packed matrix data (usefull for
+        // glLoadMatrixf () and glMultMatrixf ())
+        Real _m[16];
+    };
 };
 
 
@@ -287,7 +299,7 @@ template <typename Real> Matrix4x4<Real> AxisReflectionMatrix (const Vector3<Rea
 
 template <typename Real>
 Matrix4x4<Real> LookAtMatrix (const Vector3<Real> &camPos,
-	const Vector3<Real> &target, const Vector3<Real> &camUp);
+                              const Vector3<Real> &target, const Vector3<Real> &camUp);
 template <typename Real>
 Matrix4x4<Real> FrustumMatrix (Real l, Real r, Real b, Real t, Real n, Real f);
 template <typename Real>
@@ -296,7 +308,7 @@ template <typename Real>
 Matrix4x4<Real> OrthoMatrix (Real l, Real r, Real b, Real t, Real n, Real f);
 template <typename Real>
 Matrix4x4<Real> OrthoNormalMatrix (const Vector3<Real> &xdir,
-	const Vector3<Real> &ydir, const Vector3<Real> &zdir);
+                                   const Vector3<Real> &ydir, const Vector3<Real> &zdir);
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -310,67 +322,67 @@ template <typename Real>
 class Quaternion
 {
 public:
-  // Constructors
-  Quaternion () { }
-  Quaternion (Real w, Real x, Real y, Real z)
-    : _w (w), _x (x), _y (y), _z (z) { }
+    // Constructors
+    Quaternion () { }
+    Quaternion (Real w, Real x, Real y, Real z)
+        : _w (w), _x (x), _y (y), _z (z) { }
 
 public:
-  // Public interface
-  void identity ();
-  void normalize ();
-  void computeW ();
-  void rotate (Vector3<Real> &v) const;
+    // Public interface
+    void identity ();
+    void normalize ();
+    void computeW ();
+    void rotate (Vector3<Real> &v) const;
 
-  void fromMatrix (const Matrix4x4<Real> &m);
+    void fromMatrix (const Matrix4x4<Real> &m);
 
-  // Quaternion <-> Euler conversions; XYZ rotation order; angles in radians
-  void fromEulerAngles (Real x, Real y, Real z);
-  void toEulerAngles (Real &x, Real &y, Real &z) const;
+    // Quaternion <-> Euler conversions; XYZ rotation order; angles in radians
+    void fromEulerAngles (Real x, Real y, Real z);
+    void toEulerAngles (Real &x, Real &y, Real &z) const;
 
-  Real rotationAngle () const;
-  Vector3<Real> rotationAxis () const;
+    Real rotationAngle () const;
+    Vector3<Real> rotationAxis () const;
 
-  // Quaternion operations
-  Quaternion<Real> operator+ (const Quaternion<Real> &q) const;
-  Quaternion<Real> &operator+= (const Quaternion<Real> &q);
+    // Quaternion operations
+    Quaternion<Real> operator+ (const Quaternion<Real> &q) const;
+    Quaternion<Real> &operator+= (const Quaternion<Real> &q);
 
-  Quaternion<Real> operator- (const Quaternion<Real> &q) const;
-  Quaternion<Real> &operator-= (const Quaternion<Real> &q);
+    Quaternion<Real> operator- (const Quaternion<Real> &q) const;
+    Quaternion<Real> &operator-= (const Quaternion<Real> &q);
 
-  Quaternion<Real> operator* (const Quaternion<Real> &q) const;
-  Quaternion<Real> &operator*= (const Quaternion<Real> &q);
+    Quaternion<Real> operator* (const Quaternion<Real> &q) const;
+    Quaternion<Real> &operator*= (const Quaternion<Real> &q);
 
-  Quaternion<Real> operator* (Real k) const;
-  Quaternion<Real> &operator*= (Real k);
+    Quaternion<Real> operator* (Real k) const;
+    Quaternion<Real> &operator*= (Real k);
 
-  Quaternion<Real> operator* (const Vector3<Real> &v) const;
-  Quaternion<Real> &operator*= (const Vector3<Real> &v);
+    Quaternion<Real> operator* (const Vector3<Real> &v) const;
+    Quaternion<Real> &operator*= (const Vector3<Real> &v);
 
-  Quaternion<Real> operator/ (Real k) const;
-  Quaternion<Real> &operator/= (Real k);
+    Quaternion<Real> operator/ (Real k) const;
+    Quaternion<Real> &operator/= (Real k);
 
-  Quaternion<Real> operator~ () const; // Quaternion conjugate
-  Quaternion<Real> operator- () const; // Quaternion negation
+    Quaternion<Real> operator~ () const; // Quaternion conjugate
+    Quaternion<Real> operator- () const; // Quaternion negation
 
 public:
-  // Member variables
+    // Member variables
 
-  // The 4 values of the quaternion.  Normally, it will not
-  // be necessary to manipulate these directly.  However,
-  // we leave them public, since prohibiting direct access
-  // makes some operations, such as file I/O, unnecessarily
-  // complicated.
+    // The 4 values of the quaternion.  Normally, it will not
+    // be necessary to manipulate these directly.  However,
+    // we leave them public, since prohibiting direct access
+    // makes some operations, such as file I/O, unnecessarily
+    // complicated.
 
-  union
-  {
-    struct
+    union
     {
-      Real _w, _x, _y, _z;
-    };
+        struct
+        {
+            Real _w, _x, _y, _z;
+        };
 
-    Real _q[4];
-  };
+        Real _q[4];
+    };
 };
 
 
@@ -416,11 +428,11 @@ template <typename Real>
 Quaternion<Real> Slerp (const Quaternion<Real> &q0, const Quaternion<Real> &q1, Real t);
 template <typename Real>
 Quaternion<Real> Squad (const Quaternion<Real> &q0, const Quaternion<Real> &qa,
-			const Quaternion<Real> &qb, const Quaternion<Real> &q1, Real t);
+                        const Quaternion<Real> &qb, const Quaternion<Real> &q1, Real t);
 template <typename Real>
 inline void Intermediate (const Quaternion<Real> &qprev, const Quaternion<Real> &qcurr,
-			  const Quaternion<Real> &qnext, Quaternion<Real> &qa,
-			  Quaternion<Real> &qb);
+                          const Quaternion<Real> &qnext, Quaternion<Real> &qa,
+                          Quaternion<Real> &qb);
 
 // Include inline function definitions
 #include "Mathlib.inl"

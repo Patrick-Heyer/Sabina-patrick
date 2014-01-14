@@ -22,7 +22,7 @@ int uiGetRoundBox(void);
 void gl_round_box(int mode, float minx, float miny, float maxx, float maxy, float rad);
 
 
- void round_box_shade_col(float *col1, float *col2, float fac);
+void round_box_shade_col(float *col1, float *col2, float fac);
 
 
 /* linear horizontal shade within button or in outline */

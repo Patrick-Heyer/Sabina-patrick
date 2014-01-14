@@ -7,7 +7,7 @@
 class Histograma
 {
 public:
-    Histograma(){}
+    Histograma() {}
     void CalcularHistogramaHSV(IplImage *img1,  cv::Mat &histograma, int nh, int ns, int nv);
 
 

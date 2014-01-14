@@ -49,8 +49,8 @@ typedef void (*RendererFreeFunc)(IPlugin *);
 
 /// A routine to let a plugin register a new renderer type
 CORE_FUNC void RegisterPlugin(const char *type,
-								RendererInitFunc init_cb,
-								RendererFreeFunc free_cb);
+                              RendererInitFunc init_cb,
+                              RendererFreeFunc free_cb);
 
 
 #endif

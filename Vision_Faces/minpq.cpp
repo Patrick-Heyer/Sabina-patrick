@@ -23,21 +23,21 @@ void decrease_pq_node_key( struct pq_node*, int, int );
 /* returns the array index of element i's parent */
 static __inline int parent( int i )
 {
-	return ( i - 1 ) / 2;
+    return ( i - 1 ) / 2;
 }
 
 
 /* returns the array index of element i's right child */
 static __inline int right( int i )
 {
-	return 2 * i + 2;
+    return 2 * i + 2;
 }
 
 
 /* returns the array index of element i's left child */
 static __inline int left( int i )
 {
-	return 2 * i + 1;
+    return 2 * i + 1;
 }
 
 
@@ -49,14 +49,14 @@ Creates a new minimizing priority queue.
 */
 struct min_pq* minpq_init()
 {
-	struct min_pq* min_pq1;
+    struct min_pq* min_pq1;
 
-	min_pq1 = (min_pq*)malloc( sizeof( struct min_pq ) );
-	min_pq1->pq_array = (pq_node*)calloc( MINPQ_INIT_NALLOCD, sizeof( struct pq_node ) );
-	min_pq1->nallocd = MINPQ_INIT_NALLOCD;
-	min_pq1->n = 0;
+    min_pq1 = (min_pq*)malloc( sizeof( struct min_pq ) );
+    min_pq1->pq_array = (pq_node*)calloc( MINPQ_INIT_NALLOCD, sizeof( struct pq_node ) );
+    min_pq1->nallocd = MINPQ_INIT_NALLOCD;
+    min_pq1->n = 0;
 
-	return min_pq1;
+    return min_pq1;
 }
 
 
@@ -72,26 +72,26 @@ Inserts an element into a minimizing priority queue.
 */
 int minpq_insert( struct min_pq* min_pq, void* data, int key )
 {
-	int n = min_pq->n;
+    int n = min_pq->n;
 
-	/* double array allocation if necessary */
-	if( min_pq->nallocd == n )
-	{
-		min_pq->nallocd = (int)array_double( (void**)&min_pq->pq_array, min_pq->nallocd,sizeof( struct pq_node ) );
-		if( ! min_pq->nallocd )
-		{
-			fprintf( stderr, "Warning: unable to allocate memory, %s, line %d\n",
-					__FILE__, __LINE__ );
-			return 1;
-		}
-	}
+    /* double array allocation if necessary */
+    if( min_pq->nallocd == n )
+    {
+        min_pq->nallocd = (int)array_double( (void**)&min_pq->pq_array, min_pq->nallocd,sizeof( struct pq_node ) );
+        if( ! min_pq->nallocd )
+        {
+            fprintf( stderr, "Warning: unable to allocate memory, %s, line %d\n",
+                     __FILE__, __LINE__ );
+            return 1;
+        }
+    }
 
-	min_pq->pq_array[n].data = data;
-	min_pq->pq_array[n].key = INT_MAX;
-	decrease_pq_node_key( min_pq->pq_array, min_pq->n, key );
-	min_pq->n++;
+    min_pq->pq_array[n].data = data;
+    min_pq->pq_array[n].key = INT_MAX;
+    decrease_pq_node_key( min_pq->pq_array, min_pq->n, key );
+    min_pq->n++;
 
-	return 0;
+    return 0;
 }
 
 
@@ -107,12 +107,12 @@ if \a min_pq is empty
 */
 void* minpq_get_min( struct min_pq* min_pq )
 {
-	if( min_pq->n < 1 )
-	{
-		fprintf( stderr, "Warning: PQ empty, %s line %d\n", __FILE__, __LINE__ );
-		return NULL;
-	}
-	return min_pq->pq_array[0].data;
+    if( min_pq->n < 1 )
+    {
+        fprintf( stderr, "Warning: PQ empty, %s line %d\n", __FILE__, __LINE__ );
+        return NULL;
+    }
+    return min_pq->pq_array[0].data;
 }
 
 
@@ -128,19 +128,19 @@ if \a min_pq is empty
 */
 void* minpq_extract_min( struct min_pq* min_pq )
 {
-	void* data;
+    void* data;
 
-	if( min_pq->n < 1 )
-	{
-		fprintf( stderr, "Warning: PQ empty, %s line %d\n", __FILE__, __LINE__ );
-		return NULL;
-	}
-	data = min_pq->pq_array[0].data;
-	min_pq->n--;
-	min_pq->pq_array[0] = min_pq->pq_array[min_pq->n];
-	restore_minpq_order( min_pq->pq_array, 0, min_pq->n );
+    if( min_pq->n < 1 )
+    {
+        fprintf( stderr, "Warning: PQ empty, %s line %d\n", __FILE__, __LINE__ );
+        return NULL;
+    }
+    data = min_pq->pq_array[0].data;
+    min_pq->n--;
+    min_pq->pq_array[0] = min_pq->pq_array[min_pq->n];
+    restore_minpq_order( min_pq->pq_array, 0, min_pq->n );
 
-	return data;
+    return data;
 }
 
 
@@ -151,18 +151,18 @@ De-allocates the memory held by a minimizing priorioty queue
 */
 void minpq_release( struct min_pq** min_pq )
 {
-	if( ! min_pq )
-	{
-		fprintf( stderr, "Warning: NULL pointer error, %s line %d\n", __FILE__,
-				__LINE__ );
-		return;
-	}
-	if( *min_pq  &&  (*min_pq)->pq_array )
-	{
-		free( (*min_pq)->pq_array );
-		free( *min_pq );
-		*min_pq = NULL;
-	}
+    if( ! min_pq )
+    {
+        fprintf( stderr, "Warning: NULL pointer error, %s line %d\n", __FILE__,
+                 __LINE__ );
+        return;
+    }
+    if( *min_pq  &&  (*min_pq)->pq_array )
+    {
+        free( (*min_pq)->pq_array );
+        free( *min_pq );
+        *min_pq = NULL;
+    }
 }
 
 
@@ -178,19 +178,19 @@ Decrease a minimizing pq element's key, rearranging the pq if necessary
 */
 void decrease_pq_node_key( struct pq_node* pq_array, int i, int key )
 {
-	struct pq_node tmp;
+    struct pq_node tmp;
 
-	if( key > pq_array[i].key )
-		return;
+    if( key > pq_array[i].key )
+        return;
 
-	pq_array[i].key = key;
-	while( i > 0  &&  pq_array[i].key < pq_array[parent(i)].key )
-	{
-		tmp = pq_array[parent(i)];
-		pq_array[parent(i)] = pq_array[i];
-		pq_array[i] = tmp;
-		i = parent(i);
-	}
+    pq_array[i].key = key;
+    while( i > 0  &&  pq_array[i].key < pq_array[parent(i)].key )
+    {
+        tmp = pq_array[parent(i)];
+        pq_array[parent(i)] = pq_array[i];
+        pq_array[i] = tmp;
+        i = parent(i);
+    }
 }
 
 
@@ -204,23 +204,23 @@ Recursively restores correct priority queue order to a minimizing pq array
 */
 void restore_minpq_order( struct pq_node* pq_array, int i, int n )
 {
-	struct pq_node tmp;
-	int l, r, min = i;
+    struct pq_node tmp;
+    int l, r, min = i;
 
-	l = left( i );
-	r = right( i );
-	if( l < n )
-		if( pq_array[l].key < pq_array[i].key )
-			min = l;
-	if( r < n )
-		if( pq_array[r].key < pq_array[min].key )
-			min = r;
+    l = left( i );
+    r = right( i );
+    if( l < n )
+        if( pq_array[l].key < pq_array[i].key )
+            min = l;
+    if( r < n )
+        if( pq_array[r].key < pq_array[min].key )
+            min = r;
 
-	if( min != i )
-	{
-		tmp = pq_array[min];
-		pq_array[min] = pq_array[i];
-		pq_array[i] = tmp;
-		restore_minpq_order( pq_array, min, n );
-	}
+    if( min != i )
+    {
+        tmp = pq_array[min];
+        pq_array[min] = pq_array[i];
+        pq_array[i] = tmp;
+        restore_minpq_order( pq_array, min, n );
+    }
 }

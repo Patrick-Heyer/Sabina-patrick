@@ -123,7 +123,7 @@ GLuint loadDDSTexture (const char *filename)
         /* setup some parameters for texture filters and mipmapping */
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		
+
         mipWidth = compressed_texture->width;
         mipHeight = compressed_texture->height;
         blockSize = (compressed_texture->format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) ? 8 : 16;
@@ -134,7 +134,7 @@ GLuint loadDDSTexture (const char *filename)
         {
             mipSize = ((mipWidth + 3) / 4) * ((mipHeight + 3) / 4) * blockSize;
 
-			glCompressedTexImage2D (GL_TEXTURE_2D, mip, compressed_texture->format,
+            glCompressedTexImage2D (GL_TEXTURE_2D, mip, compressed_texture->format,
                                     mipWidth, mipHeight, 0, mipSize,
                                     compressed_texture->texels + offset);
 
