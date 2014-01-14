@@ -4,12 +4,19 @@
 
 #include "Camera.h"
 
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
+
 ///*! \brief Information about the processed information of a PTZ camara
 // *
 // *  
 // */
 class PTZ : public Camera {
   private:
+      CvCapture *stream;
+      IplImage *frame;
+      
+
     ///*! \brief The tilt value of the camera
     // *
     // *  
@@ -30,6 +37,9 @@ class PTZ : public Camera {
 
 
   public:
+      void set_stream(CvCapture *value);
+      IplImage *get_image();
+      
     ///*! \brief Gets the tilt value of the camera
     // *
     // *  Gets the tilt value of the camera \return Tilt

@@ -1,8 +1,30 @@
 
 #include "Kinect.h"
+#include <libfreenect/libfreenect_cv.h>
+#include <libfreenect/libfreenect_sync.h>
 
 bool Focus_z_escribible=true;
-bool Tilt_escribible=true;
+bool Tilt_ki_escribible=true;
+
+void Kinect::set_device(int value)
+{
+    device=value;
+}
+
+IplImage* Kinect::get_depth()
+{
+    return freenect_sync_get_depth_cv(device);
+}
+
+IplImage* Kinect::get_RGB()
+{
+    IplImage * image;
+    image=freenect_sync_get_rgb_cv(0);
+    cvCvtColor(image,image,CV_RGB2BGR);
+    return image;
+}
+
+
 
 ///*! \brief Gets the Z coordinate of an object
 // *
@@ -41,9 +63,9 @@ float Kinect::get_Tilt() {
 void Kinect::set_Tilt(float value) {
   do
   {
-  }while (!Tilt_escribible);
-  Tilt_escribible=false;
+  }while (!Tilt_ki_escribible);
+  Tilt_ki_escribible=false;
   Tilt = value;
-  Tilt_escribible=true;
+  Tilt_ki_escribible=true;
 }
 

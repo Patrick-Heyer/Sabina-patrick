@@ -22,26 +22,31 @@
 #include "video.h"
 #include "tab.h"
 
-video::video(int x, int y, int widht, int height, std::string name, tab* parent)
+Video::Video(int x, int y, int widht, int height, std::string name, Tab* parent)
 {
     this->SetName(name);
     this->SetPosition(x, y);
     this->SetSize(widht, height);
     image=NULL;
-
+    bloqueado=false;
     parent->InsertWidget(this);
 
 }
 
-void video::Update()
+void Video::update()
 {
 
 }
 
-void video::SetImage (IplImage * value)
+void Video::SetImage (IplImage * value)
 {
+    do{
+        
+    }while (bloqueado);
+    bloqueado=true;
     cvReleaseImage(&image);
     image = cvCloneImage(value);
+    bloqueado=false;
 }
 
 void DrawIplImage(IplImage *image, int x = 0, int y = 0, GLfloat xZoom = 1.0f, GLfloat yZoom = -1.0f)
@@ -66,11 +71,19 @@ void DrawIplImage(IplImage *image, int x = 0, int y = 0, GLfloat xZoom = 1.0f, G
     glDrawPixels(image->width, image->height, format, GL_UNSIGNED_BYTE, image->imageData);
 }
 
-void video::Draw()
+void Video::Draw()
 {
+    do{
+        
+    }while (bloqueado);
+    bloqueado=true;
     if (image!=NULL)
     DrawIplImage(image, Get_x(), Get_y());
- 
+    bloqueado=false;
 }
 
+void Video::proccesInput()
+{
+
+}
 

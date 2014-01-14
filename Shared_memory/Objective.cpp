@@ -2,7 +2,7 @@
 #include "Objective.h"
 
 bool Name_escribible=true;
-bool Visual_ID_escribible=true;
+bool Visual_ID_obj__escribible=true;
 bool Type_escribible=true;
 bool Last_x_escribible=true;
 bool Last_y_escribible=true;
@@ -22,10 +22,10 @@ int Objective::get_Visual_ID() {
 void Objective::set_Visual_ID(int value) {
   do
   {
-  }while (!Visual_ID_escribible);
-  Visual_ID_escribible=false;
+  }while (!Visual_ID_obj__escribible);
+  Visual_ID_obj__escribible=false;
   Visual_ID = value;
-  Visual_ID_escribible=true;
+  Visual_ID_obj__escribible=true;
 }
 
 ///*! \brief Gets the type of the objective
@@ -40,8 +40,9 @@ string * Objective::get_Type() {
 // *
 // *  Sets the type of the objective person, object
 // */
-void Objective::set_Type(string * value) {
-  Type = value;
+void Objective::set_Type(string value) {
+    if (Type==NULL) Type=new string;
+  *Type = value;
 }
 
 ///*! \brief Gets the last_x of the objective
@@ -103,6 +104,7 @@ void Objective::set_Name(string value) {
     {
     }while (!Name_escribible);
     Name_escribible=false;
+    if (Name==NULL) Name=new string;
     *Name = value;
     Name_escribible=true;
 }

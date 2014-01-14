@@ -19,7 +19,7 @@
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 
-#include <libfreenect/libfreenect_cv.h>
+//#include <libfreenect/libfreenect_cv.h>
 
 #include "video.h"
 #include "kinect.h"
@@ -209,12 +209,12 @@ void kinect::Draw()
    
     if (mode==0)
     {
-        image=freenect_sync_get_depth_cv(0);
+//        image=freenect_sync_get_depth_cv(0);
         DrawIplImage(GlViewColor(image),Get_x(),Get_y(),1,-1);
     }
     if (mode==1)
     {
-        image=freenect_sync_get_rgb_cv(0);
+ //       image=freenect_sync_get_rgb_cv(0);
         cvCvtColor(image,image,CV_RGB2BGR);
         DrawIplImage(image,Get_x(),Get_y(),1,-1);
     }

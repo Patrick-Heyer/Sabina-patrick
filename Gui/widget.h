@@ -22,15 +22,26 @@
 
 #include "view2d.h"
 
-class tab;
+class Tab;
 
-class widget
+class Widget
 {
 
 public:
-    
+    /*! \brief Draws the widget
+     *	
+	 * Draws the widget called by Tab::Draw
+	*/
     virtual void Draw ()=0;
-    virtual void Update ()=0;
+	
+	 /*! \brief Updates the widget 
+     *	
+	 * Updates the widget called by Tab::update
+	*/
+    virtual void update ()=0;
+	
+    virtual void proccesInput()=0;
+    Tab *get_parent();
     void SetName(std::string value);
     void SetSize(int value[2]);
     void SetSize(int width, int height);
@@ -43,6 +54,7 @@ public:
     int Get_y();
     int Get_widht();
     int Get_height();
+    bool Get_Active();
 
 private:
     std::string name;
@@ -51,7 +63,7 @@ private:
     bool enabled;
     bool active;
     
-    tab *parent;
+    Tab *parent;
     
 };
 

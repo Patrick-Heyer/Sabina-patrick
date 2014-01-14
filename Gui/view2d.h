@@ -44,6 +44,13 @@ struct colorhsv
 
 };
 
+struct text_line
+{
+    std::string content;
+    color4 color;
+    int font;
+};
+
 color3 Hex_to_RGB ( const char * hex );
 color4 Hex_to_RGBA ( const char * hex );
 
@@ -69,13 +76,13 @@ void resetPerspectiveProjection();
 
 bool IsOver(int x, int y, int x1, int y1, int x2, int y2);
 
-void DrawText ( int x, int y, std::string text, color4 text_color, int font);
-void DrawText ( int x, int y, std::string text, color3 text_color, int font );
-void DrawText ( int x, int y, std::string text, std::string text_color, int font );
+void drawText ( int x, int y, std::string text, color4 text_color, int font);
+void drawText ( int x, int y, std::string text, color3 text_color, int font );
+void drawText ( int x, int y, std::string text, std::string text_color, int font );
 
-void DrawText ( int x, int y, std::string text, color4 text_color);
-void DrawText ( int x, int y, std::string text, color3 text_color);
-void DrawText ( int x, int y, std::string text, std::string text_color);
+void drawText ( int x, int y, std::string text, color4 text_color);
+void drawText ( int x, int y, std::string text, color3 text_color);
+void drawText ( int x, int y, std::string text, std::string text_color);
 
 void uiSetRoundBox ( int type );
 void uiSetRoundBox ( int up_l, int up_r, int down_r, int down_l);

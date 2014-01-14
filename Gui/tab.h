@@ -25,22 +25,42 @@
 #ifndef TAB_H
 #define TAB_H
 
-class tab
+class Tab
 {
 
 public:
-    tab(std::string name);
-
-    void InsertWidget(widget * value);
+	
+	/*! \brief Creates a new tab
+     *
+     *  @param name The name that will identify this tab in the list of tabs from Gui
+     */
+    Tab(std::string name);
+    void ProccesInput();
+    void InsertWidget(Widget * value);
+	
+	/*! \brief Draws the Tab on screen
+     *
+     *  Draws the Tab and its widgets on screen called by Gui::Draw
+     */
 	void Draw();
+	
+	/*! \brief Updates the Tab 
+     *	
+	 * Updates the Tab called by Gui::update
+	*/
     void Update();
     std::string get_Name();
+    void set_active_widget(Widget *value);
+    Widget *get_active_widget();
+    void set_active(bool value);
+    bool get_active();
 
 private:
     std::string name;
-    int selected_tab;
-    tab *active_tab;
-    typedef std::list<widget *>   WidgetList;
+    Widget *active_widget;
+    bool active;
+    
+    typedef std::list<Widget *>   WidgetList;
     typedef WidgetList::iterator   ListItor;
     
     WidgetList                     m_widgetslist;

@@ -4,7 +4,7 @@
 bool Current_letter_escribible=true;
 bool Speed_escribible=true;
 bool Volumen_escribible=true;
-bool Phrase_escribible=true;
+bool Phrase_synt_escribible=true;
 
 ///*! \brief Gets the letter index the sintetizer is sinthetizing
 // *
@@ -84,10 +84,10 @@ string Synthesis::get_Phrase() {
 void Synthesis::set_Phrase(string value) {
   do
   {
-  }while (!Phrase_escribible);
-  Phrase_escribible=false;
+  }while (!Phrase_synt_escribible);
+  Phrase_synt_escribible=false;
   *Phrase = value;
-  Phrase_escribible=true;
+  Phrase_synt_escribible=true;
 
 }
 

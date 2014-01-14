@@ -14,18 +14,18 @@
 
 #include <stdlib.h>
 
-class Input_Singleton
+class InputSingleton
 {
 protected:
     // constructor/destructor
-    Input_Singleton( void ) {
+    InputSingleton( void ) {
         Initialize();
     }
-    virtual ~Input_Singleton( void ) { }
+    virtual ~InputSingleton( void ) { }
 
 public:
     // singleton functions
-    static Input_Singleton	&GetInstance( void );
+    static InputSingleton	&getInstance( void );
     static void	 		FreeInstance( void );
     void	Initialize ( void );
 	void 	ProcessMouse ( int button, int state, int x, int y, int modkey );
@@ -39,6 +39,7 @@ public:
     bool keys[256];
     bool specialkeys[256];
     unsigned char key;
+    unsigned char special_key;
     int keyboard_mod_key;
     int special_mod_key;
     int mouse_mod_key;
@@ -71,7 +72,7 @@ public:
 
 private:
 
-    static Input_Singleton			*m_singleton;
+    static InputSingleton			*m_singleton;
 };
 
 

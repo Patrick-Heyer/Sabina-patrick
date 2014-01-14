@@ -19,57 +19,73 @@
 #include "gui.h"
 #include "widget.h"
 
-void widget::SetName(std::string value)
+void Widget::SetName(std::string value)
 {
     this->name=value;
 }
 
-void widget::SetPosition(int value[2])
+void Widget::SetPosition(int value[2])
 {
     SetPosition(value[0], value[1]);
 }
 
-void widget::SetPosition(int x, int y)
+void Widget::SetPosition(int x, int y)
 {
     position[0]=x;
     position[1]=y;
 }
 
-void widget::SetSize(int value[2])
+void Widget::SetSize(int value[2])
 {
     SetSize(value[0], value[1]);
 }
 
-void widget::SetSize(int width, int height)
+void Widget::SetSize(int width, int height)
 {
     size[0]=width;
     size[1]=height;
 }
 
 
-std::string widget::GetName()
+std::string Widget::GetName()
 {
     return this->name;
 }
 
-int widget::Get_x()
+int Widget::Get_x()
 {
     return this->position[0];
 }
 
-int widget::Get_y()
+int Widget::Get_y()
 {
     return this->position[1];
 }
 
-int widget::Get_height()
+int Widget::Get_height()
 {
     return this->size[1];
 }
 
-int widget::Get_widht()
+int Widget::Get_widht()
 {
     return this->size[0];
+}
+
+
+Tab *Widget::get_parent()
+{
+    return parent;
+}
+
+void Widget::SetActive(bool value)
+{
+    active=value;
+}
+
+bool Widget::Get_Active()
+{
+    return active;
 }
 
 

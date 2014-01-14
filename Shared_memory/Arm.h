@@ -10,33 +10,33 @@ class Arm {
   private:
     ///*! \brief Defines the state of the arm
     // *
-    // *   Define the state of the arm save, extended, grabing position 
+    // *   Define the state of the arm safe, extended, grabing position 
     // */
-    int State;
+    int state;
 
     ///*! \brief X position of the end effector
     // *
     // *  
     // */
-    int Gripper_x;
+    int gripperX;
 
     ///*! \brief Y position of the end effector
     // *
     // *  
     // */
-    int Gripper_y;
+    int gripperY;
 
     ///*! \brief Z position of the end effector
     // *
     // *  
     // */
-    int Gripper_z;
+    int gripperZ;
 
     ///*! \brief State of the end effector
     // *
     // *  State of the end effector open true close false
     // */
-    bool Gripper_open;
+    bool gripperOpen;
 
 
   public:
@@ -44,61 +44,61 @@ class Arm {
     // *
     // *  Gets the state of the arm \return State
     // */
-    int get_State();
+    int getState();
 
     ///*! \brief Sets the state of the arm
     // *
     // *  Sets the state of the arm
     // */
-    void set_State(int value);
+    void setState(int value);
 
     ///*! \brief Gets the X coordinate of the end effector
     // *
     // *  Gets the X coordinate of the end effector \return Gripper_x
     // */
-    int get_Gripper_x();
+    int getGripperX();
 
     ///*! \brief Sets the X coordinate of the end effector
     // *
     // *  Sets the X coordinate of the end effector
     // */
-    void set_Gripper_x(int value);
+    void setGripperX(int value);
 
     ///*! \brief Gets the Y coordinate of the end effector
     // *
     // *  Gets the Y coordinate of the end effector \return Gripper_y
     // */
-    int get_Gripper_y();
+    int getGripperY();
 
     ///*! \brief Sets the Y coordinate of the end effector
     // *
     // *  Sets the Y coordinate of the end effector
     // */
-    void set_Gripper_y(int value);
+    void setGripperY(int value);
 
     ///*! \brief Gets the Z coordinate of the end effector
     // *
     // *  Gets the Z coordinate of the end effector \return Gripper_z
     // */
-    int get_Gripper_z();
+    int getGripperZ();
 
     ///*! \brief Sets the Z coordinate of the end effector
     // *
     // *  Sets the Z coordinate of the end effector
     // */
-    void set_Gripper_z(int value);
+    void setGripperZ(int value);
 
     ///*! \brief Gets the state of the end effector
     // *
     // *  Gets the state of the end effector \return Gripper_open
     // */
-    bool get_Gripper_open();
+    bool getGripperOpen();
 
     ///*! \brief Sets the state of the end effector
     // *
     // *  Sets the state of the end effector
     // */
-    void set_Gripper_open(bool value);
+    void setGripperOpen(bool value);
 
   friend class Robot;
 };

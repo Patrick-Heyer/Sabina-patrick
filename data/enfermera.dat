@@ -1,0 +1,167 @@
+//Markovito
+//Who is Who
+
+(variables
+    (iniciado no si)
+    (dentro_arena no si)
+    (pidiendo_p no si)
+    (detectada_p no si)
+    (ruta_planeada no si)
+    (destino_alcanzado no si)
+    (entregado_gripper no si)
+    (show_completo no si)
+     )
+    
+    unnormalised
+    
+    //nada
+    //iniciar 			espera click de inicio
+    //entrar 			entra a la arena
+    //pedir_persona 		solicita a alguien que se ponga enfrente
+    //detectar_personas 	cicla hasta encontrar un rstro frente a la camara
+    //pedir_nombre 		pide el nombre del usuario
+    //aprender_persona 		aprende el rostro del usuario con el nombre dado
+    //pedir_destino 		solicita su destino
+    //navegar_destino		mueve al robot a su destino
+    //encontrar_personas	busca un gesto o rostro
+    
+    
+
+    
+    action nada
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    pidiendo_p		(SAMEpidiendo_p)
+    detectada_p		(SAMEdetectada_p)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    entregado_gripper	(SAMEentregado_gripper)
+    show_completo	(SAMEshow_completo)
+    
+    endaction
+    
+    action iniciar
+    iniciado		(iniciado' (si(1.0)) (no(0.0)))
+    dentro_arena	(SAMEdentro_arena)
+    pidiendo_p		(SAMEpidiendo_p)
+    detectada_p		(SAMEdetectada_p)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    entregado_gripper	(SAMEentregado_gripper)
+   show_completo	(SAMEshow_completo)
+   
+    endaction
+    
+    action entrar
+    iniciado		(SAMEiniciado)
+    dentro_arena	(dentro_arena' (si(1.0)) (no(0.0)))
+    pidiendo_p		(SAMEpidiendo_p)
+    detectada_p		(SAMEdetectada_p)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    entregado_gripper	(SAMEentregado_gripper)
+   show_completo	(SAMEshow_completo)
+   
+    endaction
+    
+   
+    action pedir_paciente
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    pidiendo_p		(pidiendo_p' (si(1.0)) (no(0.0)))
+    detectada_p		(SAMEdetectada_p)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    entregado_gripper	(SAMEentregado_gripper)
+   show_completo	(SAMEshow_completo)
+   
+    endaction
+    
+    
+    action detectar_paciente
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    pidiendo_p		(SAMEpidiendo_p)
+    detectada_p		(detectada_p' (si(1.0)) (no(0.0)))
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    entregado_gripper	(SAMEentregado_gripper)
+    show_completo	(SAMEshow_completo)
+    endaction
+ 
+    
+    
+    action planear_ruta
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    pidiendo_p		(SAMEpidiendo_p)
+    detectada_p		(SAMEdetectada_p)
+    ruta_planeada	(ruta_planeada' (si(1.0)) (no(0.0)))
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    entregado_gripper	(SAMEentregado_gripper)
+    show_completo	(SAMEshow_completo)
+    endaction
+    
+    action navegar_consultorio
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    pidiendo_p		(SAMEpidiendo_p)
+    detectada_p		(SAMEdetectada_p)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(destino_alcanzado' (si(1.0)) (no(0.0)))
+    entregado_gripper	(SAMEentregado_gripper)
+    show_completo	(SAMEshow_completo)
+    endaction
+    
+    
+    action entregar_gripper
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    pidiendo_p		(SAMEpidiendo_p)
+    detectada_p		(SAMEdetectada_p)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    entregado_gripper	(entregado_gripper' (si(1.0)) (no(0.0)))
+    show_completo	(SAMEshow_completo)
+    endaction
+    
+    action hacer_show
+    iniciado		(SAMEiniciado)
+    dentro_arena	(SAMEdentro_arena)
+    pidiendo_p		(SAMEpidiendo_p)
+    detectada_p		(SAMEdetectada_p)
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    entregado_gripper	(SAMEentregado_gripper)
+    show_completo	(show_completo' (si(1.0)) (no(0.0)))
+    endaction
+    
+    
+    reward [+
+    (iniciado (si (100.0)) (no (-100.0)))
+    (iniciado 		(si  (dentro_arena  (si (100.0))  (no (-100.0))))
+			(no  (dentro_arena  (si (-100.0)) (no (-100.0)))))
+    
+    (dentro_arena 	(si  (pidiendo_p  (si (100.0))  (no (-100.0))))
+			(no  (pidiendo_p  (si (-100.0)) (no (-100.0)))))
+    
+    (pidiendo_p 	(si  (detectada_p  (si (100.0))  (no (-100.0))))
+			(no  (detectada_p  (si (-100.0)) (no (-100.0)))))
+    
+    (detectada_p 	(si  (ruta_planeada  (si (100.0))  (no (-100.0))))
+			(no  (ruta_planeada  (si (-100.0)) (no (-100.0)))))
+        
+    (ruta_planeada 	(si  (destino_alcanzado  (si (100.0))  (no (-100.0))))
+			(no  (destino_alcanzado  (si (-5000.0)) (no (-100.0)))))
+    
+    (destino_alcanzado 	(si  (entregado_gripper (si (100.0)) (no (-100.0))))
+			(no (entregado_gripper (si (-100.0)) (no (-100.0)))))
+    
+    (entregado_gripper (si (show_completo (si (100.0)) (no (-100.0))))
+			(no (show_completo (si (-100.0)) (no (-100.0)))))
+    
+        
+    ]
+    discount 0.900000 
+    tolerance 0.1
+    

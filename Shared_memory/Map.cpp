@@ -13,7 +13,7 @@ bool Ratio_y_escribible=true;
 // *
 // *   Gets the height of the image in pixels \return Height_px
 // */
-int Map::get_Height_px() {
+int Map::getHeightPx() {
   return Height_px;
 }
 
@@ -33,7 +33,7 @@ void Map::set_Height_px(int value) {
 // *
 // *   Gets the width of the image in pixels \return Width_px
 // */
-int Map::get_Width_px() {
+int Map::getWidthPx() {
   return Width_px;
 }
 

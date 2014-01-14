@@ -1,0 +1,151 @@
+    //MARKOVITO
+    //PRESENTACION
+
+    (variables
+    (ruta_planeada no si)
+    (destino_alcanzado	no	si)
+    (presentacionDada	no	si)
+    (objeto_entregado no si)
+    (confirmado		no	si)
+    (step_1			no	si)
+    )
+
+    unnormalised
+
+    ///////////////////////////////////////////
+    action nada
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    presentacionDada	(SAMEpresentacionDada)
+    objeto_entregado 	(SAMEobjeto_entregado)
+    confirmado		(SAMEconfirmado)
+    step_1		(SAMEstep_1)
+    endaction
+
+    //////////////////////////////////////////
+    action planear_ruta
+    ruta_planeada 	(ruta_planeada' (si(1.0)) (no(0.0)))
+    destino_alcanzado 	(SAMEdestino_alcanzado)
+    presentacionDada	(SAMEpresentacionDada)
+    objeto_entregado 	(SAMEobjeto_entregado)
+    confirmado		(SAMEconfirmado)
+    step_1 		(SAMEstep_1)
+    endaction
+
+    //////////////////////////////////////////
+    action navegar_destino
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado 	(destino_alcanzado' (si(1.0)) (no(0.0))) 
+    presentacionDada	(SAMEpresentacionDada)
+    objeto_entregado 	(SAMEobjeto_entregado)
+    confirmado		(SAMEconfirmado)
+    step_1 		(SAMEstep_1)
+    endaction
+
+    /////////////////////////////////////////
+    action dar_presentacion
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    presentacionDada	(presentacionDada' (si(1.0)) (no(0.0)))
+    objeto_entregado 	(SAMEobjeto_entregado)
+    confirmado 		(SAMEconfirmado)
+    step_1 		(SAMEstep_1)
+    endaction
+
+    /////////////////////////////////////////
+    action entregar_objeto
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    presentacionDada	(SAMEpresentacionDada)
+    objeto_entregado 	(objeto_entregado'(si(1.0)) (no(0.0)))
+    confirmado 		(SAMEconfirmado)
+    step_1 		(SAMEstep_1)
+    endaction
+
+    /////////////////////////////////////////
+    action esperar_confirmacion
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado	(SAMEdestino_alcanzado)
+    presentacionDada	(SAMEpresentacionDada)
+    objeto_entregado 	(SAMEobjeto_entregado)
+    confirmado 		(confirmado' (si(1.0)) (no(0.0)))
+    step_1 		(SAMEstep_1)
+    endaction
+
+    /////////////////////////////////////////
+    action actualizar
+    ruta_planeada	(SAMEruta_planeada)
+    destino_alcanzado   (SAMEdestino_alcanzado)
+    presentacionDada    (SAMEpresentacionDada)
+    objeto_entregado 	(SAMEobjeto_entregado)
+    confirmado          (SAMEconfirmado)
+    step_1 		(step_1' (si(1.0)) (no(0.0)))
+    endaction
+
+    /////////////////////////////////////////
+    reward[+
+    (ruta_planeada (si (100.0)) (no (-100.0)))
+    
+    (destino_alcanzado (si 
+			    (ruta_planeada  (si (100.0))
+					    (no (-100.0))
+			    )
+			)
+			(no
+			    (ruta_planeada (si (-100.0))
+					   (no (-100.0))
+			    )
+			)
+    )
+
+    (presentacionDada(si 
+			    (destino_alcanzado  (si (100.0))
+						(no (-100.0))
+			    )
+			)
+			(no
+			    (destino_alcanzado 	(si (-100.0))
+						(no (-100.0))
+			    )
+			)
+    )
+
+    (objeto_entregado (si 
+			    (presentacionDada  	(si (100.0))
+						(no (-100.0))
+			    )
+			)
+			(no
+			    (presentacionDada 	(si (-100.0))
+						(no (-100.0))
+			    )
+			)
+    )
+
+    (confirmado (si 
+			    (objeto_entregado  	(si (100.0))
+						(no (-100.0))
+			    )
+			)
+			(no
+			    (objeto_entregado 	(si (-100.0))
+						(no (-100.0))
+			    )
+			)
+    )
+
+    (step_1 (si 
+			    (confirmado  	(si (100.0))
+						(no (-100.0))
+			    )
+			)
+			(no
+			    (confirmado 	(si (-100.0))
+						(no (-100.0))
+			    )
+			)
+    )
+    ]
+
+    discount 0.9 
+    tolerance 0.1

@@ -21,21 +21,21 @@
 
 #include "gui.h"
 #include "view2d.h"
-tab::tab(std::string name)
+Tab::Tab(std::string name)
 {
     this->name=name;
-    GUI::GetInstance().Add_Tab(this);
+    Gui::getInstance().addTab(this);
     
 }
 
-void tab::InsertWidget(widget * value)
+void Tab::InsertWidget(Widget * value)
 {
     m_widgetslist.push_back(value);
 }
 
 
 
-void tab::Draw()
+void Tab::Draw()
 {
     for( ListItor itor = m_widgetslist.begin(); itor != m_widgetslist.end(); ++itor )
     {
@@ -44,18 +44,49 @@ void tab::Draw()
 
 }
 
-std::string tab::get_Name()
+std::string Tab::get_Name()
 {
     return name;
 }
 
 
-void tab::Update()
+void Tab::Update()
 {
     for( ListItor itor = m_widgetslist.begin(); itor != m_widgetslist.end(); ++itor )
     {
-        (*itor)->Update();
+			(*itor)->update();
     }  
 }
+
+void Tab::ProccesInput()
+{
+    for( ListItor itor = m_widgetslist.begin(); itor != m_widgetslist.end(); ++itor )
+    {
+        (*itor)->proccesInput();
+    }   
+}
+
+void Tab::set_active(bool value)
+{
+    active=value;
+}
+
+bool Tab::get_active()
+{
+    return active;
+}
+
+
+Widget* Tab::get_active_widget()
+{
+    return active_widget;
+}
+
+void Tab::set_active_widget(Widget* value)
+{
+    active_widget=value;
+}
+
+
 
 

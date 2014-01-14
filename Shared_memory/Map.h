@@ -59,7 +59,7 @@ class Map {
     // *
     // *   Gets the height of the image in pixels \return Height_px
     // */
-    int get_Height_px();
+    int getHeightPx();
 
     ///*! \brief Sets the height of the image in pixels
     // *
@@ -71,7 +71,7 @@ class Map {
     // *
     // *   Gets the width of the image in pixels \return Width_px
     // */
-    int get_Width_px();
+    int getWidthPx();
 
     ///*! \brief Sets the width of the image in pixels
     // *

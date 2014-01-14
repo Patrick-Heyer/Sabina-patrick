@@ -1,7 +1,7 @@
 
 #include "Destination.h"
 
-bool Name_escribible=true;
+bool Name_dest_escribible=true;
 bool Coordinate_escribible=true;
 
 ///*! \brief Gets the Location of the destination
@@ -40,9 +40,10 @@ string Destination::get_Name() {
 void Destination::set_Name(string value) {
     do
     {
-    }while (!Name_escribible);
-    Name_escribible=false;
+    }while (!Name_dest_escribible);
+    Name_dest_escribible=false;
+    Name=new string;
     *Name = value;
-    Name_escribible=true;
+    Name_dest_escribible=true;
 }
 

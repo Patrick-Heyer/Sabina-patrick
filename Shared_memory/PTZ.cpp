@@ -1,9 +1,31 @@
 
 #include "PTZ.h"
+#include "Robot.h"
+
+Robot *patrol;
 
 bool Tilt_escribible=true;
 bool Pan_escribible=true;
 bool Zoom_escribible=true;
+bool Video_escribible=true;
+
+void PTZ::set_stream(CvCapture* value)
+{
+    stream=value;
+}
+
+IplImage* PTZ::get_image()
+{
+    do{
+
+    }while(!Video_escribible);
+    IplImage *img1;
+    Video_escribible=false;
+    img1 = cvCloneImage(cvQueryFrame(stream));
+    Video_escribible=true;
+    return img1;
+}
+
 
 ///*! \brief Gets the tilt value of the camera
 // *

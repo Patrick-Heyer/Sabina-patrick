@@ -20,52 +20,82 @@
 #ifndef GUI_H
 #define GUI_H
 
-#define WIDTH 1440
-#define HEIGHT 900
+#pragma once
+
+#define WIDTH 1024
+#define HEIGHT 768
 
 #include <vector>
 #include <string>
 #include <list>
+#include <map>
 
 #include "tab.h"
 
-
-
-class GUI
+class Gui
 {
 
 public:
-    void    Initialize(void);
-    static  GUI     &GetInstance( void );
-    static  void    FreeInstance( void );
+    void    initialize(void);
+    ///*! \brief Returns a pointer to the Gui object
+    // *
+    // *  Returns a pointer to the only copy in memory of the Gui object. If no object exist it
+    // *  will initialize the instance befor returning the pointer \return Gui
+    // */
+    static Gui     & getInstance();
+    static  void    freeInstance( void );
+	
+	/*! \brief Draws the Gui and its sub elements on screen
+     *
+     *  Draws the Gui the tabs acces button and the activeTab
+     */
     void Draw();
-    void Update();
-    void ProccesInput();
-    void Resize(int x, int y);
-    void Set_Active_Tab(int tab);
-    void Add_Tab(tab *value);
-    int Get_Active_Tab();
+	
+	/*! \brief Updates the Gui 
+     *	
+	 * Updates the Gui generaly not needed as Draw updates it 
+	*/
+    void update();
+    void proccesInput();
+    void resize(int x, int y);
+	
+	/*! \brief Sets the tab to be displayed 
+     *	
+	 * Sets the tab to be displayed by the gui 
+	 * @param value is the name of the tab to display 
+	*/
+    void setActiveTab(std::string value);
+	
+	 /*! \brief Sets the tab to be displayed 
+     *	
+	 * Sets the tab to be displayed by the gui 
+	 * @param value is the numerical ID of the tab to display 
+	*/
+    void setActiveTab(int tab);
+    void addTab(Tab *value);
+    int getActiveTab();
 
 protected:
-    GUI();
-    GUI(const GUI& other);
-    virtual ~GUI();
-    virtual GUI& operator=(const GUI& other);
+    Gui();
+    Gui(const Gui& other);
+    virtual ~Gui();
+    virtual Gui& operator=(const Gui& other);
 
 private:
-    static GUI *gui_singleton;
+    static Gui *guiSingleton;
     int height;
     int width;
-    int num_tabs;
-    int selected_tab;
-    tab *active_tab;
-    typedef std::list<tab *>   TabList;
+    int numTabs;
+    int selectedTab;
+    Tab *activeTab;
+    typedef std::list<Tab *>   TabList;
     typedef TabList::iterator   ListItor;
-    
-    TabList                     m_tablist;
-   
+
+    TabList                     tabList;
 
 
+    typedef std::map<std::string, int> Var_type;
+    Var_type pestana;
 
 };
 

@@ -18,65 +18,72 @@
 
 #include "console.h"
 #include "tab.h"
+#include "input_singleton.h"
 
-console::console(int x, int y, int widht, int height, std::string name, tab* parent)
+Console::Console(int x, int y, int widht, int height, std::string name, Tab* parent)
 {
     this->SetName(name);
     this->SetPosition(x, y);
     this->SetSize(widht, height);
+    this->SetActive(true);
     parent->InsertWidget(this);
 }
 
-void console::AddLine(std::string value, color4 colo, int font_type)
+void Console::addLine(std::string value, color4 colo, int font_type)
 {
-            text_line polo;
-            polo.color=colo;
+            text_line temp_line;
+            temp_line.color=colo;
             if (font_type>6) font_type=0;
-            polo.font=font_type;
-            polo.content.append(value);
-            m_text.push_back(polo);
+            temp_line.font=font_type;
+            temp_line.content.append(value);
+            m_text.push_back(temp_line);
+
           
 }
 
 
-void console::Draw()
+void Console::Draw()
 {
     int uiround=uiGetRoundBox();
     uiSetRoundBox("0000");
-    gl_round_box_Hshade(GL_POLYGON, Get_x(), Get_y(), Get_x()+Get_widht(), Get_y()+Get_height(),10, "000000",  "FFFFFF");
+    if (Get_Active())
+    gl_round_box_Hshade(GL_POLYGON, Get_x(), Get_y(), Get_x()+Get_widht(), Get_y()+Get_height(),10, "FFFFFF",  "FFFFFF");
     int line=Get_y()+10;
     int posx=Get_x();
     int found;
     int i=0;
-    for( ListItor itor = m_text.begin(); itor != m_text.end(); ++itor )
+    while( m_text.size()>(int)(Get_height()/11))
+    {
+        m_text.pop_front();
+    }
+    for( listItor itor = m_text.begin(); itor != m_text.end(); ++itor )
     {
         i++;
-        if(i> (m_text.size()+1)-(int)(Get_height()/10))
-        {
+
         found = (*itor).content.find_first_of ('\n');
         if( found <=0){
         switch ((*itor).font)
         {
             case 1:
-                DrawText(posx,line+15,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+15,(*itor).content, (*itor).color, (*itor).font);
                 break;
             case 2:
-                DrawText(posx,line+13,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+13,(*itor).content, (*itor).color, (*itor).font);
                 break;
             case 3:
-                DrawText(posx,line+10,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+10,(*itor).content, (*itor).color, (*itor).font);
                 break;
             case 4:
-                DrawText(posx,line+24,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+24,(*itor).content, (*itor).color, (*itor).font);
                 break;
             case 5:
-                DrawText(posx,line+12,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+12,(*itor).content, (*itor).color, (*itor).font);
                 break;
             case 6:
-                DrawText(posx,line+18,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+18,(*itor).content, (*itor).color, (*itor).font);
                 break;
             default:
-                DrawText(posx,line+10,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+10,(*itor).content, (*itor).color, (*itor).font);
                 break;
                 
         }
@@ -87,31 +94,31 @@ void console::Draw()
             switch ((*itor).font)
             {
             case 1:
-                DrawText(posx,line+15,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+15,(*itor).content, (*itor).color, (*itor).font);
                 line=line+15;
                 break;
             case 2:
-                DrawText(posx,line+13,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+13,(*itor).content, (*itor).color, (*itor).font);
                 line=line+13;
                 break;
             case 3:
-                DrawText(posx,line+10,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+10,(*itor).content, (*itor).color, (*itor).font);
                 line=line+10;
                 break;
             case 4:
-                DrawText(posx,line+24,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+24,(*itor).content, (*itor).color, (*itor).font);
                 line=line+24;
                 break;
             case 5:
-                DrawText(posx,line+12,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+12,(*itor).content, (*itor).color, (*itor).font);
                 line=line+12;
                 break;
             case 6:
-                DrawText(posx,line+18,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+18,(*itor).content, (*itor).color, (*itor).font);
                 line=line+18;
                 break;
             default:
-                DrawText(posx,line+10,(*itor).content, (*itor).color, (*itor).font);
+                drawText(posx,line+10,(*itor).content, (*itor).color, (*itor).font);
                 line=line+10;
                 break;              
             }
@@ -119,15 +126,20 @@ void console::Draw()
        
         }
 
-        }
         
     }
     uiSetRoundBox(uiround);
 }
 
-void console::Update()
+void Console::update()
 {
     
 }
 
-
+void Console::proccesInput()
+{
+    if(InputSingleton::getInstance().key=='v')
+        SetActive(true);
+    if(InputSingleton::getInstance().key=='b')
+        SetActive(false);
+}

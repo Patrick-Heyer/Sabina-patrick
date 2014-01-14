@@ -10,7 +10,7 @@ bool Angle_escribible=true;
 // *  Gets the X position of the location \return X
 // */
 int Location::get_X() {
-  return X;
+  return this->X;
 }
 
 ///*! \brief Sets the X position of the location
@@ -22,7 +22,7 @@ void Location::set_X(int value) {
   {
   }while (!X_escribible);
   X_escribible=false;
-  X = value;
+  this->X = value;
   X_escribible=true;
 }
 

@@ -35,17 +35,29 @@
 #include "view2d.h"
 #include "widget.h"
 
-class video : public widget
+class Video : public Widget
 {
 public:
-    video(int x, int y, int widht, int height, std::string name, tab* parent);
-    void SetImage( IplImage *value);
-    void Draw();
-    void Update();
-
-    
+	/**! \brief Creates a new Video dislpay
+	 * 
+	 *  
+	 */
+	Video(int x, int y, int widht, int height, std::string name, Tab* parent);
+	
+	/**! \brief Sets the image to display
+	 * 
+	 *  @param value is a standard opencv IplImage
+	 *  @return void
+	 */
+	void SetImage( IplImage *value);
+	void Draw();
+	void update();
+	void proccesInput();
+	
+	
 private:
-       IplImage * image;
+	bool bloqueado;
+	IplImage * image;
 };
 
 extern void DrawIplImage(IplImage *image, int x, int y, GLfloat xZoom , GLfloat yZoom );

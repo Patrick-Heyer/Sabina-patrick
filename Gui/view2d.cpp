@@ -316,7 +316,7 @@ bool IsOver(int x, int y, int x1, int y1, int x2, int y2)
     else return false;
 }
 
-void DrawText(int x, int y, std::string text, color4 text_color, int font)
+void drawText(int x, int y, std::string text, color4 text_color, int font)
 {
     char c;
     float color[4];
@@ -367,51 +367,51 @@ void DrawText(int x, int y, std::string text, color4 text_color, int font)
     glColor4fv(color);
 }
 
-void DrawText ( int x, int y, std::string text, color3 text_color, int font)
+void drawText ( int x, int y, std::string text, color3 text_color, int font)
 {
     color4 color;
     color.r=text_color.r;
     color.g=text_color.g;
     color.b=text_color.b;
     color.a=1;
-    DrawText(x, y, text, color, font);
+    drawText(x, y, text, color, font);
 	
 }
 
-void DrawText(int x, int y, std::string text, std::string text_color, int font)
+void drawText(int x, int y, std::string text, std::string text_color, int font)
 {
     if (text_color.length()==8)
-        DrawText(x, y, text, Hex_to_RGBA(text_color.c_str()), font);
+        drawText(x, y, text, Hex_to_RGBA(text_color.c_str()), font);
 
     if (text_color.length()==6)
-        DrawText(x, y, text, Hex_to_RGB(text_color.c_str()), font);
+        drawText(x, y, text, Hex_to_RGB(text_color.c_str()), font);
 
 }
 
 
-void DrawText(int x, int y, std::string text, color4 text_color)
+void drawText(int x, int y, std::string text, color4 text_color)
 {
-    DrawText(x, y, text, text_color, 0);
+    drawText(x, y, text, text_color, 0);
 }
 
-void DrawText ( int x, int y, std::string text, color3 text_color )
+void drawText ( int x, int y, std::string text, color3 text_color )
 {
     color4 color;
     color.r=text_color.r;
     color.g=text_color.g;
     color.b=text_color.b;
     color.a=1;
-    DrawText(x, y, text, color, 0);
+    drawText(x, y, text, color, 0);
     
 }
 
-void DrawText(int x, int y, std::string text, std::string text_color)
+void drawText(int x, int y, std::string text, std::string text_color)
 {
     if (text_color.length()==8)
-        DrawText(x, y, text, Hex_to_RGBA(text_color.c_str()), 0);
+        drawText(x, y, text, Hex_to_RGBA(text_color.c_str()), 0);
     
     if (text_color.length()==6)
-        DrawText(x, y, text, Hex_to_RGB(text_color.c_str()), 0);
+        drawText(x, y, text, Hex_to_RGB(text_color.c_str()), 0);
     
 }
 

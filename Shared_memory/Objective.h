@@ -67,7 +67,7 @@ class Objective {
     // *
     // *  Sets the type of the objective person, object
     // */
-    void set_Type(string * value);
+    void set_Type(string  value);
 
     ///*! \brief Gets the last_x of the objective
     // *

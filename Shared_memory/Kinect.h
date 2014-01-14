@@ -10,6 +10,10 @@
 // */
 class Kinect : public Camera {
   private:
+      IplImage * depth;
+      IplImage * color;
+      int device;
+      
     ///*! \brief The Z coordinate of an object in the depth image
     // *
     // *  
@@ -24,6 +28,9 @@ class Kinect : public Camera {
 
 
   public:
+      void set_device(int value);
+      IplImage *get_RGB();
+      IplImage *get_depth();
     ///*! \brief Gets the Z coordinate of an object
     // *
     // *  Gets the Z coordinate of the object of interest in the image captured by the camera

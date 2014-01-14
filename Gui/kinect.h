@@ -45,6 +45,7 @@ public:
     void UpdateColor(IplImage * value);
     void Draw();
     void Update();
+    IplImage* freenect_sync_get_depth_cv(int arg1);
 
     
 private:

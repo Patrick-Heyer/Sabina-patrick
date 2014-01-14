@@ -8,16 +8,15 @@ using namespace std;
 #include <list>
 using namespace std;
 #include "PTZ.h"
-#include "Kinect.h"
 #include "Map.h"
 #include "Arm.h"
 #include "Voice.h"
 #include "Synthesis.h"
+#include "Destination.h"
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 
-class Destination;
 class Objective;
 
 ///*! \brief  Singleton instance of the robots shared memory
@@ -37,8 +36,9 @@ class Robot {
     // *
     // *  Used to indicate the plugins that all subsystems have started
     // */
-    
-    bool Main_system;
+public:
+
+  bool Main_system;
 
     ///*! \brief Position of the robot
     // *
@@ -57,6 +57,7 @@ class Robot {
     // *  Contains the velocity for rotation aka. left/right in radians/second
     // */
     float Angular_velocity;
+   
 
     ///*! \brief String containing the action selected by the MDP
     // *
@@ -69,14 +70,14 @@ class Robot {
     // *  List of Locations (x, y, angle) that define the path the robot should travel. After the robot gets
     // *  to a Location it should be removed from the list.
     // */
-    list<Location> Route;
+    list<Location> *Route;
 
     ///*! \brief List of known places on the map
     // *
     // *  List of places on the map Name indicates the name of the place on the map 
     // *  (the name has to be unique)
     // */
-    list<Destination> Destinations;
+    map<string, Destination> *Destinations;
 
     ///*! \brief List of known Objectives on the map
     // *
@@ -86,7 +87,7 @@ class Robot {
     // *  Last_x, Last_y indicate the last coordinates the object was seen (it could have moved)
     // *  (the name has to be unique)
     // */
-    list<Objective> Objectives;
+    map<string, Objective> *Objectives;
 
     ///*! \brief Contains the name of the last seen object
     // *
@@ -101,6 +102,26 @@ class Robot {
     // */
     
     string * Current_destination;
+    string * prev_destination;
+
+    ///*! \brief Port that aria will use
+    // *
+    // *  Path of the port that will be used by Aria to comunicate with the robots hardware
+    // */
+    std::string *Aria_port;
+    
+    ///*! \brief Port that the laser will use
+    // *
+    // *  Path of the port that will be used to conect to the laser
+    // */
+    std::string *Laser_port;
+    
+    ///*! \brief Port for PTZ control
+    // *
+    // *  PTZ control port for panning tilting and zooming
+    // */
+    std::string *PTZ_port;
+    
 
 
   public:
@@ -109,12 +130,6 @@ class Robot {
     // *  
     // */
     PTZ Ptz;
-
-    ///*! \brief Poiter to the PTZ information
-    // *
-    // *  
-    // */
-    Kinect Kinect_device;
 
     ///*! \brief Contains a poiter to the map the robot is using
     // *
@@ -138,8 +153,7 @@ class Robot {
     // *
     // *  
     // */
-    Synthesis Sintetizer;
-
+    Synthesis Sintetizer;    
 
   protected:
     ///*! \brief Private constructor 
@@ -150,10 +164,6 @@ class Robot {
 
 
   public:
-      CvCapture *stream;
-      IplImage *frame;
-
-      IplImage *get_image();
     ///*! \brief Starts the singleton
     // *
     // *  Starts the singleton similar to a constructor. Its the only way to set initial values
@@ -167,7 +177,7 @@ class Robot {
     // *  Returns a pointer to the only copy in memory of the Robot object. If no object exist it
     // *  will initialize the instance befor returning the pointer \return Robot
     // */
-    Robot & get_Instance();
+    Robot & getInstance();
 
     ///*! \brief Gets the position of the robot
     // *
@@ -179,7 +189,7 @@ class Robot {
     // *
     // *  Sets the position of the robot (x, y, angle)
     // */
-    void set_Position(Location value);
+    void setPosition(Location value);
 
     ///*! \brief Gets the Lineal velocity of the robot
     // *
@@ -211,7 +221,7 @@ class Robot {
     // *  destination exists \return Current_destination
     // */
     string get_Current_destination();
-
+    
     ///*! \brief Sets the name of the destination
     // *
     // *  Sets the name of the destination of the robot. There is no safty check to see if the
@@ -219,6 +229,8 @@ class Robot {
     // */
     void set_Current_destination(string value);
 
+    
+    void set_prev_destination(string value);
     ///*! \brief Gets the name of last seen of the last seen object
     // *
     // *  Gets the name of last seen of the last seen object. There is no safty check to 
@@ -243,7 +255,7 @@ class Robot {
     // *
     // *  Sets a list of Locations that form the route or path.
     // */
-    void set_Route(list<Location> & value);
+    void set_Route(list<Location>  value);
 
     ///*! \brief Gets the name of the action decided by the MDP
     // *
@@ -274,6 +286,22 @@ class Robot {
     // *  Deletes the first element of the Route list
     // */
     void Delete_Location_from_path();
+	
+	    ///*! \brief Clears the Route
+    // *
+    // *  Clears all elements in the Route list
+    // */
+    void Clear_path();
+    
+
+    string get_Aria_port();
+    void set_Aria_port(string value);
+    
+    string get_Laser_port();
+    void set_Laser_port(string value);
+    
+    string get_PTZ_port();
+    void set_PTZ_port(string value);
 
 };
 #endif

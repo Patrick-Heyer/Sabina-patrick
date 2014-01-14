@@ -59,13 +59,13 @@ class CORE_API PluginManager
 {
 public:
 	/// Return the single instance of the plugin manager
-	static PluginManager &GetInstance();
+	static PluginManager &getInstance();
 
 
-	/// Load a single named plugin
+	/// Load a single plugin by name
 	bool Load(const std::string &name);
 
-    /// Execute a single named plugin
+    /// Execute a single plugin by name
     bool Execute(const std::string &name);
 
     /// Execute all plugins in mPlugins
@@ -73,7 +73,7 @@ public:
 
 	/// Unload all plugins
 	bool UnloadAll();
-	/// Unload a single named plugin
+	/// Unload a single plugin by name
 	bool Unload(const std::string &name);
 
 	/// Return a list of all plugins

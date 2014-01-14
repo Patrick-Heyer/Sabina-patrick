@@ -2,280 +2,390 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
+
 #include <string>
 #include <iostream>
-#include <fstream>
-#include <sstream>
-#include <math.h>
 
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-
-
 
 #include "Gui/input_singleton.h"
 #include "Gui/gui.h"
 #include "Gui/tab.h"
 #include "Gui/console.h"
 #include "Gui/video.h"
-#include "Gui/kinect.h"
+#include "Gui/button.h"
 
 #include "Plugin_API/coreapi.h"
 #include "Plugin_API/pluginmanager.h"
 #include "Shared_memory/Robot.h"
 
+#include "MDP/MDP.h"
+#include "Face/Face.h"
+
+#include "ConfigFile.h"
+#include "Triplet.h"
+
 Robot *patrol;
 
-#define WIDTH 1440
-#define HEIGHT 900
+Tab *Main_Tab;
 
-using namespace std;
+IPlugin *Navegacion;
+IPlugin *Navigation_Planing;
+IPlugin *Vision_Faces;
+IPlugin *Vision_Objects;
+IPlugin *VisionSurf;
+IPlugin *voice_synthesis;
+IPlugin *voice;
+IPlugin *manipulacion;
+IPlugin *Prueba_Dummy;
+IPlugin *Server;
+IPlugin *Client;
+IPlugin *Gestos;
 
-tab *tab1;
-tab *tab2;
+Button *startButton;
 
-kinect *ki1;
-kinect *ki2;
 
-IplImage * kinect_depth;
-IplImage * kinect_rgb;
+char *MDP_path;
+bool Load_Navegacion=0;
+bool Load_Navigation_Planing=0;
+bool Load_Vision_Faces=0;
+bool Load_Vision_Objects=0;
+bool Load_VisionSurf=0;
+bool Load_voice_synthesis=0;
+bool Load_voice=0;
+bool Load_manipulacion=0;
+bool Load_dummy=0;
+bool Load_server=0;
+bool Load_client=0;
+bool Load_gestos=0;
 
-console *cons1, *cons2;
-
-IPlugin *Vision;
-bool visruning=false;
-IPlugin *Vision1;
-bool vis1runing=false;
-
+void Load_config(string filename)
+{
+	ConfigFile config( filename );
+	
+	int temp_int;
+	float temp_float;
+	string temp_string;
+	config.readInto(temp_string,"MDP");
+	
+	MDP_path = new char[temp_string.length() + 1];
+	strcpy(MDP_path, temp_string.c_str());
+	config.readInto(Load_Navegacion,"Load_Navegacion");
+	config.readInto(Load_Navigation_Planing , "Load_Navigation_Planing" );
+	config.readInto(Load_Vision_Faces , "Load_Vision_Faces" );
+	config.readInto(Load_Vision_Objects , "Load_Vision_Objects" );
+	config.readInto(Load_VisionSurf , "Load_VisionSurf" );
+	config.readInto(Load_voice_synthesis , "Load_voice_synthesis" );
+	config.readInto(Load_voice , "Load_voice" );
+	config.readInto(Load_manipulacion , "Load_manipulacion" );
+	config.readInto(Load_dummy , "Load_dummy" );
+	config.readInto(Load_server, "Load_server");
+	config.readInto(Load_client, "Load_client");
+	config.readInto(Load_gestos, "Load_gestos");
+	
+	
+}
 
 void InitGL ( GLsizei Width, GLsizei Height )
 {
-    
-    glTexParameterf ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-    glClearColor ( 0.7f, 0.7f, 0.7f, 1.0f );
-    glColor4f ( 1.0f, 1.0f, 1.0f, 1.0f );
-    glColor3f ( 1.0f, 1.0f, 1.0f );
-    glPointSize ( 50 );
-    glLineWidth ( 2 );
-    glEnable ( GL_CULL_FACE ); //disable this befor drawing gui
-    glEnable ( GL_BLEND );
-    glEnable ( GL_TEXTURE_2D );
-    glEnable ( GL_DEPTH_TEST );
-    glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
-    glBlendEquation ( GL_FUNC_ADD );
-    glDepthFunc ( GL_LEQUAL );
-    glEnable ( GL_ALPHA_TEST );
-    glAlphaFunc ( GL_GREATER, 0.001f );
-    glPolygonMode ( GL_FRONT, GL_FILL );
-
-    
-    GUI::GetInstance().Initialize();
-    patrol->Initialize("../data/conf");
-
-    PluginManager::GetInstance().Load("Prueba1/libprueba1.so");
-    Vision = PluginFactory::CreatePlugin("Vision");
-    if (! Vision)
+	
+	glTexParameterf ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+	glClearColor ( 0.7f, 0.7f, 0.7f, 1.0f );
+	glColor4f ( 1.0f, 1.0f, 1.0f, 1.0f );
+	glColor3f ( 1.0f, 1.0f, 1.0f );
+	glPointSize ( 50 );
+	glLineWidth ( 2 );
+	glEnable ( GL_CULL_FACE ); //disable this befor drawing gui
+	glEnable ( GL_BLEND );
+	glEnable ( GL_TEXTURE_2D );
+	glEnable ( GL_DEPTH_TEST );
+	glBlendFunc ( GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA );
+	glBlendEquation ( GL_FUNC_ADD );
+	glDepthFunc ( GL_LEQUAL );
+	glEnable ( GL_ALPHA_TEST );
+	glAlphaFunc ( GL_GREATER, 0.001f );
+	glPolygonMode ( GL_FRONT, GL_FILL );
+	
+	
+	Gui::getInstance().initialize();
+	patrol->Initialize("../data/conf");
+	initFace();
+	
+	if(Load_Navegacion)
+	{
+		PluginManager::getInstance().Load("Navegacion/libnavegacion.so");
+	Navegacion = PluginFactory::CreatePlugin("Navegacion");
+	if (! Navegacion)
+	{
+		std::cout << "Failed to load 'Navegacion' plugin!" << std::endl;
+		
+	}
+	}
+	
+	if(Load_Navigation_Planing)
+	{
+		PluginManager::getInstance().Load("Navegation_Planing/libnavigation_planing.so");
+		Navigation_Planing = PluginFactory::CreatePlugin("Navigation_Planing");
+		if (! Navigation_Planing)
+		{
+			std::cout << "Failed to load 'Navigation_Planing' plugin!" << std::endl;
+			
+		}
+	}
+	
+	if(Load_Vision_Faces)
+	{
+		PluginManager::getInstance().Load("Vision_Faces/libvision_faces.so");
+		Vision_Faces = PluginFactory::CreatePlugin("Vision_Faces");
+		if (! Vision_Faces)
+		{
+			std::cout << "Failed to load 'Vision_Faces' plugin!" << std::endl;
+			
+		}
+	}
+	
+	if(Load_voice_synthesis)
+	{
+		PluginManager::getInstance().Load("Voice_Synthesis/libvoice_synthesis.so");
+		voice_synthesis = PluginFactory::CreatePlugin("Voice_Synthesis");
+		if (! voice_synthesis)
+		{
+			std::cout << "Failed to load 'VoiceSynthesis' plugin!" << std::endl;
+			
+		}
+	}
+	
+	if(Load_dummy)
+	{
+		PluginManager::getInstance().Load("Prueba_Dummy/libPrueba_Dummy.so");
+		Prueba_Dummy = PluginFactory::CreatePlugin("Prueba_Dummy");
+		if (! Prueba_Dummy)
+		{
+			std::cout << "Failed to load 'Dummy' plugin!" << std::endl;
+			
+		}
+	}
+	
+	if(Load_voice)
+	{
+		PluginManager::getInstance().Load("Voice_Recognition/libvoice_recognition.so");
+		voice = PluginFactory::CreatePlugin("Voice_Recognition");
+		if (! voice)
+		{
+			std::cout << "Failed to load 'Voice_Recognition' plugin!" << std::endl;
+			
+		}
+	}
+	
+	if(Load_manipulacion)
+	{
+		PluginManager::getInstance().Load("Manipulacion/libmanipulacion.so");
+		manipulacion = PluginFactory::CreatePlugin("Manipulacion");
+		if (! manipulacion)
+		{
+			std::cout << "Failed to load 'Manipulacion' plugin!" << std::endl;
+			
+		}
+	}
+	
+	if(Load_server)
+	{
+		PluginManager::getInstance().Load("Net_server/libserver.so");
+		Server = PluginFactory::CreatePlugin("Net_server");
+		if (! Server)
+		{
+			std::cout << "Failed to load 'Net_server' plugin!" << std::endl;
+			
+		}
+	}
+	
+	if(Load_client)
+	{
+		PluginManager::getInstance().Load("Net_client/libclient.so");
+		Server = PluginFactory::CreatePlugin("Net_client");
+		if (! Server)
+		{
+			std::cout << "Failed to load 'Net_client' plugin!" << std::endl;
+			
+		}
+	}
+	
+	if(Load_gestos)
+	{
+		PluginManager::getInstance().Load("Gestos/libgestos.so");
+		Gestos = PluginFactory::CreatePlugin("Gestos");
+		if (! Gestos)
+		{
+			std::cout << "Failed to load 'Gestos' plugin!" << std::endl;
+			
+		}
+	}
+	
+	if(Load_Vision_Objects)
+	{
+		PluginManager::getInstance().Load("Vision_Objects/libMINE.so");
+		Vision_Objects = PluginFactory::CreatePlugin("Vision_Objects");
+		if (! Vision_Objects)
+		{
+			std::cout << "Failed to load 'Vision_Objects' plugin!" << std::endl;
+			
+		}
+	}
+	
+	if(Load_VisionSurf)
     {
-        std::cout << "Failed to load 'Vision' plugin!" << std::endl;
-        
-    }
-
-    PluginManager::GetInstance().Load("Prueba2/libprueba2.so");
-    Vision1 = PluginFactory::CreatePlugin("Vision1");
-    if (! Vision1)
-    {
-        std::cout << "Failed to load 'Vision1' plugin!" << std::endl;
-        
-    }
-    
-
-    //Vision->run();
-    
-    tab1= new tab("polo");
-    tab2= new tab("polo2");
-
-    
+	PluginManager::getInstance().Load("VisionSurf/libvision_surf.so");
+	Vision_Objects = PluginFactory::CreatePlugin("VisionSurf");
+	if (! Vision_Objects)
+	{
+	    std::cout << "Failed to load 'VisionSurf' plugin!" << std::endl;
+	    
+	}
+	}
+	
+	Main_Tab= new Tab("Main_Tab");
+	
+	
+	startButton=new Button(WIDTH/2 ,HEIGHT/2,150,24,"START",Main_Tab,false);
+	startButton->SetActive(true);
+	
+	PluginManager::getInstance().ExecuteAll();
 }
+
 
 
 void DrawGLScene ( void )
 {
-    glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    glLoadIdentity();
-
-    GUI::GetInstance().Draw();
-    
-    
-    glutSwapBuffers();
+	glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	
+	glLoadIdentity();
+	
+	Gui::getInstance().Draw();
+	if(startButton->state && startButton->Get_Active())
+	{
+	patrol->getInstance().set_Action(cambiar_estado("iniciado", "si"));
+	patrol->getInstance().Main_system=true;
+	patrol->getInstance().set_Action(cambiar_estado("localizado", "si"));
+	startButton->SetActive(false);
+	
+	}
+	DrawFace();
+	
+	glutSwapBuffers();
 }
 
 
 void shutdownApp (void)
 {
-    
+	
 }
 
+void idle_func ( void )
+{
+	Gui::getInstance().proccesInput();
+	glFlush();
+	glutPostRedisplay ( );
+	
+	
+}
 
 void processMouse ( int button, int state, int x, int y )
 {
-    Input_Singleton::GetInstance().ProcessMouse(button, state, x, y, glutGetModifiers());
+	InputSingleton::getInstance().ProcessMouse(button, state, x, y, glutGetModifiers());
 }
 
 
 void processMouseActiveMotion ( int x, int y )
 {
-    Input_Singleton::GetInstance().ActiveMotion(x,y);
+	InputSingleton::getInstance().ActiveMotion(x,y);
 }
 
 
 void processMousePassiveMotion ( int x, int y )
 {
-    Input_Singleton::GetInstance().PassiveMotion(x,y);
+	InputSingleton::getInstance().PassiveMotion(x,y);
 }
 
 
 void processMouseEntry ( int state )
 {
-    
-}
-
-
-void idle_func ( void )
-{
-    GUI::GetInstance().ProccesInput();
-    glFlush();
-    glutPostRedisplay ( );
-    
-    
-}
-
-
-void reshape ( int w, int h )
-{
-    if ( h == 0 ) h = 1;
-    
-    glViewport ( 0, 0, ( GLsizei ) w, ( GLsizei ) h );
-    
-    glMatrixMode ( GL_PROJECTION );
-    glLoadIdentity ();
-    gluPerspective ( 43.0, ( GLfloat ) w/ ( GLfloat ) h, 0.1, 1000.0 );
-    glMatrixMode ( GL_MODELVIEW );
-    glLoadIdentity ();
-    GUI::GetInstance().Resize(w,h);
+	
 }
 
 
 void keyPressed ( unsigned char key, int x, int y )
 {
-    switch ( key )
-    {
-        case 27:
-            shutdownApp();
-            glutDestroyWindow (1);
-            exit ( 0 );
-            break;
-    }
+	InputSingleton::getInstance().KeyPressed(key, x, y, glutGetModifiers());
+	switch ( key )
+	{
+		case 27:
+			shutdownApp();
+			glutDestroyWindow (1);
+			exit ( 0 );
+			break;
+	}
 }
 
+void keyReleased(unsigned char key, int x, int y)
+{
+	InputSingleton::getInstance().KeyReleased(key, x, y);
+}
 
 void specialKeyPressed ( int key, int x, int y )
 {
-    int mod = glutGetModifiers();
-    switch ( key )
-    {
-        case GLUT_KEY_F1:
-            GUI::GetInstance().Set_Active_Tab(0);
-            break;
-        case GLUT_KEY_F2:
-            GUI::GetInstance().Set_Active_Tab(1);
-            break;
-        case GLUT_KEY_F3:
-            GUI::GetInstance().Set_Active_Tab(2);
-            break;
-        case GLUT_KEY_F4:
-            GUI::GetInstance().Set_Active_Tab(3);
-            break;
-        case GLUT_KEY_F5:
-            GUI::GetInstance().Set_Active_Tab(4);
-            break;
-        case GLUT_KEY_F6:
-            GUI::GetInstance().Set_Active_Tab(5);
-            break;
-        case GLUT_KEY_F7:
-            GUI::GetInstance().Set_Active_Tab(6);
-            break;
-        case GLUT_KEY_F8:
-            GUI::GetInstance().Set_Active_Tab(7);
-            break;
-        case GLUT_KEY_F9:
-            GUI::GetInstance().Set_Active_Tab(8);
-            break;
-        case GLUT_KEY_F10:
-            GUI::GetInstance().Set_Active_Tab(9);
-            break;
-        case GLUT_KEY_F11:
-            GUI::GetInstance().Set_Active_Tab(10);
-            break;
-        case GLUT_KEY_F12:
-            GUI::GetInstance().Set_Active_Tab(11);
-            break;
-        case GLUT_KEY_PAGE_UP:
-            break;
-        case GLUT_KEY_PAGE_DOWN:
-            break;
-        case GLUT_KEY_UP:
-            if (!visruning)
-            {
-            Vision->run();
-            visruning=true;
-            }
-            break;
-        case GLUT_KEY_DOWN:
-            if (!vis1runing)
-            {
-                Vision1->run();
-                vis1runing=true;
-            }
-            break;
-        case GLUT_KEY_LEFT:
-            
-            break;
-        case GLUT_KEY_RIGHT:
-            
-            break;
-        default:
-            break;
-    }
+	InputSingleton::getInstance().SpecialKeyPressed(key, x, y, glutGetModifiers());
 }
+
+void specialKeyReleased ( int key, int x, int y )
+{
+	InputSingleton::getInstance().SpecialKeyReleased (key, x, y);
+}
+
+void reshape ( int w, int h )
+{
+	if ( h == 0 ) h = 1;
+													 
+													 glViewport ( 0, 0, ( GLsizei ) w, ( GLsizei ) h );
+	
+	glMatrixMode ( GL_PROJECTION );
+	glLoadIdentity ();
+	gluPerspective ( 43.0, ( GLfloat ) w/ ( GLfloat ) h, 0.1, 1000.0 );
+	glMatrixMode ( GL_MODELVIEW );
+	glLoadIdentity ();
+	Gui::getInstance().resize(w,h);
+}
+
 
 
 int main ( int argc, char *argv[] )
 {
-    
-    glutInit ( &argc, argv );
-    glutInitDisplayMode ( GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH );
-    glutInitWindowSize ( 1440, 900 );
-    glutInitWindowPosition ( 0, 0 );
-    glutCreateWindow ( "Markovito - INAOE" );
-    glutDisplayFunc ( &DrawGLScene );
-    glutFullScreen();
-    glutIdleFunc ( &DrawGLScene );
-    glutIdleFunc ( idle_func );
-    glutReshapeFunc ( reshape );
-    glutKeyboardFunc ( &keyPressed );
-    glutSpecialFunc ( &specialKeyPressed );
-    InitGL ( 1440, 900 );
-    
-    glutMouseFunc ( processMouse );
-    glutMotionFunc ( processMouseActiveMotion );
-    glutPassiveMotionFunc ( processMousePassiveMotion );
-    glutEntryFunc ( processMouseEntry );
-    
-    glutMainLoop();
-    
+	Load_config(argv[1]);
+	std::cout << "Initializing MDP" << MDP_path<< endl;
+	Init_MDP(MDP_path);
+	std::cout << "MDP loaded"<< endl;
+	glutInit ( &argc, argv );
+	glutInitDisplayMode ( GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH );
+	glutInitWindowSize ( WIDTH , HEIGHT);
+	glutInitWindowPosition ( 0, 0 );
+	glutCreateWindow ( "Markovito - INAOE" );
+	glutDisplayFunc ( &DrawGLScene );
+	//     glutFullScreen();
+	glutIdleFunc ( &DrawGLScene );
+	glutIdleFunc ( idle_func );
+	glutReshapeFunc ( reshape );
+	glutKeyboardFunc ( &keyPressed );
+	glutKeyboardUpFunc ( &keyReleased);
+	glutSpecialFunc ( &specialKeyPressed );
+	glutSpecialUpFunc( &specialKeyReleased );
+	InitGL ( WIDTH , HEIGHT);
+	
+	glutMouseFunc ( processMouse );
+	glutMotionFunc ( processMouseActiveMotion );
+	glutPassiveMotionFunc ( processMousePassiveMotion );
+	glutEntryFunc ( processMouseEntry );
+	
+	glutMainLoop();
+	
 }

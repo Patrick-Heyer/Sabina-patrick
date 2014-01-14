@@ -1,25 +1,25 @@
 #include "input_singleton.h"
 
 // initialize the singleton
-Input_Singleton	*Input_Singleton::m_singleton = 0;
+InputSingleton	*InputSingleton::m_singleton = 0;
 
 // ----------------------------------------------
-// GetInstance() - get a pointer to the unique
+// getInstance() - get a pointer to the unique
 // Input_Singleton instance (the singleton)
 // ----------------------------------------------
-Input_Singleton &Input_Singleton::GetInstance( void )
+InputSingleton &InputSingleton::getInstance( void )
 {
     if ( m_singleton == 0 )
-        m_singleton = new Input_Singleton;
+        m_singleton = new InputSingleton;
 
-    return ((Input_Singleton &)m_singleton);
+    return ((InputSingleton &)m_singleton);
 }
 
 // ----------------------------------------------
 // FreeInstance() - delete the unique Input_Singleton
 // instance.
 // ----------------------------------------------
-void Input_Singleton::FreeInstance( void )
+void InputSingleton::FreeInstance( void )
 {
     if ( m_singleton != 0 )
     {
@@ -32,7 +32,7 @@ void Input_Singleton::FreeInstance( void )
 // Initialize() - Set default state
 // .
 // ----------------------------------------------
-void Input_Singleton::Initialize( void )
+void InputSingleton::Initialize( void )
 {
   for (int i=0; i<256; i++) keys[i]=false;
   for (int i=0; i<256; i++) specialkeys[i]=false;
@@ -42,7 +42,7 @@ void Input_Singleton::Initialize( void )
   right_button=false;
 }
 
-void Input_Singleton::ProcessMouse ( int button, int state, int x, int y, int modkey )
+void InputSingleton::ProcessMouse ( int button, int state, int x, int y, int modkey )
 {
 	mouse_mod_key=modkey;
 	if ( state == DOWN )
@@ -94,13 +94,13 @@ void Input_Singleton::ProcessMouse ( int button, int state, int x, int y, int mo
 
 }
 
-void Input_Singleton::PassiveMotion ( int x, int y )
+void InputSingleton::PassiveMotion ( int x, int y )
 {
 	mouse_x=x;
 	mouse_y=y;
 }
 
-void Input_Singleton::ActiveMotion ( int x, int y )
+void InputSingleton::ActiveMotion ( int x, int y )
 {
 	mouse_x=x;
 	mouse_y=y;
@@ -121,30 +121,46 @@ void Input_Singleton::ActiveMotion ( int x, int y )
 	}
 }
 
-void Input_Singleton::KeyPressed ( unsigned char key, int x, int y, int modkey )
+void InputSingleton::KeyPressed ( unsigned char key, int x, int y, int modkey )
 {
-	keys[key]=true;
-	key=key;
-	keyboard_mod_key=modkey;
+    if (key>32 && key<=127 )
+    {
+	InputSingleton::getInstance().keys[key]=true;
+    InputSingleton::getInstance().key=key;
+    InputSingleton::getInstance().keyboard_mod_key=modkey;
+    }
+    else
+    {
+        InputSingleton::getInstance().key=key;
+    }
 }
 
-void Input_Singleton::KeyReleased ( unsigned char key, int x, int y )
+void InputSingleton::KeyReleased ( unsigned char key, int x, int y )
 {
-	keys[key]=false;
-	key=NULL;
-	keyboard_mod_key=NULL;
+    if (key>32 && key<=127 )
+    {
+    InputSingleton::getInstance().keys[key]=false;
+    InputSingleton::getInstance().key=NULL;
+    InputSingleton::getInstance().keyboard_mod_key=NULL;
+    }
+    else
+    {
+        InputSingleton::getInstance().key=NULL;
+    }
 }
 
-void Input_Singleton::SpecialKeyPressed ( int key, int x, int y, int modkey )
+void InputSingleton::SpecialKeyPressed ( int key, int x, int y, int modkey )
 {
-	specialkeys[key]=true;
-	special_mod_key=modkey;
+    InputSingleton::getInstance().special_key=key;
+    InputSingleton::getInstance().specialkeys[key]=true;
+    InputSingleton::getInstance().special_mod_key=modkey;
 }
 
-void Input_Singleton::SpecialKeyReleased ( int key, int x, int y )
+void InputSingleton::SpecialKeyReleased ( int key, int x, int y )
 {
-	specialkeys[key]=false;
-	keyboard_mod_key=NULL;
+    InputSingleton::getInstance().special_key=NULL;
+    InputSingleton::getInstance().specialkeys[key]=false;
+    InputSingleton::getInstance().keyboard_mod_key=NULL;
 }
 
 
