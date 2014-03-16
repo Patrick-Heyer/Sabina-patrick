@@ -54,6 +54,7 @@ void Video::SetImage (IplImage * value)
 
 }
 
+
 void DrawIplImage(IplImage *image, int x = 0, int y = 0, GLfloat xZoom = 1.0f, GLfloat yZoom = 1.0f)
 {
     GLenum format;
@@ -75,7 +76,6 @@ void DrawIplImage(IplImage *image, int x = 0, int y = 0, GLfloat xZoom = 1.0f, G
     glPixelZoom(xZoom, -yZoom);
     glDrawPixels(image->width, image->height, format, GL_UNSIGNED_BYTE, image->imageData);
     glPixelZoom(xZoom, yZoom);
-
 }
 
 void Video::Draw()

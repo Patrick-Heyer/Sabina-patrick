@@ -1,6 +1,0 @@
-%YAML:1.0
-    params: !!opencv-matrix
-        rows: 1
-        cols: 3
-        dt: f
-        data: [ 0.100000, 4.000000, 0.860000]

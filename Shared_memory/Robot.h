@@ -50,10 +50,10 @@ public:
     int exit_time;
 
     int face_frame;
-    
+
     int object_X;
     int object_Y;
-    
+
     double object_real_X;
     double object_real_Y;
     double object_real_Z;
@@ -157,9 +157,9 @@ public:
     // *
     // */
     PTZ Ptz;
-    
-    Kinect KINECT;
-  
+
+    Kinect *KINECT;
+
     ///*! \brief Contains a poiter to the map the robot is using
     // *
     // *

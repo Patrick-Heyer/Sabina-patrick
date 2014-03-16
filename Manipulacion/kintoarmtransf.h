@@ -26,22 +26,22 @@ class KinToArmTransf
 {
 
 public:
-KinToArmTransf();
+    KinToArmTransf();
 
-   /**
-   * Stabish the pose parameters of the Kinect with respect of the arm
-   * Parameters must be given in meters and radians
-   */
-  void setKinectPosition(float x, float y, float z, float th);
-  
-  /**
-   * Transform a point seen by kinect to the arm reference frame
-   */
-  void tranformToArm(float x, float y, float z, float &x_arm, float &y_arm, float &z_arm) const;
-  
+    /**
+    * Stabish the pose parameters of the Kinect with respect of the arm
+    * Parameters must be given in meters and radians
+    */
+    void setKinectPosition(float x, float y, float z, float th);
+
+    /**
+     * Transform a point seen by kinect to the arm reference frame
+     */
+    void tranformToArm(float x, float y, float z, float &x_arm, float &y_arm, float &z_arm) const;
+
 protected:
-  float cx, cy, cz;
-  float theta;
+    float cx, cy, cz;
+    float theta;
 };
 
 #endif // KINTOARMTRANSF_H

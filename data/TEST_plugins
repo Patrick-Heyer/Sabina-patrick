@@ -1,8 +1,9 @@
-./lib/libNavegation_Restaurant.so
 ./lib/libNavegation.so         
-./lib/libVision_Surf.so      
-./lib/libNet_Server.so        
+./lib/libVision_Objects.so      
+./lib/libServer.so       
+./lib/libClient.so
 ./lib/libVoice_Synthesis.so
+./lib/libVoice_Recognition.so
 ./lib/libNavegacion_Planing.so
 ./lib/libManipulacion.so
 ./lib/libPrueba_Dummy.so

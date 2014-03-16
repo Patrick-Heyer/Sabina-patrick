@@ -10,9 +10,13 @@
 // */
 class Kinect : public Camera {
 private:
-    IplImage * depth;
-    IplImage * color;
+
     int device;
+    IplImage * depth0;
+    IplImage * color0;
+    IplImage * depth1;
+    IplImage * color1;
+
 
     ///*! \brief The Z coordinate of an object in the depth image
     // *
@@ -28,6 +32,8 @@ private:
 
 
 public:
+    Kinect();
+
     void set_device(int value);
     void set_RGB(IplImage *data);
     void set_depth(IplImage *data);

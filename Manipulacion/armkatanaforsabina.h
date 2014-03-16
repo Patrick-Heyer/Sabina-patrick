@@ -23,57 +23,57 @@
 #include "armkatana.h"
 //#include "vpfilereader.h"
 #include <ctime>
- 
+
 using namespace std;
 
 /**
  * Object to work with markovito.
- * 
+ *
  * Capabilities:
  * 	-	Grasp a object.
  * 	- 	Movement to simple poses.
- * 
+ *
  * Requirements:
  * 	- 	The object to grasp must be inside the reachable space.
  * 	-	Vertical position of the arm.
- * 
- * Notes:	
+ *
+ * Notes:
  * 	-	There is no collision checking. So the provided positions must be tested before.
  */
 class ArmKatanaForSabina : public ArmKatana
 {
 
 public:
-ArmKatanaForSabina();
+    ArmKatanaForSabina();
 
-  /**
-   * x,y,z are in arm coordinates. milimeters
-   */
-  int testGrasping(double x, double y, double z);
-  
-  /**
-   * x,y,z are in arm coordinates. milimeters
-   */
-  int Grasping(double x, double y, double z);
+    /**
+     * x,y,z are in arm coordinates. milimeters
+     */
+    int testGrasping(double x, double y, double z);
 
-  /**
-   * 
-   */
-  int graspObjectAtKinectImage(double x, double y);
-  
-  void moveToCarriyingPos();
-  
-  void deliverObject();
-  
-  void store(); 
-  
-  void bringOut();
-  
-  void moveToHanging();
+    /**
+     * x,y,z are in arm coordinates. milimeters
+     */
+    int Grasping(double x, double y, double z);
+
+    /**
+     *
+     */
+    int graspObjectAtKinectImage(double x, double y);
+
+    void moveToCarriyingPos();
+
+    void deliverObject();
+
+    void store();
+
+    void bringOut();
+
+    void moveToHanging();
 
 
 protected:
-  bool equalVectors(vector<int> A, vector<int> B, int tolerance);
+    bool equalVectors(vector<int> A, vector<int> B, int tolerance);
 };
 
 #endif // ARMKATANAFORSABINA_H

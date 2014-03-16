@@ -20,7 +20,7 @@ PTZ_port = /dev/ttyUSB2
 Camera_index = 0
 
 #file to use as map
-Enviroment_Image_path = ../data/map200.png
+Enviroment_Image_path = ../data/Navigation/map.png
 
 #list of known destinations NAME x y a
 Destinations_file = ../data/Destinations.cfg

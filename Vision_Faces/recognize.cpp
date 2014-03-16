@@ -13,11 +13,6 @@
 #define KDTREE_BBF_MAX_NN_CHKS 200
 #define NN_SQ_DIST_RATIO_THR 0.49
 
-#include "../Shared_memory/Robot.h"
-
-Robot *polo;
-
-
 int recognize (IplImage *imagen) {
     CvRect * pFaceRect = 0;
     IplImage *clone;

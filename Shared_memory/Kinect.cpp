@@ -3,6 +3,18 @@
 bool Focus_z_escribible=true;
 bool Tilt_ki_escribible=true;
 
+bool cbuffer=0;
+bool dbuffer=0;
+
+Kinect::Kinect()
+{
+    depth0=cvCreateImage(cvSize(640,480),IPL_DEPTH_8U,1);
+    color0=cvCreateImage(cvSize(1280,1024),IPL_DEPTH_8U,3);
+    depth1=cvCreateImage(cvSize(640,480),IPL_DEPTH_8U,1);
+    color1=cvCreateImage(cvSize(1280,1024),IPL_DEPTH_8U,3);
+}
+
+
 void Kinect::set_device(int value)
 {
     device=value;
@@ -10,24 +22,46 @@ void Kinect::set_device(int value)
 
 void Kinect::set_depth(IplImage * data)
 {
+    if(dbuffer && data!=NULL)
+    {
+        cvCopy(data,depth0);
+        dbuffer=0;
+    }
+    if(!dbuffer && data!=NULL)
+    {
+        cvCopy(data,depth1);
+        dbuffer=1;
+    }
 
-depth= cvCloneImage(data);
 }
 
 void Kinect::set_RGB(IplImage * data)
 {
-
-color= cvCloneImage(data);
+    if(cbuffer && data!=NULL)
+    {
+        cvCopy(data,color0);
+        cbuffer=0;
+    }
+    if(!cbuffer && data!=NULL)
+    {
+        cvCopy(data,color1);
+        cbuffer=1;
+    }
 }
 IplImage* Kinect::get_depth()
 {
-    return depth;
+    if(dbuffer)
+        return depth1;
+    if(!dbuffer)
+        return depth0;
 }
 
 IplImage* Kinect::get_RGB()
 {
-    
-    return color;
+    if(cbuffer)
+        return color1;
+    if(!cbuffer)
+        return color0;
 }
 
 

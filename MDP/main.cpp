@@ -7,6 +7,19 @@
 #include "pspudd_pat.hh"
 
 
+#define red   "\033[0;31m"        /* 0 -> normal ;  31 -> red */
+#define cyan  "\033[1;36m"        /* 1 -> bold ;  36 -> cyan */
+#define green "\033[4;32m"        /* 4 -> underline ;  32 -> green */
+#define blue  "\033[9;34m"        /* 9 -> strike ;  34 -> blue */
+
+#define black  "\033[0;30m"
+#define brown  "\033[0;33m"
+#define magenta  "\033[0;35m"
+#define gray  "\033[0;37m"
+
+#define none   "\033[0m"        /* to flush the previous property */
+
+
 
 typedef std::map<std::string, int> Var_type;
 
@@ -72,5 +85,8 @@ string cambiar_estado( string variable, string val_1or)
         }
     }
 
+    printf("********************************************************\n");
+    printf("Best accion defined by MDP is: %s%s%s \n", green, pQuery(gbm,val_1,act_1,policyFile_1,orig_vars,vars,numvars,numorigvars,varval_1s_pat ), none);
+    printf("********************************************************\n");
     return pQuery(gbm,val_1,act_1,policyFile_1,orig_vars,vars,numvars,numorigvars,varval_1s_pat ) ;
 }

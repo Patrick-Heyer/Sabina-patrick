@@ -28,19 +28,11 @@
 #include "../Gui/video.h"
 
 #include "facedetect.h"
-#include "recognize.h"
-#include "learn.h"
+#include "load.h"
 #include "sift.h"
 
 Robot *patrol;
-
-Video *videoDisplay;
-Console *cons;
 Tab *pluginTab;
-InputSingleton *teclado;
-
-#define WIDTH 1366
-
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
@@ -101,16 +93,11 @@ void Vision_Faces::Main()
 
     IplImage *frame;
     pluginTab = new Tab("Vision_Faces");
-    videoDisplay = new Video(0,HEIGHT*.02,WIDTH/2,HEIGHT/2,"Vision_Faces", pluginTab);
-
-    cons= new Console(WIDTH/2,HEIGHT*.02,WIDTH/2,HEIGHT/2, "Error", pluginTab);
+    
     initFaceDet("../data/haarcascade_frontalface_default.xml");
     initEyeDet("../data/parojos.xml");
     initEyeDetD("../data/ojoD.xml");
     initEyeDetI("../data/ojoI.xml");
-
-
-
 
     std::map<std::string, Objective>::iterator iter;
     std::string name;
@@ -120,62 +107,32 @@ void Vision_Faces::Main()
     {
         accion=patrol->getInstance().get_Action();
         frame=patrol->getInstance().Ptz.get_image();
-        if (accion=="detectar_paciente")
-        {
-            //GUI::getInstance().Set_Active_Tab("Vision_Faces");
-            if (detectFace(frame,&polo)!=NULL)
-            {
-                patrol->getInstance().Sintetizer.set_Phrase("hello DAVID i will take you to your therapy");
-                sleep(5);
-                patrol->getInstance().set_Action(cambiar_estado("detectada_p","si"));
-            }
-        }
+
 
         if (accion=="aprender_persona")
         {
-            //GUI::getInstance().Set_Active_Tab("Vision_Faces");
             int aprendi;
-            patrol->getInstance().Sintetizer.set_Phrase("Hello i am sabina I am waiting for a user please aproach me ");
-            sleep(2);
             do
             {
-
-
-                frame=patrol->getInstance().Ptz.get_image();
-                aprendi=learn(frame);
-                videoDisplay->SetImage(frame);
+	      frame=patrol->getInstance().Ptz.get_image();
+	      aprendi=learn(frame);
             } while(aprendi==0);
-            patrol->getInstance().Sintetizer.set_Phrase( "Ok i learnd your face ");
-            sleep(3);
-            patrol->getInstance().Sintetizer.set_Phrase( " ");
-            sleep(7);
+	    
             patrol->getInstance().set_Action(cambiar_estado("aprendida_p","si"));
-
-
         }
 
         if (accion=="reconocer_persona")
         {
-            //GUI::getInstance().Set_Active_Tab("Vision_Faces");
             int reconocio;
             do
             {
                 reconocio=recognize(frame);
                 frame=patrol->getInstance().Ptz.get_image();
 
-            } while(reconocio==0);
-
-
-            std::stringstream ss;
-
-            ss << "hello here is the " << patrol->getInstance().Microphone.get_Phrase() << " you orderd";
-            patrol->getInstance().Sintetizer.set_Phrase(ss.str());
-            sleep(3);
-
+            } while(reconocio==0);           
             patrol->getInstance().set_Action(cambiar_estado("persona_reconocida","si"));
 
         }
-        videoDisplay->SetImage(frame);
         cvReleaseImage(&frame);
     }
 

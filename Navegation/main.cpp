@@ -29,10 +29,10 @@ Console *logTerminal;
 #define LOCAL_MAP_WIDHT 500.0
 
 
-#define PLUGIN_NAME "Navegacion"
+#define PLUGIN_NAME "Navegation"
 
 /**
- * @brief Navegacion plugin
+ * @brief Navegation plugin
  *
  * This plugin is used to perform the movments of the robot based on the route planed by Navigation_Planing
  * @author     Patrick Heyer, patrickhey@prodigy.net.mx Miguel Palacios  mkpalacio@gmail.com
@@ -41,7 +41,7 @@ Console *logTerminal;
  **/
 
 
-class Navegacion : public IPlugin
+class Navegation : public IPlugin
 {
 public:
     void Main();
@@ -51,7 +51,7 @@ public:
 
 PLUGIN_FUNC IPlugin *CreatePlugin()
 {
-    return new Navegacion;
+    return new Navegation;
 }
 
 PLUGIN_FUNC void DestroyPlugin(IPlugin *r)
@@ -68,7 +68,7 @@ PLUGIN_INIT()
     return 0;
 }
 
-void Navegacion::Main()
+void Navegation::Main()
 {
     /**
     * \sa cambiar_estado
@@ -79,7 +79,7 @@ void Navegacion::Main()
     std::list<ArPose> path;
     int factor=50;
 
-    pluginTab = new Tab("Navegacion");
+    pluginTab = new Tab("Navegation");
     logTerminal = new Console(WIDTH/2,HEIGHT*.02,WIDTH,HEIGHT/2,"Log_Terminal", pluginTab);
 
     IplImage *tempMap;
@@ -125,9 +125,6 @@ void Navegacion::Main()
             robotController.moveRobot();
             print(logTerminal,"Terminado: entrar\n");
             patrol->getInstance().set_Action(cambiar_estado("dentro_arena", "si"));
-
-            //robotController.setInitialRobotPositionFromImage(robotController.getRobotPositionX(),robotController.getRobotPositionY());
-
         }
 
         if(accion=="localizar")
@@ -137,7 +134,7 @@ void Navegacion::Main()
 
 
         }
-        
+
         if ( accion == "seguir" )
         {
             do
@@ -214,12 +211,12 @@ void Navegacion::Main()
     }
 }
 
-void Navegacion::run()
+void Navegation::run()
 {
     pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
 }
 
-void Navegacion::stop()
+void Navegation::stop()
 {
 
 }

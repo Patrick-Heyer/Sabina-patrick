@@ -7,22 +7,14 @@
 #include <stdarg.h>
 #include <math.h>
 
-#include "../Shared_memory/Robot.h"
-
-Robot *polito;
-
 int learn (IplImage *imagen) {
     CvRect * pFaceRect = 0;
     IplImage *clone;
     int how_many,band;
     fprintf( stdout, "\nlearn function..");
-    //cvNamedWindow("Learn",1);
-
     int pude=0;
-
-
+    
     clone = cvCloneImage(imagen);
-
 
     pFaceRect = detectFace(clone,&how_many);
     //cvShowImage("Learn",clone);
@@ -46,8 +38,7 @@ int learn (IplImage *imagen) {
 
 
     cvReleaseImage(&clone);
-    //cvSaveImage("saved.jpg",clone);
-    //cvDestroyWindow("Learn");
+
     fprintf( stdout, "\nEnd learn function..");
     return pude;
 }

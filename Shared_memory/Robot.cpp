@@ -160,6 +160,8 @@ void Robot::Initialize(string filename) {
     getInstance().estimatedPosition.set_Y(0);
     getInstance().estimatedPosition.set_Angle(0);
 
+    getInstance().KINECT= new Kinect();
+
 }
 
 

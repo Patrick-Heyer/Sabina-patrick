@@ -386,8 +386,8 @@ void Controller::getLaserScanFromRobot()
 void Controller::setTransAccel(double transAccel)
 {
     robot->setTransAccel(transAccel);
-    cout<<"Rotational Acceleration"<<robot->getRotAccel();
-    cout<<"Rotational deceleration"<<robot->getRotDecel();
+    cout<<"Rotational Acceleration"<<robot->getRotAccel() << std::endl;
+    cout<<"Rotational deceleration"<<robot->getRotDecel() << std::endl;
 }
 void Controller::setTransDecel(double transDecel)
 {

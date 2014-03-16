@@ -60,19 +60,19 @@ class Ni_Device
 protected:
     // constructor/destructor
     Ni_Device( void ) {
-        
+
     }
     virtual ~Ni_Device( void ) { }
-    
+
 private:
-        static Ni_Device    *m_singleton;
+    static Ni_Device    *m_singleton;
 
 public:
     // singleton functions
     static Ni_Device       &getInstance( void );
     static void FreeInstance( void );
     void        Initialize ( void );
-    
+
 
 
     DeviceStringProperty g_PrimaryStream;
@@ -87,15 +87,15 @@ public:
     ImageGenerator *getImageGenerator();
     IRGenerator *getIRGenerator();
     AudioGenerator *getAudioGenerator();
-	Player *getPlayer();
-	UserGenerator *getUserGenerator();
+    Player *getPlayer();
+    UserGenerator *getUserGenerator();
 
     DepthMetaData* getDepthMetaData();
     ImageMetaData* getImageMetaData();
     IRMetaData* getIRMetaData();
     AudioMetaData* getAudioMetaData();
-	
-    
+
+
     Context g_Context;
     ProductionNode g_pPrimary;
     ScriptNode g_scriptNode;
@@ -106,14 +106,14 @@ public:
     IRGenerator g_IR;
     AudioGenerator g_Audio;
     Player g_Player;
-	UserGenerator g_User;
+    UserGenerator g_User;
 
     DepthMetaData g_DepthMD;
     ImageMetaData g_ImageMD;
     IRMetaData g_irMD;
     AudioMetaData g_AudioMD;
 
-	
+
 
     void openCommon();
     XnStatus openDeviceFile(const char* csFile);
@@ -151,12 +151,13 @@ public:
     XnDouble getPlaybackSpeed();
 
 
-	
+
 private:
 
 
     bool g_bIsDepthOn;
     bool g_bIsImageOn;
+    bool g_bIsUserOn;
     bool g_bIsIROn;
     bool g_bIsAudioOn;
     bool g_bIsPlayerOn;

@@ -28,10 +28,8 @@
 #include "../Gui/video.h"
 
 Robot *patrol;
-
-Console *cons;
 Tab *pluginTab;
-InputSingleton *teclado;
+
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
@@ -78,68 +76,15 @@ void Voice_Synthesis::Main()
 {
     Gui::getInstance();
     pluginTab = new Tab("Voice_Synthesis");
-    cons= new Console(WIDTH/2,HEIGHT*.02,WIDTH/2,HEIGHT/2, "Error", pluginTab);
-    while (true)
+    for (;;)
     {
-
         if (patrol->getInstance().Sintetizer.get_Phrase()!="")
         {
             std::stringstream ss;
             ss << "echo  '" << patrol->getInstance().Sintetizer.get_Phrase() << "' | festival --tts &";
-            std::string temp=ss.str();
-            std::cout <<temp << std::endl;
-            system (temp.c_str());
-            string str=patrol->getInstance().Sintetizer.get_Phrase();
-            int emotion=0;
-
-            for ( int i = 0 ; i < str.length(); i++)
-            {
-
-                char temp=str[i];
-                switch(temp)
-                {
-                case 'a':
-                    patrol->getInstance().face_frame=1+emotion;
-                    break;
-                case 'e':
-                    patrol->getInstance().face_frame=2+emotion;
-                    break;
-                case 'f':
-                    patrol->getInstance().face_frame=11+emotion;
-                    break;
-                case 'i':
-                    patrol->getInstance().face_frame=3+emotion;
-                    break;
-                case 'o':
-                    patrol->getInstance().face_frame=4+emotion;
-                    break;
-                case 's':
-                    patrol->getInstance().face_frame=17+emotion;
-                    break;
-                case 't':
-                    patrol->getInstance().face_frame=3+emotion;
-                    break;
-                case 'u':
-                    patrol->getInstance().face_frame=5+emotion;
-                    break;
-                case 'y':
-                    patrol->getInstance().face_frame=3+emotion;
-                    break;
-                default:
-                    patrol->getInstance().face_frame=0;
-                    break;
-                }
-
-//                 patrol->getInstance().face_frame=i;
-                usleep(73000);
-            }
+            
             patrol->getInstance().Sintetizer.set_Phrase("");
             patrol->getInstance().face_frame=0;
-        }
-
-        else
-        {
-
         }
     }
 

@@ -102,7 +102,7 @@ void Prueba_Dummy::Main()
 
     bool first=true;
 
-    patrol->getInstance().set_Action("aprender_orden");
+
     for (;;)
     {
         time (&now);
@@ -125,33 +125,33 @@ void Prueba_Dummy::Main()
         }
         if(accion=="aprender_pedido_R")
         {
-	  skeletonJoint R_Hand, L_Hand, Torso;
-	  std::map<std::string, skeletonJoint>::iterator iter;
-	  do{
-            for ( iter=Human::getInstance().Skeleton->begin(); iter !=Human::getInstance().Skeleton->end(); ++iter )
-	    {
-            if ( iter->second.Get_name()=="TORSO" ) Torso=iter->second;
-            if ( iter->second.Get_name()=="LEFT_HAND" ) L_Hand=iter->second;
-            if ( iter->second.Get_name()=="RIGHT_HAND" ) R_Hand=iter->second;
-	    }
-	    
-	  }while(R_Hand.Get_y() <Torso.Get_y() && L_Hand.Get_y() <Torso.Get_y());
-	  
-	   if ( R_Hand.Get_y() >Torso.Get_y() )
+            skeletonJoint R_Hand, L_Hand, Torso;
+            std::map<std::string, skeletonJoint>::iterator iter;
+            do {
+                for ( iter=Human::getInstance().Skeleton->begin(); iter !=Human::getInstance().Skeleton->end(); ++iter )
+                {
+                    if ( iter->second.Get_name()=="TORSO" ) Torso=iter->second;
+                    if ( iter->second.Get_name()=="LEFT_HAND" ) L_Hand=iter->second;
+                    if ( iter->second.Get_name()=="RIGHT_HAND" ) R_Hand=iter->second;
+                }
+
+            } while(R_Hand.Get_y() <Torso.Get_y() && L_Hand.Get_y() <Torso.Get_y());
+
+            if ( R_Hand.Get_y() >Torso.Get_y() )
             {
-	      patrol->getInstance().set_Current_destination("CHECK1");
-	      patrol->getInstance().Sintetizer.set_Phrase("i will go to check point ONE");
-	      sleep(2);
-	    }
-	    
-	     if ( L_Hand.Get_y() >Torso.Get_y() )
+                patrol->getInstance().set_Current_destination("CHECK1");
+                patrol->getInstance().Sintetizer.set_Phrase("i will go to check point ONE");
+                sleep(2);
+            }
+
+            if ( L_Hand.Get_y() >Torso.Get_y() )
             {
-	      patrol->getInstance().set_Current_destination("CHECK2");
-	      patrol->getInstance().Sintetizer.set_Phrase("i will go to check point TWO");
-	      sleep(2);
-	    }
-	  
-	  
+                patrol->getInstance().set_Current_destination("CHECK2");
+                patrol->getInstance().Sintetizer.set_Phrase("i will go to check point TWO");
+                sleep(2);
+            }
+
+
             sleep(5);
             patrol->getInstance().set_Action(cambiar_estado("orden_pedida", "si"));
         }

@@ -90,6 +90,7 @@ void Run_test(Fl_Widget* o, void*)
             PluginManager::getInstance().Unload(rbutton[j]->label());
         }
     }
+
     win.hide();
     Fl::flush();
     accept_button=true;
@@ -99,7 +100,7 @@ void Run_test(Fl_Widget* o, void*)
 void Load_test(Fl_Widget* o, void*)
 {
     std::stringstream ss;
-    ss << "../data/" << Test->mvalue()->label();
+    ss << "../data/Tests/" << Test->mvalue()->label();
     std::string test_path = ss.str();
     std::cout << test_path << std::endl;
 
@@ -234,10 +235,6 @@ void InitGL ( GLsizei Width, GLsizei Height )
 
     startButton = new Button ( WIDTH / 2 , HEIGHT / 2, 150, 24, "START", Main_Tab, false );
     startButton->SetActive ( true );
-
-
-
-
 }
 
 bool polo=true;
