@@ -101,7 +101,7 @@ void Manipulacion::Main()
             //  brazo.openGripper();
             sleep(5);
             // brazo.moveToNavigationPos();
-            patrol->get_Instance().set_Action(cambiar_estado("objeto_entregado","si"));
+            patrol->get_Instance().set_Action("none");
 
         }
 
@@ -115,9 +115,9 @@ void Manipulacion::Main()
             // brazo.moveToNavigationPos();
             patrol->get_Instance().set_Current_destination(patrol->get_Instance().prev_destination->c_str());
 
-            cambiar_estado("ruta_planeada", "no");
-            cambiar_estado("destino_alcanzado","no");
-            patrol->get_Instance().set_Action(cambiar_estado("objeto_sujetado","si"));
+//             cambiar_estado("ruta_planeada", "no");
+//             cambiar_estado("destino_alcanzado","no");
+            patrol->get_Instance().set_Action("none");
 
         }
     }

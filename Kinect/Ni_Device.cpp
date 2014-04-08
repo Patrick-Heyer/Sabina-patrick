@@ -563,6 +563,7 @@ void setResolution(MapGenerator* pGenerator, int res)
     pGenerator->GetMapOutputMode(Mode);
     Mode.nXRes = Resolution((XnResolution)res).GetXResolution();
     Mode.nYRes = Resolution((XnResolution)res).GetYResolution();
+    Mode.nFPS=15;
     XnStatus nRetVal = pGenerator->SetMapOutputMode(Mode);
     if (nRetVal != XN_STATUS_OK)
     {

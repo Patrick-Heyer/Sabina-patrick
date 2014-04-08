@@ -192,12 +192,22 @@ void getdephtmm(int u, int v, double &X, double &Y, double &Z)
     const XnDepthPixel* pDepthMap = KNI_DEV->getInstance().g_Depth.GetDepthMap();
     KNI_DEV->getInstance().g_Depth.GetRealProperty ("ZPPS", pixel_size_);
     int depthIdx=v * XN_VGA_X_RES + u;
-    X = (u - 320) * pDepthMap[depthIdx] * pixel_size_  / F_;
-    Y = (v - 240) * pDepthMap[depthIdx] * pixel_size_  / F_;
-    Z = pDepthMap[depthIdx] ;
+     X = (u - 320) * pDepthMap[depthIdx] * (pixel_size_*2)  / F_;
+      Y = (v - 240) * pDepthMap[depthIdx] * (pixel_size_*2)  / F_;
+      Z = pDepthMap[depthIdx] ;
+    for (int j=-2; j<=2; j++)
+    {
+      for (int k=-2; k<=2; k++)
+      {
+	int depthIdx=(v+k) * XN_VGA_X_RES + (u+j);
+       X =(X+ ((u+j) - 320) * pDepthMap[depthIdx] * (pixel_size_*2)  / F_)/2;
+       Y = (Y+ ((v+k) - 240) * pDepthMap[depthIdx] * (pixel_size_*2)  / F_)/2;
+       Z = (Z+pDepthMap[depthIdx])/2 ;
+      }
+    }
 
     std::cout << "kinect says point " << u << " " << v << " is at " << X << "  " << Y << "   " << Z << std::endl;
-
+//     sleep(10);
 
 }
 
@@ -206,6 +216,7 @@ void Kinect_Plugin::Main()
     std::cout << "Starting plugin" << std::endl;
     XnStatus nRetVal = XN_STATUS_OK;
     xn::EnumerationErrors errors;
+    Human::getInstance().Initialize("../data/Kinect/Skeleton");
     KNI_DEV->getInstance().Initialize();
 
 
@@ -255,6 +266,8 @@ void Kinect_Plugin::Main()
     XnUInt16 nUsers;
 
     XnSkeletonJointTransformation Joint[24];
+    
+
 
     printf("Starting to run\n");
     if(g_bNeedPose)
@@ -269,15 +282,7 @@ void Kinect_Plugin::Main()
     IplImage* imageinfo=cvCreateImage(cvSize(1280,1024),IPL_DEPTH_8U,3);
 
 
-
-
-    XnUInt32 total_frames=0;
-    KNI_DEV->getInstance().g_Player.GetNumFrames(KNI_DEV->getInstance().g_Depth.GetName(),total_frames);
-
-    for(;;)
-    {
-
-        KNI_DEV->getInstance().readFrame();
+      KNI_DEV->getInstance().readFrame();
 
         memcpy(imgDepth16u->imageData, KNI_DEV->getInstance().getDepthMetaData()->Data(),640*480*2);
         cvConvertScale(imgDepth16u,depthinfo,255/4096.0,0);
@@ -289,7 +294,28 @@ void Kinect_Plugin::Main()
         patrol->getInstance().KINECT->set_depth(depthinfo);
         patrol->getInstance().KINECT->set_RGB(imageinfo);
 
+    XnUInt32 total_frames=0;
+    KNI_DEV->getInstance().g_Player.GetNumFrames(KNI_DEV->getInstance().g_Depth.GetName(),total_frames);
 
+    for(;;)
+    {
+
+        KNI_DEV->getInstance().readFrame();
+
+	if(patrol->getInstance().get_Action()=="reconocer_objeto")
+	{
+        memcpy(imgDepth16u->imageData, KNI_DEV->getInstance().getDepthMetaData()->Data(),640*480*2);
+        cvConvertScale(imgDepth16u,depthinfo,255/4096.0,0);
+
+	
+
+        memcpy(imgRGB8u->imageData,KNI_DEV->getInstance().getImageMetaData()->Data(),1280*1024*3);
+        cvCvtColor(imgRGB8u,imageinfo,CV_RGB2BGR);
+
+        patrol->getInstance().KINECT->set_depth(depthinfo);
+        patrol->getInstance().KINECT->set_RGB(imageinfo);
+
+    }
 
         if(patrol->getInstance().get_Action()=="calcular_punto")
         {
@@ -303,18 +329,20 @@ void Kinect_Plugin::Main()
 
             std::cout << "ya calcule el punto y obtuve " << patrol->getInstance().object_real_X << "   " << patrol->getInstance().object_real_Y << "   " << patrol->getInstance().object_real_Z  << std::endl;
 
-            patrol->getInstance().set_Action(cambiar_estado("punto_calculado", "si"));
+	    if(patrol->getInstance().object_real_Z>750 || patrol->getInstance().object_real_Z<200)
+	    {
+	      patrol->getInstance().set_Action("reconocer_objeto");
+	    }
+	    else{
+	      patrol->getInstance().set_Action("none");
+	    }
         }
 
-        if(patrol->getInstance().get_Action()=="seguir")
+        if(patrol->getInstance().get_Action()=="follow" || patrol->getInstance().get_Action() == "avoid_crowd")
         {
-
-
-
             nUsers=MAX_NUM_USERS;
             KNI_DEV->getInstance().g_User.GetUsers(aUsers, nUsers);
-            int numTracked=0;
-            int userToPrint=-1;
+
             XnPoint3D pt;
 
             for(XnUInt16 i=0; i<nUsers; i++)
@@ -325,8 +353,7 @@ void Kinect_Plugin::Main()
                     continue;
                 }
                 Human::getInstance().tracking=true;
-                //patrick
-// 			g_UserGenerator.GetSkeletonCap().SetSmoothing(.1);
+		KNI_DEV->getInstance().g_User.GetSkeletonCap().SetSmoothing(.7);
                 std::map<std::string, skeletonJoint>::iterator iter;
                 for(iter=Human::getInstance().Skeleton->begin(); iter !=Human::getInstance().Skeleton->end(); ++iter)
                 {
@@ -337,10 +364,7 @@ void Kinect_Plugin::Main()
                     iter->second.heading=heading;
                     iter->second.attitude=attitude;
                     iter->second.bank=bank;
-                    // 	std::cout << heading << attitude << bank << std::endl;
-
-
-                }
+                 }
             }
 
 

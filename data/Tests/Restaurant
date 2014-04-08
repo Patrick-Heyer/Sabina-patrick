@@ -1,4 +1,4 @@
-MDP =../data/Tests/Restaurant.ADD
+MDP =../data/Tests/Restaurant.seq
 test_time = 10
 tiempo_salida = 0
 

@@ -183,7 +183,7 @@ void Navigation_Planing::Main()
             }
             vid->SetImage(temp);
             cvReleaseImage(&temp);
-            patrol->get_Instance().set_Action(cambiar_estado("ruta_planeada","si"));
+            patrol->get_Instance().set_Action("none");
 
 
         }

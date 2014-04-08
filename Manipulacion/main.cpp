@@ -93,21 +93,30 @@ void Manipulacion::Main()
             std::cout << "intentare agarrar el objeto en " <<  x << "    " << y << "    " << z << "MILIMETROS" << std::endl;
 
 	    brazo.Grasping(x, y, z);
-            patrol->getInstance().set_Action(cambiar_estado("objeto_sujeto","si"));
+            patrol->getInstance().set_Action("none");
 
         }
 
         if(accion=="entregar_objeto")
         {
-//             patrol->getInstance().Sintetizer.set_Phrase("here is a little present so you remember your visit");
-//             sleep(5);
-//             brazo.deliverObject();
-//             patrol->getInstance().Sintetizer.set_Phrase("please let me introduce myself i am Sabina a service robot developed at the INAOE by the team Markovito that won the mexican tournament of robotics two thousand 13");
+            patrol->getInstance().Sintetizer.set_Phrase("here is a little present so you remember your visit");
+            sleep(5);
+            brazo.deliverObject();
+	    brazo.moveToCarriyingPos();
+            patrol->getInstance().Sintetizer.set_Phrase("please let me introduce myself i am Sabina a service robot developed at the INAOE by the team Markovito that won the mexican tournament of robotics two thousand 13");
 //             brazo.moveToHanging();
-//
-//             //Cuando se tengan que entregar varios objetos no usar store
-//             //brazo.store();
-            patrol->getInstance().set_Action(cambiar_estado("objeto_entregado","si"));
+
+            //Cuando se tengan que entregar varios objetos no usar store
+            //brazo.store();
+            patrol->getInstance().set_Action("none");
+        }
+        if(accion=="recibir_objeto")
+        {
+            patrol->getInstance().Sintetizer.set_Phrase("please give me the controller");
+            sleep(5);
+            brazo.deliverObject();
+	    brazo.moveToCarriyingPos();
+            patrol->getInstance().set_Action("none");
         }
     }
 }

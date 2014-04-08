@@ -1,10 +1,14 @@
 ./lib/libNavegation.so         
-./lib/libVision_Objects.so      
+./lib/libVision_Objects.so    
+./lib/libVision_Faces.so 
 ./lib/libServer.so       
 ./lib/libClient.so
 ./lib/libVoice_Synthesis.so
 ./lib/libVoice_Recognition.so
 ./lib/libNavegacion_Planing.so
 ./lib/libManipulacion.so
-./lib/libPrueba_Dummy.so
+./lib/libSequencer.so
 ./lib/libKinect.so
+./lib/libNavigation_Client.so
+./lib/libSkeleton_Writer.so
+./lib/libMapping.so

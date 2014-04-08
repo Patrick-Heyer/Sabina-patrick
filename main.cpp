@@ -48,8 +48,8 @@ Tab *Main_Tab;
 Button *startButton;
 
 char *mdp_path;
-string face_dir="";
-bool Load_Face=0;
+string face_dir;
+bool Load_Face;
 bool accept_button=0;
 
 int test_time = 0;
@@ -113,7 +113,7 @@ void Load_test(Fl_Widget* o, void*)
     int column=0;
     for( PluginManager::TListItor itor = PluginManager::getInstance().m_pluginlist.begin(); itor != PluginManager::getInstance().m_pluginlist.end(); ++itor )
     {
-        rbutton[row] = new Fl_Round_Button(20+(column*170), 120+(30*row), 150, 30, (*itor)->GetDisplayName().c_str());
+        rbutton[num_rbuttons] = new Fl_Round_Button(20+(column*170), 120+(30*row), 150, 30, (*itor)->GetDisplayName().c_str());
         num_rbuttons++;
         row++;
         if(row%10==0)
@@ -123,9 +123,7 @@ void Load_test(Fl_Widget* o, void*)
         }
 
     }
-
-
-
+    
     int temp_int;
     float temp_float;
     string temp_string;
@@ -135,8 +133,6 @@ void Load_test(Fl_Widget* o, void*)
     MDP_path->value(mdp_path);
 
     config.readInto ( face_dir, "face_dir" );
-
-
     config.readInto ( test_time, "test_time" );
     Test_time->value(itoa (test_time,10));
 
@@ -227,6 +223,7 @@ void InitGL ( GLsizei Width, GLsizei Height )
         initFace ( face_dir );
         setFace ( 0 );
     }
+    *patrol->getInstance().seq_path=mdp_path;
 
     Main_Tab = new Tab ( "Main_Tab" );
     Gui::getInstance().setActiveTab ( 0 );
@@ -259,7 +256,7 @@ void DrawGLScene ( void )
     if ( startButton->state && startButton->Get_Active() )
     {
 
-        patrol->getInstance().set_Action ( cambiar_estado ( "iniciado", "si" ) );
+        patrol->getInstance().set_Action ( "none" );
         patrol->getInstance().Main_system = true;
         startButton->SetActive ( false );
 
@@ -360,7 +357,8 @@ int main ( int argc, char *argv[] )
 {
     Load_config ( argv[1] );
     std::cout << "Initializing MDP" << mdp_path << endl;
-    Init_MDP ( mdp_path );
+//     Init_MDP ( mdp_path );
+    
     std::cout << "MDP loaded" << endl;
     glutInit ( &argc, argv );
     glutInitDisplayMode ( GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH );

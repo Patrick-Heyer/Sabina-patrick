@@ -153,7 +153,7 @@ void Prueba_Dummy::Main()
 
 
             sleep(5);
-            patrol->getInstance().set_Action(cambiar_estado("orden_pedida", "si"));
+            patrol->getInstance().set_Action("none");
         }
 
     }

@@ -1,4 +1,4 @@
-MDP =../data/Tests/Follow_Me.ADD
+MDP =../data/Tests/Follow_Me.seq
 test_time = 8
 tiempo_salida = 0
 

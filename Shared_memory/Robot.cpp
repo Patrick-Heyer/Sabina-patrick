@@ -152,6 +152,7 @@ void Robot::Initialize(string filename) {
 
     getInstance().seguir=false;
 
+    getInstance().seq_path=new string;
 
 
     getInstance().laser= new Laser();

@@ -93,32 +93,39 @@ void Vision_Faces::Main()
 
     IplImage *frame;
     pluginTab = new Tab("Vision_Faces");
-    
+
     initFaceDet("../data/haarcascade_frontalface_default.xml");
     initEyeDet("../data/parojos.xml");
     initEyeDetD("../data/ojoD.xml");
     initEyeDetI("../data/ojoI.xml");
 
     std::map<std::string, Objective>::iterator iter;
-    std::string name;
 
     std::string accion;
     for (;;)
     {
         accion=patrol->getInstance().get_Action();
-        frame=patrol->getInstance().Ptz.get_image();
-
-
         if (accion=="aprender_persona")
         {
             int aprendi;
             do
             {
-	      frame=patrol->getInstance().Ptz.get_image();
-	      aprendi=learn(frame);
+
+                frame=patrol->getInstance().Ptz.get_image();
+                aprendi=learn(frame);
             } while(aprendi==0);
-	    
-            patrol->getInstance().set_Action(cambiar_estado("aprendida_p","si"));
+	    std::stringstream ss;
+	    ss.str("");
+	    Objective temp;
+	    temp.set_Name("");
+	    temp.set_Visual_ID(aprendi);
+	    temp.set_Type("person");
+	    ss << temp.get_Name().c_str() << temp.get_Type()->c_str() << temp.get_Visual_ID();
+	    std::cout << ss.str().c_str() << std::endl;
+	    temp.set_Last_x(patrol->getInstance().get_Position().get_X());
+	    temp.set_Last_y(patrol->getInstance().get_Position().get_Y());
+	    patrol->getInstance().Objectives->insert(std::make_pair(ss.str().c_str(), temp));
+            patrol->getInstance().set_Action("none");
         }
 
         if (accion=="reconocer_persona")
@@ -126,13 +133,33 @@ void Vision_Faces::Main()
             int reconocio;
             do
             {
-                reconocio=recognize(frame);
                 frame=patrol->getInstance().Ptz.get_image();
+                reconocio=recognize(frame);
+		
 
-            } while(reconocio==0);           
-            patrol->getInstance().set_Action(cambiar_estado("persona_reconocida","si"));
+            } while(reconocio==0);
+	    for(iter=patrol->getInstance().Objectives->begin(); iter !=patrol->getInstance().Objectives->end(); ++iter)
+                {
+		    if( iter->second.get_Visual_ID()==reconocio)
+		    {
+			std::cout << iter->first << std::endl;
+		    }
+		}
+            patrol->getInstance().set_Action("none");
 
         }
+
+        if (accion=="detectar_persona")
+        {
+            int detecto;
+            do
+            {
+                frame=patrol->getInstance().Ptz.get_image();
+                detectFace(frame,&detecto);
+            } while(detecto<1);
+            patrol->getInstance().set_Action("none");
+        }
+
         cvReleaseImage(&frame);
     }
 

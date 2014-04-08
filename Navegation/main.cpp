@@ -19,6 +19,7 @@
 #include "../Gui/gui.h"
 #include "../Gui/console.h"
 #include "../Gui/video.h"
+#include "../Human/Human.h"
 
 
 Robot *patrol;
@@ -95,17 +96,12 @@ void Navegation::Main()
 
     robotController.setAbsoluteMaxTransVelocity(patrol->getInstance().get_Lineal_velocity());
     robotController.setAbsoluteMaxRotAcceleration(patrol->getInstance().get_Angular_velocity());
-
     robotController.setOdometer(patrol->getInstance().Position.get_X()*factor, patrol->getInstance().Position.get_Y()*-factor, patrol->getInstance().Position.get_Angle());
-// 	double initialXPosition = robotController.getRobotPositionX();
-// 	double initialYPosition = robotController.getRobotPositionY();
     robotController.setInitialRobotPositionFromImage(patrol->getInstance().Position.get_X()*factor, patrol->getInstance().Position.get_Y()*-factor);
     robotController.setTransAccel(250);
     robotController.setTransDecel(200);
 
-
-
-    int dest = 1;
+    
 
     for (;;)
     {
@@ -124,18 +120,37 @@ void Navegation::Main()
             robotController.setPath(path);
             robotController.moveRobot();
             print(logTerminal,"Terminado: entrar\n");
-            patrol->getInstance().set_Action(cambiar_estado("dentro_arena", "si"));
+            patrol->getInstance().set_Action("none");
         }
 
         if(accion=="localizar")
         {
             robotController.getLaserScanFromRobot();
             ArUtil::sleep(2000);
-
-
+        }
+        
+        if(accion=="enter_elevator")
+        {
+            robotController.getLaserScanFromRobot();
+            robotController.aproach(0,-1500);
+	    patrol->getInstance().set_Action("none");
+        }
+        
+        if(accion=="wait_in_elevator")
+        {
+            robotController.getLaserScanFromRobot();
+            sleep(10);
+	    patrol->getInstance().set_Action("none");
+        }
+        
+        if(accion=="leave_elevator")
+        {
+            robotController.getLaserScanFromRobot();
+	    robotController.aproach(0,1500);
+	    patrol->getInstance().set_Action("none");
         }
 
-        if ( accion == "seguir" )
+        if ( accion == "follow" )
         {
             do
                 {}
@@ -144,17 +159,34 @@ void Navegation::Main()
             patrol->getInstance().Sintetizer.set_Phrase("i will follow you");
             sleep(2);
             robotController.follow();
-            std::cout << "deje de seguir" << std::endl;
-            patrol->getInstance().set_Action(cambiar_estado("seguimiento_fin", "si"));
+	    
+	    std::cout << "deje de seguir" << std::endl;
+	    robotController.stop();
+	    patrol->getInstance().set_Action("none");
 
+        }
+        
+        if ( accion == "avoid_crowd" )
+        {
+            do
+                {}
+            while ( robotController.isThereObstacle ( 1100 ) );
+
+            patrol->getInstance().Sintetizer.set_Phrase("i will follow you");
+            sleep(2);
+            int dest=robotController.follow();
+            std::cout << "deje de seguir" << std::endl;
+            if(dest==1)
+            {
+                robotController.aproach(0,2500);
+            }
+            patrol->getInstance().set_Action("none");
         }
 
 
 
         if (accion=="navegar_destino")
         {
-
-
             print(logTerminal,"Iniciando: navegar_destino\n");
             list<Location> ruta_temp;
             ruta_temp=patrol->getInstance().get_Route();
@@ -171,7 +203,6 @@ void Navegation::Main()
                 robotController.moveRobot();
             }
 
-
             if(patrol->getInstance().get_Current_destination()!="")
             {
                 typedef std::map<string,Destination> StringFloatMap;
@@ -180,33 +211,11 @@ void Navegation::Main()
                 cout << pos->second.get_Coordinate().get_Angle() << endl;
                 robotController.setRobotHeading(pos->second.get_Coordinate().get_Angle() );
             }
-
-
+            
             patrol->getInstance().Clear_path();
             print(logTerminal,"Terminado: navegar_destino");
 
-            patrol->getInstance().set_Action(cambiar_estado("destino_alcanzado", "si"));
-        }
-
-        if (accion=="aproximar_persona")
-        {
-            print(logTerminal,"Iniciando: aproximar_persona\n");
-            list<Location> ruta_temp;
-            ruta_temp=patrol->getInstance().get_Route();
-            if (ruta_temp.size()>0)
-            {
-                path.clear();
-                for (std::list<Location>::iterator list_iter = ruta_temp.begin(); list_iter != ruta_temp.end(); list_iter++)
-                {
-                    ArPose position((*list_iter).get_X(),(*list_iter).get_Y(),(*list_iter).get_Angle());
-                    path.push_back(position);
-
-                }
-                robotController.setPath(path);
-                robotController.moveRobot();
-                print(logTerminal,"Terminado: aproximar_persona\n");
-            }
-            sleep(1);
+            patrol->getInstance().set_Action("none");
         }
     }
 }

@@ -8,6 +8,8 @@
 //this class is related with main2 class
 Robot *patrolbot;
 
+#define  DEG_TO_RAD 0.0174532925;
+
 Controller::Controller(char* robotPort, char* laserPort)
 {
     this->robotPort = robotPort;
@@ -27,7 +29,8 @@ void Controller::initialize()
     Aria::init();
     robot = new ArRobot();
     actionGoto = new ArActionGoto("goto", ArPose(0.0, 0.0, 0.0), 100, 300, 14, 7);
-    actionAvoidFront = new ArActionAvoidFront ("Avoid Front Near", 150,0,2);
+    actionAvoidFront = new ArActionAvoidFront ("Avoid Front Near", 550,  200, 15, false);
+
     int argsNumber;
     initialXPosition = 0;
     initialYPosition = 0;
@@ -82,6 +85,8 @@ void Controller::initialize()
         ArLog::log(ArLog::Normal, "Warning: unable to connect to requested lasers");
 
     }
+
+    robot->disableSonar();
 
     //robot->setTransDecel(200);
     //robot->setTransAccel(300);
@@ -190,7 +195,7 @@ void Controller::moveRobot()
 }
 
 
-void Controller::follow()
+int Controller::follow()
 {
     std::map<std::string, skeletonJoint>::iterator iter;
     int speed = 0, rot = 0;
@@ -211,74 +216,94 @@ void Controller::follow()
 
     patrolbot->getInstance().Destinations->insert(std::make_pair( "START",dest));
 
+    int timer=0;
 
     for(;;)
     {
-        for ( iter=Human::getInstance().Skeleton->begin(); iter !=Human::getInstance().Skeleton->end(); ++iter )
+        if(Human::getInstance().tracking)
         {
-            if ( iter->second.Get_name()=="TORSO" ) Torso=iter->second;
-            if ( iter->second.Get_name()=="LEFT_HAND" ) L_Hand=iter->second;
-            if ( iter->second.Get_name()=="RIGHT_HAND" ) R_Hand=iter->second;
-        }
-
-
-        if ( R_Hand.Get_y() >Torso.Get_y() && L_Hand.Get_y() >Torso.Get_y() )
-        {
-            std::cout << "vi tus manos" << std::endl;
-
-            return;
-        }
-
-        else if ( R_Hand.Get_y() >Torso.Get_y() || L_Hand.Get_y() >Torso.Get_y() )
-        {
-
-            if ( R_Hand.Get_y() >Torso.Get_y() )
+            for ( iter=Human::getInstance().Skeleton->begin(); iter !=Human::getInstance().Skeleton->end(); ++iter )
             {
-
-                dest.set_Coordinate(temp);
-                dest.set_Name("CHECK1");
-                patrolbot->getInstance().Destinations->insert(std::make_pair( "CHECK1",dest));
-                patrolbot->getInstance().Sintetizer.set_Phrase("i learnd this place as check point ONE");
-                sleep(3);
+                if ( iter->second.Get_name()=="TORSO" ) Torso=iter->second;
+                if ( iter->second.Get_name()=="LEFT_HAND" ) L_Hand=iter->second;
+                if ( iter->second.Get_name()=="RIGHT_HAND" ) R_Hand=iter->second;
             }
-            if ( L_Hand.Get_y() >Torso.Get_y() )
+
+
+            if ( R_Hand.Get_y() >Torso.Get_y() && L_Hand.Get_y() >Torso.Get_y() )
             {
-                dest.set_Coordinate(temp);
-                dest.set_Name("CHECK2");
-                patrolbot->getInstance().Destinations->insert(std::make_pair( "CHECK2",dest));
-                patrolbot->getInstance().Sintetizer.set_Phrase("i learnd this place as check point TWO");
-                sleep(3);
+                std::cout << "vi tus manos" << std::endl;
+		robot->stop();
+                robot->clearDirectMotion();
+                return 0;
+            }
+
+//         else if ( R_Hand.Get_y() >Torso.Get_y() || L_Hand.Get_y() >Torso.Get_y() )
+//         {
+//
+//             if ( R_Hand.Get_y() >Torso.Get_y() )
+//             {
+//
+//                 dest.set_Coordinate(temp);
+//                 dest.set_Name("CHECK1");
+//                 patrolbot->getInstance().Destinations->insert(std::make_pair( "CHECK1",dest));
+//                 patrolbot->getInstance().Sintetizer.set_Phrase("i learnd this place as check point ONE");
+//                 sleep(3);
+//             }
+//             if ( L_Hand.Get_y() >Torso.Get_y() )
+//             {
+//                 dest.set_Coordinate(temp);
+//                 dest.set_Name("CHECK2");
+//                 patrolbot->getInstance().Destinations->insert(std::make_pair( "CHECK2",dest));
+//                 patrolbot->getInstance().Sintetizer.set_Phrase("i learnd this place as check point TWO");
+//                 sleep(3);
+//             }
+//         }
+            else
+            {
+//             if ( Torso.Get_z() <1000 )
+//             {
+//                 speed=-200;
+//             }
+                if ( Torso.Get_z() >1400&& Torso.Get_z() <2500 )
+                {
+                    speed=Torso.Get_z()-1400;
+
+                }
+                if ( Torso.Get_z() >2500 )
+                {
+                    patrolbot->getInstance().Sintetizer.set_Phrase("please slow down");
+                    speed=200;
+                }
+
+                rot=Torso.Get_x() /70;
+            }
+            if(isThereObstacle ( 500 ))
+            {
+                robot->setVel ( 0 );
+                robot->setDeltaHeading ( 0 );
+
+                timer++;
+                std::cout << timer << std::endl;
+                if(timer>=10000)
+                {
+                    robot->stop();
+                    robot->clearDirectMotion();
+                    return 1;
+                }
+            }
+            else
+            {
+                timer=0;
+                robot->setVel ( speed );
+                robot->setDeltaHeading ( rot );
+
             }
         }
         else
-        {
-            if ( Torso.Get_z() <1000 )
-            {
-                speed=-200;
-            }
-            if ( Torso.Get_z() >1300&& Torso.Get_z() <2500 )
-            {
-                speed=Torso.Get_z()-1300;
-
-            }
-            if ( Torso.Get_z() >2500 )
-            {
-                patrolbot->getInstance().Sintetizer.set_Phrase("please slow down");
-                speed=200;
-            }
-
-            rot=Torso.Get_x() /70;
-        }
-        if(isThereObstacle ( 400 ))
         {
             robot->setVel ( 0 );
             robot->setDeltaHeading ( 0 );
-        }
-        else
-        {
-            robot->setVel ( speed );
-            robot->setDeltaHeading ( rot );
-
         }
 
         temp.set(robot->getPose().getX()/50, (robot->getPose().getY()/50)*-1, robot->getTh());
@@ -289,6 +314,65 @@ void Controller::follow()
 }
 
 
+void Controller::aproach()
+{
+    float robotx=robot->getX();
+    float roboty=robot->getY();
+    float robotth=robot->getTh() * DEG_TO_RAD;
+
+    float humanx=0;
+    float humany=0;
+
+    float X=robotx+((humanx)*cos(robotth)-(humany)*sin(robotth));
+    float Y=roboty+((humanx)*sin(robotth)+(humany)*cos(robotth));
+
+    std::cout << "estoy en " << robotx << "," << robotx <<std::endl;
+    std::cout << "ire a " << X << "," << Y <<std::endl;
+
+    ArPose position(X,Y,robotth);
+    path.clear();
+    path.push_back(position);
+    path.push_back(position);
+    setPath(path);
+    moveRobot();
+    robot->stop();
+    robot->setHeading ( robotth );
+    while (!robot->isHeadingDone()) {
+        getLaserScanFromRobot();
+    };
+    robot->clearDirectMotion();
+    std::cout << "LLegue a " << X << "," << Y <<std::endl;
+}
+
+void Controller::aproach(int x, int y)
+{
+    float robotx=robot->getX();
+    float roboty=robot->getY();
+    float robotth=robot->getTh() * DEG_TO_RAD;
+
+    float humanx=x;
+    float humany=y;
+
+    float X=robotx+(humanx*cos(robotth))-(humany*sin(robotth));
+    float Y=roboty+(humanx*sin(robotth))+(humany*cos(robotth));
+
+    std::cout << "estoy en " << robotx << "," << robotx <<std::endl;
+    std::cout << "ire a " << X << "," << Y <<std::endl;
+
+    ArPose position(X,Y,robotth);
+    path.clear();
+    path.push_back(position);
+    setPath(path);
+    moveRobot();
+    robot->stop();
+    
+    robot->setHeading ( robotth );
+    while (!robot->isHeadingDone()) {
+        getLaserScanFromRobot();
+    };
+    robot->clearDirectMotion();
+    std::cout << "LLegue a " << X << "," << Y <<std::endl;
+}
 
 void Controller::setInitialRobotPositionFromImage(int iniXPosition, int iniYPosition)
 {
@@ -410,3 +494,11 @@ void Controller::setRobotHeading ( double finalHeading )
 
 
 }
+
+void Controller::stop()
+{
+    robot->setVel ( 0 );
+    robot->setDeltaHeading ( 0 );
+    robot->clearDirectMotion();
+}
+

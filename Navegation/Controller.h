@@ -50,8 +50,14 @@ public:
     * This method executes the movements to follow the path.
     * */
     void moveRobot();
+    
+    void stop();
 
-    void follow();
+    int follow();
+    
+    
+    void aproach();
+    void aproach(int x, int y);
     /**
     * This method returns the X coordenate of the robot
     * @return the X coordenate of the robot position.

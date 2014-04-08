@@ -195,7 +195,7 @@ void Voice_Recognition::Main()
                 patrol->getInstance().Sintetizer.set_Phrase("thank you");
                 sleep(1);
 
-                patrol->getInstance().set_Action(cambiar_estado("confirmado","si"));
+                patrol->getInstance().set_Action("none");
             }
 
         }
@@ -251,7 +251,7 @@ void Voice_Recognition::Main()
             }
             patrol->getInstance().Sintetizer.set_Phrase("please look at my camera so i can learn your face");
             sleep(5);
-            patrol->getInstance().set_Action(cambiar_estado("nombre_pedido","si"));
+            patrol->getInstance().set_Action("none");
         }
 
 
@@ -318,7 +318,7 @@ void Voice_Recognition::Main()
             ss << "Ok i am going to " << patrol->getInstance().get_Current_destination().c_str();
             patrol->getInstance().Sintetizer.set_Phrase(ss.str());
             sleep(1);
-            patrol->getInstance().set_Action(cambiar_estado("tiene_destino","si"));
+            patrol->getInstance().set_Action("none");
         }
 
 

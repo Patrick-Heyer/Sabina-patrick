@@ -1,4 +1,4 @@
-MDP =../data/Tests/Demo_Challenge.ADD
+MDP =../data/Tests/Demo_Challenge.seq
 test_time = 5
 tiempo_salida = 2
 

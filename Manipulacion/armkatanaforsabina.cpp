@@ -32,8 +32,9 @@ void ArmKatanaForSabina::deliverObject()
     if(currentArmPosition == CARRYING) {
         katana->moveMotorToEnc(3,23561,true);
         katana->openGripper(true);
-        //katana->closeGripper(true, 15);
+        katana->closeGripper(true, 15);
         katana->moveMotorToEnc(3,30500,true);
+	
     }
 }
 

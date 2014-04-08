@@ -125,6 +125,7 @@ void Navigation_Planing::Main()
 
         if (accion=="planear_ruta")
         {
+	    patrol->getInstance().Enviroment.set_Image_path("../data/SlamOutGrid/im_bw.png");
             tempMap=cvLoadImage(patrol->getInstance().Enviroment.get_Image_path().c_str());
             patrol->getInstance().Enviroment.set_Height_px(tempMap->height);
             patrol->getInstance().Enviroment.set_Width_px(tempMap->width);
@@ -166,14 +167,14 @@ void Navigation_Planing::Main()
                 {
                     print(logTerminal,"%d  %d \n ", (*list_iter).get_X(), (*list_iter).get_Y());
                 }
-                patrol->getInstance().set_Action(cambiar_estado("ruta_planeada","si"));
+                patrol->getInstance().set_Action("none");
             }
 
             videoDisplay->SetImage(map);
         }
-        else if (accion=="seguir")
+        else if (accion=="follow")
         {
-            patrol->getInstance().Enviroment.set_Image_path("../data/map200.png");
+            patrol->getInstance().Enviroment.set_Image_path("../data/Navigation/mapa.png");
             tempMap=cvLoadImage(patrol->getInstance().Enviroment.get_Image_path().c_str());
             patrol->getInstance().Enviroment.set_Height_px(tempMap->height);
             patrol->getInstance().Enviroment.set_Width_px(tempMap->width);
@@ -190,7 +191,7 @@ void Navigation_Planing::Main()
                 cvCircle(map, center, 20, CV_RGB(255, 255, 255), -1, 8, 0);
                 videoDisplay->SetImage(map);
                 usleep(500000);
-            } while (accion=="seguir");
+            } while (accion=="follow");
 
 
             IplImage * grayScaleImage = cvCreateImage(cvSize(tempMap->height,tempMap->width),8,1);

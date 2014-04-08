@@ -67,8 +67,6 @@ void Vision_Objects::Main()
 
     std::string accion;
 
-    patrol->getInstance().Microphone.set_Phrase("COCA");
-
     cv::Mat kinect_rgb;
     cv::Mat kinect_gray;
     cv::Mat kinect_depth;
@@ -77,8 +75,6 @@ void Vision_Objects::Main()
     cv::Mat cutout;
 
 
-    std::stringstream ss;
-    ss << "../data/Objects/" << patrol->getInstance().Microphone.get_Phrase() << "/";
 
 
 
@@ -90,13 +86,16 @@ void Vision_Objects::Main()
     OrbObject.setRecognitionTreshold(5);
     OrbObject.setMachine(3); // es SIFT.
     OrbObject.setDistance(1);
-    OrbObject.TrainingSet(ss.str().c_str());
+    
 
     for (;;)
     {
         accion=patrol->getInstance().get_Action();
         if (accion=="reconocer_objeto")
         {
+	   std::stringstream ss;
+	    ss << "../data/Objects/" << patrol->getInstance().Microphone.get_Phrase() << "/";
+	    OrbObject.TrainingSet(ss.str().c_str());
 
             cv::RNG rng(12345);
 
@@ -152,12 +151,15 @@ void Vision_Objects::Main()
                     cv::imshow("cutout",cutout);
                     std::cout << "ultima altura " << boundRect[i].height << "ultimo ancho " << boundRect[i].width << std::endl;
                     cv::waitKey(100);
+		    
                     if(OrbObject.evalWindow(cutout))
                     {
                         cv::rectangle(kinect_rgb, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0);
-                        patrol->getInstance().set_Action(cambiar_estado("objeto_reconocido","si"));
-                        patrol->getInstance().object_X=center[i].x;
-                        patrol->getInstance().object_Y=center[i].y;
+                        ;
+                        patrol->getInstance().object_X=center[i].x/2;
+                        patrol->getInstance().object_Y=center[i].y/2.3333;
+			cv::destroyAllWindows();
+			
 //                         std::cout << "ENCONTRE" << std::endl;
 //                         std::stringstream pp;
 //                         pp<< "../data/SI/crop" << conta << ".png";
@@ -167,6 +169,7 @@ void Vision_Objects::Main()
 //                         cc<< "../data/SI/Kine" << conta << ".png";
 //                         conta++;
 //                         cv::imwrite(cc.str().c_str(), kinect_rgb);
+			patrol->getInstance().set_Action("none");
                     }
                     else {
 //                         std::cout << "NO ENCONTRE" << std::endl;
@@ -174,6 +177,7 @@ void Vision_Objects::Main()
 //                         pp<< "../data/NO/crop" << conta << ".png";
 //                         conta++;
 //                         cv::imwrite(pp.str().c_str(), cutout);
+			patrol->getInstance().set_Action("none");
                     }
                 }
             }

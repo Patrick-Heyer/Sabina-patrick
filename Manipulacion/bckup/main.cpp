@@ -78,7 +78,7 @@ void Manipulacion::Main()
             Gui::getInstance().setActiveTab("Manipulacion");
 // 			patrol->getInstance().Sintetizer.set_Phrase("please put the object in front of me in my gripper");
             brazo.graspObjectAtKinectImage(0,0);
-            patrol->getInstance().set_Action(cambiar_estado("objeto_sujetado","si"));
+            patrol->getInstance().set_Action("none");
 
         }
 
@@ -88,7 +88,7 @@ void Manipulacion::Main()
             brazo.deliverObject();
             brazo.moveToHanging();
             brazo.store();
-            patrol->getInstance().set_Action(cambiar_estado("entregado_gripper","si"));
+            patrol->getInstance().set_Action("none");
 
         }
 
@@ -100,7 +100,7 @@ void Manipulacion::Main()
             brazo.deliverObject();
             brazo.moveToHanging();
             brazo.store();
-            patrol->getInstance().set_Action(cambiar_estado("objeto_entregado","si"));
+            patrol->getInstance().set_Action("none");
 
         }
     }

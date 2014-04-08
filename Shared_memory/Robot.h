@@ -15,11 +15,12 @@ using namespace std;
 #include "Synthesis.h"
 #include "Destination.h"
 #include "Kinect.h"
+#include "Objective.h"
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 
-class Objective;
+
 
 ///*! \brief  Singleton instance of the robots shared memory
 // *
@@ -57,6 +58,8 @@ public:
     double object_real_X;
     double object_real_Y;
     double object_real_Z;
+    
+    std::string * seq_path;
 
     ///*! \brief Position of the robot
     // *
