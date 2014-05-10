@@ -397,10 +397,22 @@ void VoiceRecognitionServer::Main()
  
     string accion;
   
-	
+	patrol->getInstance().set_Action("LearnPosition");
 	for (;;){
 		string action = patrol->getInstance().get_Action();
 		
+		if (action =="LearnPosition"){			
+			
+			string Location = "";
+			
+			TextToSpeech("please tell me Name of this location",3);
+			Location = LoopRecognize("REQstartRestaurant",net,"name of this location"); //confirmando
+// 			sleep(5);
+			TextToSpeech("I learnd this place as "+Location,0);
+			patrol->getInstance().Microphone.set_Phrase(Location);
+			patrol->getInstance().set_Action("follow");
+
+		}
 		
 		if (action =="requestOrderRestaurant"){			
 			
@@ -411,20 +423,22 @@ void VoiceRecognitionServer::Main()
 			TextToSpeech("please tell me the first object",3);
 			ObjectA = LoopRecognize("REQstartRestaurant",net,"name of the first object"); //confirmando
 			sleep(5);
-			TextToSpeech("i will bring "+ObjectA,5);
+			TextToSpeech("i will bring "+ObjectA,2);
 			
 			TextToSpeech("please tell me the second object",3);
 			ObjectB = LoopRecognize("REQstartRestaurant",net,"name of the second object"); //confirmando
 			sleep(5);
-			TextToSpeech("i will bring "+ObjectA,4);
+// 			TextToSpeech("i will bring "+ObjectB,4);
 			
 			TextToSpeech("please tell me where to take"+ObjectA+" and "+ ObjectB,6);
 			Location = LoopRecognize("REQstartRestaurant",net,"name of the location"); //confirmando
 			sleep(5);
 			TextToSpeech("i will bring "+ObjectA+"and"+ ObjectB + " to "+Location ,6);
 			
+			patrol->getInstance().Microphone.set_Phrase(ObjectA);
+			patrol->getInstance().Microphone.set_Words(ObjectB);
+			patrol->getInstance().set_Current_destination("snaks");
 
-	
 		}
 	}
     usleep(100);

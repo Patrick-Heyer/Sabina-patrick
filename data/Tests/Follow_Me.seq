@@ -1,4 +1,7 @@
 iniciar
-avoid_crowd
 follow
+enter_elevator
+wait_in_elevator
+leave_elevator
+avoid_crowd
 

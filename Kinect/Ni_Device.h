@@ -24,6 +24,11 @@
 
 #include <XnCppWrapper.h>
 #include <XnTypes.h>
+#include <XnUSB.h>
+
+#define VID_MICROSOFT 0x45e
+#define PID_NUI_MOTOR 0x02b0
+
 using namespace xn;
 
 // --------------------------------
@@ -79,10 +84,12 @@ public:
     DeviceParameter g_Registration;
     DeviceParameter g_Resolution;
 
+    
     // --------------------------------
     // Function Declarations
     // --------------------------------
     Device *getDevice();
+    Context* getContext();
     DepthGenerator *getDepthGenerator();
     ImageGenerator *getImageGenerator();
     IRGenerator *getIRGenerator();
@@ -94,7 +101,7 @@ public:
     ImageMetaData* getImageMetaData();
     IRMetaData* getIRMetaData();
     AudioMetaData* getAudioMetaData();
-
+    
 
     Context g_Context;
     ProductionNode g_pPrimary;
@@ -112,7 +119,6 @@ public:
     ImageMetaData g_ImageMD;
     IRMetaData g_irMD;
     AudioMetaData g_AudioMD;
-
 
 
     void openCommon();
@@ -148,6 +154,7 @@ public:
     void setIRFPS(int fps);
     void setStreamCropping(MapGenerator* pGenerator, XnCropping* pCropping);
     void setPlaybackSpeed(int ratioDiff);
+    void setTilt(int angle);
     XnDouble getPlaybackSpeed();
 
 

@@ -90,6 +90,7 @@ void Vision_Objects::Main()
 
     for (;;)
     {
+      patrol->getInstance().set_Action("reconocer_objeto");
         accion=patrol->getInstance().get_Action();
         if (accion=="reconocer_objeto")
         {
@@ -172,11 +173,11 @@ void Vision_Objects::Main()
 			patrol->getInstance().set_Action("none");
                     }
                     else {
-//                         std::cout << "NO ENCONTRE" << std::endl;
-//                         std::stringstream pp;
-//                         pp<< "../data/NO/crop" << conta << ".png";
-//                         conta++;
-//                         cv::imwrite(pp.str().c_str(), cutout);
+                        std::cout << "NO ENCONTRE" << std::endl;
+                        std::stringstream pp;
+                        pp<< "../data/NO/crop" << conta << ".png";
+                        conta++;
+                        cv::imwrite(pp.str().c_str(), cutout);
 			patrol->getInstance().set_Action("none");
                     }
                 }

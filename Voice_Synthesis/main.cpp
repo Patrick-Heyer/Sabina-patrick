@@ -82,7 +82,7 @@ void Voice_Synthesis::Main()
         {
             std::stringstream ss;
             ss << "echo  '" << patrol->getInstance().Sintetizer.get_Phrase() << "' | festival --tts &";
-            
+            system(ss.str().c_str());
             patrol->getInstance().Sintetizer.set_Phrase("");
             patrol->getInstance().face_frame=0;
         }

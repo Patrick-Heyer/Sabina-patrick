@@ -26,7 +26,9 @@
 #include <iostream>
 #include <math.h>
 #include <XnLog.h>
-
+#include <stdexcept>
+#include <stdint.h>
+#include <unistd.h>
 // --------------------------------
 // Defines
 // --------------------------------
@@ -658,6 +660,36 @@ void Ni_Device::setPlaybackSpeed(int ratioDiff)
     }
 }
 
+void errorCheck(XnStatus rc) {
+if (rc != XN_STATUS_OK) {
+std::cout << xnGetStatusString(rc) << std::endl;
+throw std::runtime_error("Error");
+}
+}
+
+void Ni_Device::setTilt(int angle)
+{
+
+  #define VID_MICROSOFT 0x45e
+#define PID_NUI_MOTOR 0x02b0
+ 
+XN_USB_DEV_HANDLE Motor;
+  
+XnStatus rc = XN_STATUS_OK;
+// rc = xnUSBInit();
+// errorCheck(rc);
+rc = xnUSBOpenDevice(VID_MICROSOFT, PID_NUI_MOTOR, NULL, NULL, &Motor);
+errorCheck(rc);
+uint8_t empty[0x1];
+angle = angle * 2;
+rc = xnUSBSendControl(Motor, XN_USB_CONTROL_TYPE_VENDOR, 0x31, (XnUInt16)angle, 0x0, empty, 0x0, 0);
+errorCheck(rc);
+rc = xnUSBCloseDevice(Motor);
+errorCheck(rc);
+usleep(1000);
+}
+
+
 XnDouble Ni_Device::getPlaybackSpeed()
 {
     if (g_Player.IsValid())
@@ -674,6 +706,12 @@ Device *Ni_Device::getDevice()
 {
     return g_Device.IsValid() ? &g_Device : NULL;
 }
+
+Context* Ni_Device::getContext()
+{
+    return &g_Context;
+}
+
 DepthGenerator *Ni_Device::getDepthGenerator()
 {
     return g_Depth.IsValid() ? &g_Depth : NULL;

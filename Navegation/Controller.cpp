@@ -238,27 +238,42 @@ int Controller::follow()
                 return 0;
             }
 
-//         else if ( R_Hand.Get_y() >Torso.Get_y() || L_Hand.Get_y() >Torso.Get_y() )
-//         {
-//
-//             if ( R_Hand.Get_y() >Torso.Get_y() )
-//             {
-//
-//                 dest.set_Coordinate(temp);
-//                 dest.set_Name("CHECK1");
-//                 patrolbot->getInstance().Destinations->insert(std::make_pair( "CHECK1",dest));
-//                 patrolbot->getInstance().Sintetizer.set_Phrase("i learnd this place as check point ONE");
-//                 sleep(3);
-//             }
-//             if ( L_Hand.Get_y() >Torso.Get_y() )
-//             {
-//                 dest.set_Coordinate(temp);
-//                 dest.set_Name("CHECK2");
-//                 patrolbot->getInstance().Destinations->insert(std::make_pair( "CHECK2",dest));
-//                 patrolbot->getInstance().Sintetizer.set_Phrase("i learnd this place as check point TWO");
-//                 sleep(3);
-//             }
-//         }
+        else if ( R_Hand.Get_y() >Torso.Get_y() || L_Hand.Get_y() >Torso.Get_y() )
+        {
+
+            if ( R_Hand.Get_y() >Torso.Get_y() )
+            {
+		robot->setVel ( 0 );
+                robot->setDeltaHeading ( 0 );
+	      patrolbot->getInstance().set_Action("LearnPosition");
+	      while(patrolbot->getInstance().get_Action()!="follow")
+	      {
+		
+	      }
+		temp.set_Angle( temp.get_Angle()+90);
+                dest.set_Coordinate(temp);
+                dest.set_Name(patrolbot->getInstance().Microphone.get_Phrase());
+                patrolbot->getInstance().Destinations->insert(std::make_pair(dest.get_Name() ,dest));
+                patrolbot->getInstance().Sintetizer.set_Phrase("i learnd this place as"+dest.get_Name());
+                sleep(3);
+            }
+            if ( L_Hand.Get_y() >Torso.Get_y() )
+            {
+	      robot->setVel ( 0 );
+              robot->setDeltaHeading ( 0 );
+	      patrolbot->getInstance().set_Action("LearnPosition");
+	      while(patrolbot->getInstance().get_Action()!="follow")
+	      {
+		
+	      }
+		temp.set_Angle(temp.get_Angle()-90);
+                dest.set_Coordinate(temp);
+                dest.set_Name(patrolbot->getInstance().Microphone.get_Phrase());
+                patrolbot->getInstance().Destinations->insert(std::make_pair(dest.get_Name() ,dest));
+                patrolbot->getInstance().Sintetizer.set_Phrase("i learnd this place as"+dest.get_Name());
+                sleep(3);
+            }
+        }
             else
             {
 //             if ( Torso.Get_z() <1000 )

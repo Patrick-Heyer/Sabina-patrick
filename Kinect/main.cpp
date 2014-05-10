@@ -222,9 +222,9 @@ void Kinect_Plugin::Main()
 
     Gui::getInstance();
     Tab *pluginTab;
-
+    Video *display;
     pluginTab = new Tab("Kinect_Plugin");
-
+    display= new Video(0,HEIGHT*.02,WIDTH/2,HEIGHT/2,"Kinect_Plugin", pluginTab);
 
     nRetVal = KNI_DEV->getInstance().openDeviceFromXml(SAMPLE_XML_PATH,  errors);
 
@@ -297,8 +297,18 @@ void Kinect_Plugin::Main()
     XnUInt32 total_frames=0;
     KNI_DEV->getInstance().g_Player.GetNumFrames(KNI_DEV->getInstance().g_Depth.GetName(),total_frames);
 
+    KNI_DEV->setTilt(-30);
+    int angle=-30;
+    bool dir=true;
     for(;;)
     {
+     
+   if (dir)   angle++;
+   else angle --;
+      KNI_DEV->setTilt(angle);
+      if(angle>30) dir=false;
+	if(angle<-30) dir=false;
+        
 
         KNI_DEV->getInstance().readFrame();
 
@@ -312,8 +322,10 @@ void Kinect_Plugin::Main()
         memcpy(imgRGB8u->imageData,KNI_DEV->getInstance().getImageMetaData()->Data(),1280*1024*3);
         cvCvtColor(imgRGB8u,imageinfo,CV_RGB2BGR);
 
+	
         patrol->getInstance().KINECT->set_depth(depthinfo);
         patrol->getInstance().KINECT->set_RGB(imageinfo);
+
 
     }
 
