@@ -12,4 +12,4 @@
 ./lib/libNavigation_Client.so
 ./lib/libSkeleton_Writer.so
 ./lib/libMapping.so
-./lib/libVoiceRecognitionServer.so
+./lib/libLocalization.so

@@ -65,11 +65,11 @@ void histogramEqualize2(const IplImage * const pSource, IplImage * pTarget) {
         hist_value = cvQueryHistValue_1D(hist,index);
         lut1[index+1]= lut1[index] + hist_value;
     }
-    float scale_factor;
-    scale_factor = 255.0f / (float) (pSource->width * pSource->height);
-    for (int index=0; index!=256; ++index) {
-        lut[index]= (unsigned char)((float)lut1[index]*scale_factor);
-    }
+//     float scale_factor;
+//     scale_factor = 255.0f / (float) (pSource->width * pSource->height);
+//     for (int index=0; index!=256; ++index) {
+//         lut[index]= (unsigned char)((float)lut1[index]*scale_factor);
+//     }
     cvLUT( pSource, pTarget, lut_mat );
     cvReleaseMat( &lut_mat);
     cvReleaseHist(&hist);

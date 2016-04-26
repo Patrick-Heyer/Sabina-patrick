@@ -297,23 +297,22 @@ void Kinect_Plugin::Main()
     XnUInt32 total_frames=0;
     KNI_DEV->getInstance().g_Player.GetNumFrames(KNI_DEV->getInstance().g_Depth.GetName(),total_frames);
 
-    KNI_DEV->setTilt(-30);
+    KNI_DEV->setTilt(0);
     int angle=-30;
     bool dir=true;
     for(;;)
     {
      
-   if (dir)   angle++;
-   else angle --;
-      KNI_DEV->setTilt(angle);
-      if(angle>30) dir=false;
-	if(angle<-30) dir=false;
+//    if (dir)   angle++;
+//    else angle --;
+//       KNI_DEV->setTilt(angle);
+//       if(angle>30) dir=false;
+// 	if(angle<-30) dir=false;
         
 
         KNI_DEV->getInstance().readFrame();
 
-	if(patrol->getInstance().get_Action()=="reconocer_objeto")
-	{
+	
         memcpy(imgDepth16u->imageData, KNI_DEV->getInstance().getDepthMetaData()->Data(),640*480*2);
         cvConvertScale(imgDepth16u,depthinfo,255/4096.0,0);
 
@@ -327,7 +326,6 @@ void Kinect_Plugin::Main()
         patrol->getInstance().KINECT->set_RGB(imageinfo);
 
 
-    }
 
         if(patrol->getInstance().get_Action()=="calcular_punto")
         {

@@ -490,7 +490,7 @@ void OrbRecognizer::TrainingSet(string dir)
 
     }
     closedir (pdir);
-    printf("Caso Siguiente: \n");
+//     printf("Caso Siguiente: \n");
     int kn=0;
 //     pdir = opendir (pathN.c_str()); // "." will refer to the current directory
 //     if (pdir == NULL) // mala apertura...
@@ -535,7 +535,7 @@ void OrbRecognizer::TrainingSet(string dir)
 
         int x = Imgris->width; // ancho = eje X = width
         int y = Imgris->height; // altura = eje Y = HEIGHT.
-        printf("Imagen %d: %s tiene Dimensiones (fil: %d, col: %d)\n",j, trainsetP[j].c_str(), y,x);
+//         printf("Imagen %d: %s tiene Dimensiones (fil: %d, col: %d)\n",j, trainsetP[j].c_str(), y,x);
 
         Mat objectMat(Imgris);
 
@@ -571,7 +571,7 @@ void OrbRecognizer::TrainingSet(string dir)
                 vector<Point2f> mpts_1, mpts_2;
                 vector<int> indexes_1, indexes_2 ;
                 bool Valor = FindPairs(*trainKeypoints[a], *trainDescriptors[a], *trainKeypoints[b], *trainDescriptors[b], mpts_1, mpts_2, indexes_1, indexes_2);
-                printf(" Par: (%d, %d). Resultado: %d. \n",a,b, Valor);
+//                 printf(" Par: (%d, %d). Resultado: %d. \n",a,b, Valor);
             }
 
         }

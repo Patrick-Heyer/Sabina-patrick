@@ -100,11 +100,12 @@ void Vision_Faces::Main()
     initEyeDetI("../data/ojoI.xml");
 
     std::map<std::string, Objective>::iterator iter;
-
+patrol->getInstance().set_Action("aprender_persona");
     std::string accion;
     for (;;)
     {
         accion=patrol->getInstance().get_Action();
+	frame=patrol->getInstance().Ptz.get_image();
         if (accion=="aprender_persona")
         {
             int aprendi;
@@ -125,7 +126,7 @@ void Vision_Faces::Main()
 	    temp.set_Last_x(patrol->getInstance().get_Position().get_X());
 	    temp.set_Last_y(patrol->getInstance().get_Position().get_Y());
 	    patrol->getInstance().Objectives->insert(std::make_pair(ss.str().c_str(), temp));
-            patrol->getInstance().set_Action("none");
+//             patrol->getInstance().set_Action("none");
         }
 
         if (accion=="reconocer_persona")

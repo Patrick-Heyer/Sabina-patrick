@@ -17,5 +17,5 @@ Load_client=0
 Load_gestos=0
 Load_Follower=0
 Load_Kinect=0
-Load_Localization=0
+Load_Localization=1
 

@@ -5,6 +5,9 @@ cmake_minimum_required(VERSION 2.8)
 
 
 FIND_PACKAGE(FLTK REQUIRED)
+FIND_PACKAGE(GLUT REQUIRED)
+FIND_PACKAGE(OpenGL REQUIRED)
+FIND_PACKAGE(OpenCV REQUIRED)
 
 add_subdirectory (Gui)
 add_subdirectory (Human)
@@ -25,11 +28,8 @@ add_subdirectory (Vision_Objects)
 add_subdirectory (Voice_Recognition)
 add_subdirectory (Voice_Recognition_Server)
 add_subdirectory (Voice_Synthesis)
-
-add_subdirectory(Mapping)
+#add_subdirectory (Mapping)
 add_subdirectory(Localization)
-
-
 
 
 link_directories(/home/patrick/projects/Sabina/MDP/lib)
@@ -37,7 +37,7 @@ link_directories(/home/patrick/projects/Sabina/build/Human)
 
 add_executable(sabina main.cpp ConfigFile.cpp  Face/main.cpp  Face/Md3Model.cpp Face/vector3d.cpp Face/PNG.cpp Face/model_3ds.cpp Face/Texture_Manager.cpp Face/TGA.cpp Face/DDS.cpp)
 
-target_link_libraries(sabina interface plugin shared_memory Human fltk fltk_gl png)
+target_link_libraries(sabina interface plugin shared_memory Human fltk fltk_gl png ${GLUT_LIBRARY} ${OPENGL_LIBRARY} ${OpenCV_LIBS} )
 
 ## Compiler flags
 if(CMAKE_COMPILER_IS_GNUCXX)

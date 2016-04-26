@@ -11,6 +11,13 @@ bool Last_y_escribible=true;
 // *
 // *  Gets the Visual_ID of the objective \return Visual_ID
 // */
+
+Objective::Objective()
+{
+  Name=new string;
+  Type=new string;
+}
+
 int Objective::get_Visual_ID() {
     return Visual_ID;
 }

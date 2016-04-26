@@ -63,7 +63,7 @@ Robot *patrol;
 #define PLUGIN_NAME "Mapping"
 
 /**
- * @brief mapping plugin
+ * @brief Mapping plugin
  *
  * This plugin is a network server that accepts client conections to comunicate with other programs (running on the same computer or over the network)
  * @author     Patrick Heyer, patrickhey@prodigy.net.mx, Juan Herrera juan_antonio_@hotmail.com, Manuel Oropeza zodiacanimations@msn.com
@@ -275,7 +275,7 @@ void MapBuilding_ICP(void)
 int cleanImage()
 {
   cv::Mat img;
-  img = cv::imread("/home/patrick/projects/Sabina_Restaurant_2014/data/SlamOutGrid/_finalmaps_.txt_gridmap_no00.png",CV_LOAD_IMAGE_GRAYSCALE);
+  img = cv::imread("/home/patrick/projects/Sabina/data/SlamOutGrid/_finalmaps_.txt_gridmap_no00.png",CV_LOAD_IMAGE_GRAYSCALE);
   
   if(img.empty())
   {
@@ -285,13 +285,13 @@ int cleanImage()
   
   cv::Mat binaryMat(img.size(),img.type());
   cv::threshold(img,binaryMat,150,255,cv::THRESH_BINARY);
-  cv::imwrite("/home/patrick/projects/Sabina_Restaurant_2014/data/SlamOutGrid/im_bw.png",binaryMat);
+  cv::imwrite("/home/patrick/projects/Sabina/data/SlamOutGrid/im_bw.png",binaryMat);
   cv::waitKey(0);
   
   return 0;
 }
 
-class mapping : public IPlugin
+class Mapping : public IPlugin
 {
 public:
     void Main();
@@ -301,7 +301,7 @@ public:
 
 PLUGIN_FUNC IPlugin *CreatePlugin()
 {
-    return new mapping;
+    return new Mapping;
 }
 
 PLUGIN_FUNC void DestroyPlugin(IPlugin *r)
@@ -328,7 +328,7 @@ void TestRawLogandLaser()
 
 std::string accion;
 
-void mapping::Main()
+void Mapping::Main()
 {
   CFileGZOutputStream f("dataset.rawlog");	
   CObservation2DRangeScanPtr myObs = CObservation2DRangeScan::Create();	// This will work. Defining pointer other way
@@ -411,7 +411,7 @@ bool times = true;
   {		
     accion= patrol->getInstance().get_Action();
     
-  if(accion=="follow")
+  if(accion=="Mapping")
   {
     
     StopWatch.Tic();
@@ -541,11 +541,11 @@ if(accion =="cleaningMap")
   }
 }
 
-void mapping::run()
+void Mapping::run()
 {
     pthread_create(&thread_id, NULL, &IPlugin::IncWrapper, this);
 }
 
-void mapping::stop()
+void Mapping::stop()
 {
 }

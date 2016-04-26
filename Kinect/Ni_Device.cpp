@@ -686,7 +686,6 @@ rc = xnUSBSendControl(Motor, XN_USB_CONTROL_TYPE_VENDOR, 0x31, (XnUInt16)angle, 
 errorCheck(rc);
 rc = xnUSBCloseDevice(Motor);
 errorCheck(rc);
-usleep(1000);
 }
 
 

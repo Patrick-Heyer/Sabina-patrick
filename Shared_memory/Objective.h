@@ -45,6 +45,7 @@ private:
 
 
 public:
+  Objective();
     ///*! \brief Gets the Visual_ID of the objective
     // *
     // *  Gets the Visual_ID of the objective \return Visual_ID

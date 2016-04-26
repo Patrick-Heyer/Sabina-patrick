@@ -19,7 +19,7 @@ include_directories(/usr/local/include/mrpt/bayes/include/)
 include_directories(/usr/local/include/mrpt/hwdrivers/include/)
 
 add_library (Localization SHARED  main.cpp )
-target_link_libraries (Localization ${MRPT_LIBS} mrpt-hwdrivers mrpt-maps  )
+target_link_libraries (Localization ${MRPT_LIBS} mrpt-hwdrivers mrpt-maps coreapi interface )
 
 
 

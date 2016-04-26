@@ -76,7 +76,7 @@ using namespace mrpt::random;
  * @version    1.0
  **/
 class Localization : public IPlugin
-{
+{ 
 public:
     void Main();
     void stop();
